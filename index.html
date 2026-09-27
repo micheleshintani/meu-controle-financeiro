@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#176b55">
+<title>Meu Controle Financeiro</title>
+<style>
+:root{--green:#176b55;--mint:#e9f5ef;--ink:#20312b;--muted:#65736d;--line:#dce6e0;--bg:#f5f8f6;--white:#fff;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--green);color:white;padding:22px 18px 18px;border-radius:0 0 20px 20px}
+header h1{font-size:22px;margin:0 0 5px}header p{margin:0;font-size:13px;opacity:.9}
+main{max-width:760px;margin:auto;padding:16px 14px 40px}
+nav{display:flex;gap:8px;overflow:auto;margin:0 0 16px}
+nav button,.btn{border:0;border-radius:12px;padding:12px 14px;font-weight:650;background:#e5eee9;color:var(--green);white-space:nowrap}
+nav button.active,.btn.primary{background:var(--green);color:white}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:12px}
+.card small,.muted{color:var(--muted)}.amount{font-size:22px;font-weight:750;margin:8px 0}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+.actions button{padding:15px 10px;border:1px solid var(--line);border-radius:13px;background:white;color:var(--ink);font-weight:650}
+h2{font-size:18px;margin:4px 0 12px}h3{font-size:15px;margin:0 0 8px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;background:white;font:inherit;color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+form .btn{margin-top:14px;width:100%}
+.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}.positive{color:var(--green)}.negative{color:var(--red)}
+.hidden{display:none!important}.pill{font-size:12px;padding:4px 8px;border-radius:99px;background:var(--mint);color:var(--green)}
+footer{font-size:12px;color:var(--muted);line-height:1.5;padding:8px}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+@media(max-width:420px){.cards{grid-template-columns:1fr 1fr}.amount{font-size:19px}.row{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><h1>Meu Controle Financeiro</h1><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<main>
+<nav id="tabs">
+<button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="backup">Backup</button>
+</nav>
+<section id="inicio">
+<div class="cards" id="summary"></div>
+<div class="actions">
+<button onclick="quick('Despesa')">➖ Nova despesa</button><button onclick="quick('Receita')">➕ Nova receita</button>
+<button onclick="showTab('lancamentos')">📋 Ver lançamentos</button><button onclick="showTab('cadastros')">⚙️ Configurar caixas</button>
+</div>
+<div class="panel"><h2>Últimos lançamentos</h2><div id="recent" class="muted">Nenhum lançamento cadastrado.</div></div>
+<div class="panel"><h2>Previsão simplificada</h2><p class="muted">A projeção será calculada a partir dos lançamentos previstos e recorrências cadastradas. Esta versão inicial ainda não gera a previsão de 6 meses.</p></div>
+</section>
+<section id="lancamentos" class="hidden">
+<div class="panel"><h2>Novo lançamento</h2>
+<form id="txForm">
+<label>Tipo</label><select id="type"><option>Despesa</option><option>Receita</option><option>Transferência</option><option>Rendimento</option><option>Aporte</option><option>Resgate</option></select>
+<label>Descrição</label><input id="desc" required placeholder="Ex.: Supermercado, pensão...">
+<div class="row"><div><label>Valor (R$)</label><input id="value" type="number" min="0.01" step=".01" required inputmode="decimal"></div><div><label>Data</label><input id="date" type="date" required></div></div>
+<div class="row"><div><label>Caixa</label><select id="box"></select></div><div><label>Situação</label><select id="status"><option selected>Realizado</option><option>Previsto</option></select></div></div>
+<label>Categoria (opcional)</label><input id="category" placeholder="Ex.: Moradia">
+<label>Observação (opcional)</label><input id="note">
+<button class="btn primary" type="submit" id="saveTxBtn">Salvar lançamento</button><button class="btn hidden" type="button" id="cancelEditBtn" onclick="cancelEdit()">Cancelar edição</button>
+</form></div>
+<div class="panel"><h2>Histórico</h2><div id="history"></div></div>
+</section>
+<section id="cadastros" class="hidden">
+<div class="panel"><h2>Seus caixas</h2><p class="muted">Crie e nomeie os caixas. Nenhum banco ou cartão é associado automaticamente.</p><div id="boxesList"></div>
+<form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
+<div class="panel"><h2>Cadastros rápidos</h2><p class="muted">Nesta versão, use a descrição do lançamento como favorito. Os cadastros de bancos, cartões, parcelas e recorrências serão incluídos nas próximas etapas, após validarmos sua estrutura.</p></div>
+</section>
+<section id="backup" class="hidden">
+<div class="panel"><h2>Backup e recuperação</h2><p>Exporte seus dados regularmente e guarde o arquivo em um local seguro, como seu Google Drive.</p>
+<button class="btn primary" style="width:100%" onclick="exportData()">📤 Exportar backup</button>
+<label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json">
+<p class="muted">Restaurar substitui os dados atuais deste navegador. Exporte um backup antes de restaurar.</p>
+<hr><button class="btn" onclick="exportApp()">Salvar cópia do aplicativo</button>
+<p class="muted">Este protótipo guarda os dados no armazenamento local do navegador. Não é uma nuvem nem um sistema de autenticação. Mantenha backups externos; teste a restauração antes de inserir dados importantes.</p></div>
+</section>
+<footer>Protótipo inicial • Dados ficam neste navegador/aparelho. Ainda não sincroniza entre dispositivos. Não insira senhas bancárias ou dados sigilosos.</footer>
+</main>
+<script>
+const KEY='mcf_data_v1';
+let data={boxes:['Meu Financeiro','Casa'],tx:[]};
+let editingId=null;
+try{const saved=localStorage.getItem(KEY);if(saved)data=JSON.parse(saved)}catch(e){}
+const $=id=>document.getElementById(id);
+function persist(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function money(n){return Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function signed(t){return ['Despesa','Aporte'].includes(t.type)?-Number(t.value):['Receita','Rendimento','Resgate'].includes(t.type)?Number(t.value):0}
+function balance(box){return data.tx.filter(t=>t.box===box&&t.status==='Realizado').reduce((s,t)=>s+signed(t),0)}
+function render(){
+$('box').innerHTML=data.boxes.map(b=>`<option>${esc(b)}</option>`).join('');
+$('summary').innerHTML=data.boxes.map(b=>`<div class="card"><small>${esc(b)}</small><div class="amount">${money(balance(b))}</div><span class="pill">Saldo dos lançamentos realizados</span></div>`).join('');
+const sorted=[...data.tx].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+$('recent').innerHTML=sorted.slice(0,5).map(txHTML).join('')||'Nenhum lançamento cadastrado.';
+$('history').innerHTML=sorted.map((t,i)=>txHTML(t,true,i)).join('')||'<p class="muted">Nenhum lançamento cadastrado.</p>';
+$('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span>${esc(b)}</span><button class="btn" onclick="renameBox(${i})">Renomear</button></div>`).join('');
+}
+function txHTML(t,del=false,i=0){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.box)} · ${esc(t.date)} · ${esc(t.status)}${t.category?' · '+esc(t.category):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong>${del?`<br><button class="btn" onclick="editTx('${t.id}')">Editar</button> <button class="btn" onclick="removeTx('${t.id}')">Excluir</button>`:''}</div></div>`}
+function showTab(tab){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));$(tab).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function quick(type){$('type').value=type;showTab('lancamentos');$('desc').focus()}
+$('date').value=new Date().toISOString().slice(0,10);
+$('txForm').onsubmit=e=>{e.preventDefault();const record={type:$('type').value,desc:$('desc').value.trim(),value:Number($('value').value),date:$('date').value,box:$('box').value,status:$('status').value,category:$('category').value.trim(),note:$('note').value.trim()};if(editingId){data.tx=data.tx.map(t=>t.id===editingId?{...t,...record}:t)}else{data.tx.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...record})}cancelEdit(false);persist();e.target.reset();$('date').value=new Date().toISOString().slice(0,10);showTab('inicio')};
+function editTx(id){const t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;$('type').value=t.type;$('desc').value=t.desc;$('value').value=t.value;$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('note').value=t.note||'';$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');showTab('lancamentos');window.scrollTo({top:0,behavior:'smooth'})}
+function cancelEdit(reset=true){editingId=null;$('saveTxBtn').textContent='Salvar lançamento';$('cancelEditBtn').classList.add('hidden');if(reset){$('txForm').reset();$('date').value=new Date().toISOString().slice(0,10)}}
+function removeTx(id){if(confirm('Excluir este lançamento?')){data.tx=data.tx.filter(t=>t.id!==id);persist()}}
+$('boxForm').onsubmit=e=>{e.preventDefault();let n=$('boxName').value.trim();if(n&&!data.boxes.includes(n)){data.boxes.push(n);persist();$('boxName').value=''}};
+function renameBox(i){let n=prompt('Novo nome do caixa:',data.boxes[i]);if(n&&n.trim()){let old=data.boxes[i];data.boxes[i]=n.trim();data.tx.forEach(t=>{if(t.box===old)t.box=n.trim()});persist()}}
+function exportData(){let blob=new Blob([JSON.stringify({app:'Meu Controle Financeiro',version:1,exportedAt:new Date().toISOString(),data},null,2)],{type:'application/json'});download(blob,'Meu_Controle_Financeiro_backup_'+new Date().toISOString().slice(0,10)+'.json')}
+function exportApp(){let blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});download(blob,'Meu_Controle_Financeiro.html')}
+function download(blob,name){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+$('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let j=JSON.parse(await f.text());if(!j.data||!Array.isArray(j.data.boxes)||!Array.isArray(j.data.tx))throw Error();if(confirm('Isso substituirá os dados atuais deste navegador. Deseja continuar?')){data=j.data;persist();alert('Backup restaurado.')}}catch(err){alert('Arquivo inválido ou incompatível.')}e.target.value=''};
+render();
+</script></body></html>
