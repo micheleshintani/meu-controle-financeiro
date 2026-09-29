@@ -81,8 +81,6 @@ try{const saved=localStorage.getItem(KEY);if(saved)data=JSON.parse(saved)}catch(
 const $=id=>document.getElementById(id);
 function persist(){localStorage.setItem(KEY,JSON.stringify(data));render()}
 function money(n){return Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
-function formatBRLInput(raw){let s=String(raw??'').replace(/[^0-9,.-]/g,'');if(!s)return '';s=s.replace(/-/g,'');const parts=s.split(',');let int=parts[0].replace(/\./g,'').replace(/^0+(?=\d)/,'')||'0';let dec=(parts[1]??'').replace(/\D/g,'').slice(0,2);int=Number(int).toLocaleString('pt-BR');return dec.length?int+','+dec:int}
-function parseBRLInput(raw){let s=String(raw??'').trim().replace(/\./g,'').replace(',','.').replace(/[^0-9.]/g,'');const n=Number(s);return Number.isFinite(n)?n:0}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function signed(t){return ['Despesa','Aporte'].includes(t.type)?-Number(t.value):['Receita','Rendimento','Resgate'].includes(t.type)?Number(t.value):0}
 function balance(box){return data.tx.filter(t=>t.box===box&&t.status==='Realizado').reduce((s,t)=>s+signed(t),0)}
@@ -97,8 +95,6 @@ $('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span>${esc(b)
 function txHTML(t,del=false,i=0){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.box)} · ${esc(t.date)} · ${esc(t.status)}${t.category?' · '+esc(t.category):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong>${del?`<br><button class="btn" onclick="editTx('${t.id}')">Editar</button> <button class="btn" onclick="removeTx('${t.id}')">Excluir</button>`:''}</div></div>`}
 function showTab(tab){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));$(tab).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render()}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
-$('value').addEventListener('input',e=>{e.target.value=formatBRLInput(e.target.value)});
-$('value').addEventListener('blur',e=>{if(e.target.value)e.target.value=formatBRLInput(e.target.value)});
 function quick(type){$('type').value=type;showTab('lancamentos');$('desc').focus()}
 $('date').value=new Date().toISOString().slice(0,10);
 $('txForm').onsubmit=e=>{e.preventDefault();const record={type:$('type').value,desc:$('desc').value.trim(),value:parseBRLInput($('value').value),date:$('date').value,box:$('box').value,status:$('status').value,category:$('category').value.trim(),note:$('note').value.trim()};if(editingId){data.tx=data.tx.map(t=>t.id===editingId?{...t,...record}:t)}else{data.tx.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...record})}cancelEdit(false);persist();e.target.reset();$('date').value=new Date().toISOString().slice(0,10);showTab('inicio')};
