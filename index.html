@@ -13,7 +13,7 @@
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="backup">Backup</button></nav>
 <section id="inicio">
 <div class="filter"><label>Caixa em uso</label><select id="dashBox"></select></div>
-<div class="cards" id="dashboardCards"></div>
+<div class="cards" id="dashboardCards"></div><div class="panel"><h2>Saldo por banco</h2><div id="bankBalances"></div></div>
 <div class="summary3" id="monthSummary"></div>
 <div class="panel"><div class="section-title"><h2>Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
 <div class="panel"><div class="section-title"><h2>Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
@@ -25,9 +25,11 @@
 <label>Descrição</label><input id="desc" required placeholder="Ex.: Supermercado, pensão...">
 <div class="row"><div><label>Valor (R$)</label><input id="value" type="text" required inputmode="decimal" autocomplete="off" placeholder="230 ou 230,30"></div><div><label>Data</label><input id="date" type="date" required></div></div>
 <div class="row"><div><label>Caixa</label><select id="box"></select></div><div><label>Situação</label><select id="status"><option selected>Realizado</option><option>Previsto</option></select></div></div>
-<label>Categoria (opcional)</label><input id="category" placeholder="Ex.: Supermercado">
+<label>Categoria (opcional)</label>
+<input id="category" list="categorySuggestions" placeholder="Ex.: Supermercado">
+<datalist id="categorySuggestions"></datalist>
 <label>Forma de pagamento</label><select id="payment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select>
-<div id="accountWrap"><label>Conta utilizada</label><input id="account" placeholder="Ex.: Nubank"></div>
+<div id="accountWrap"><label>Conta utilizada</label><select id="accountSelect"><option value="">Selecione a conta</option></select></div>
 <div id="cardWrap" class="hidden"><label>Cartão utilizado</label><input id="card" placeholder="Ex.: Nubank">
 <label>Compra</label><select id="installmentType"><option>À vista</option><option>Parcelada</option></select><div id="installmentWrap" class="hidden"><label>Número de parcelas</label><input id="installments" type="number" min="2" step="1" inputmode="numeric" placeholder="6"><div id="parcelPreview" class="muted"></div></div></div>
 <label>Recorrente?</label><select id="recurring"><option>Não</option><option>Sim</option></select>
@@ -37,7 +39,26 @@
 </form></div>
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
-<section id="cadastros" class="hidden"><div class="panel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div><div class="panel"><h2>Cartões</h2><p class="muted">Nesta etapa, o lançamento já permite informar o cartão. O cadastro completo de cartões, fechamento, vencimento e faturas será integrado na próxima camada.</p></div></section>
+<section id="cadastros" class="hidden">
+<div class="panel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
+<div class="panel"><h2>Categorias pré-cadastradas</h2>
+<p class="muted">São sugestões para agilizar os lançamentos. A categoria continua opcional e você pode digitar outra quando quiser.</p>
+<h3>Despesas</h3><div id="expenseCategoriesList"></div>
+<hr><h3>Receitas</h3><div id="incomeCategoriesList"></div>
+</div>
+<div class="panel"><h2>Contas bancárias</h2>
+<p class="muted">As contas são cadastradas por caixa. O saldo informado é manual e não cria uma receita ou despesa.</p>
+<div id="accountsList"></div>
+<form id="accountForm">
+<label>Caixa</label><select id="accountBox"></select>
+<label>Banco</label><input id="accountBank" required placeholder="Ex.: Nubank">
+<label>Nome da conta</label><input id="accountName" required placeholder="Ex.: Nubank principal">
+<label>Saldo atual</label><input id="accountBalance" inputmode="decimal" placeholder="0">
+<button class="btn primary" type="submit">Adicionar conta</button>
+</form>
+</div>
+<div class="panel"><h2>Cartões</h2><p class="muted">Nesta etapa, o lançamento já permite informar o cartão. O cadastro completo de cartões, fechamento, vencimento e faturas será integrado na próxima camada.</p></div>
+</section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Esta função permanece disponível para dados de teste. O backup definitivo será validado depois que a estrutura completa estiver pronta.</p><button class="btn primary" style="width:100%" onclick="exportData()">📤 Exportar backup</button><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"></div></section>
 <footer>Versão de teste • Um caixa por vez no dashboard e no histórico. Não use dados bancários reais nesta etapa.</footer>
 </main>
@@ -45,6 +66,27 @@
 const KEY='mcf_data_v2';const LAST='mcf_last_box';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
 try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s){data=JSON.parse(s);data.boxes=Array.isArray(data.boxes)?data.boxes:['Meu Financeiro','Casa'];data.tx=Array.isArray(data.tx)?data.tx:[]}}catch(e){};
 const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);
+const defaultAccounts=[
+{id:'acc_nubank',box:'Meu Financeiro',bank:'Nubank',name:'Nubank',balance:0,active:true},
+{id:'acc_bradesco',box:'Meu Financeiro',bank:'Bradesco',name:'Bradesco',balance:0,active:true},
+{id:'acc_inter',box:'Meu Financeiro',bank:'Inter',name:'Inter',balance:0,active:true},
+{id:'acc_caixa',box:'Meu Financeiro',bank:'Caixa',name:'Caixa',balance:0,active:true},
+{id:'acc_btg',box:'Meu Financeiro',bank:'BTG',name:'BTG',balance:0,active:true},
+{id:'acc_itau',box:'Casa',bank:'Itaú',name:'Itaú',balance:0,active:true},
+{id:'acc_sicoob',box:'Casa',bank:'Sicoob',name:'Sicoob',balance:0,active:true}
+];
+if(!Array.isArray(data.accounts))data.accounts=defaultAccounts.map(a=>({...a}));
+function activeAccounts(b){return data.accounts.filter(a=>a.box===b&&a.active)}
+function accountName(id){const a=data.accounts.find(x=>x.id===id);return a?a.name:''}
+function renderAccounts(){
+  const list=activeAccounts(currentBox());
+  $('accountSelect').innerHTML='<option value="">Selecione a conta</option>'+list.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.bank)}</option>`).join('');
+  $('accountBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
+  $('accountBox').value=currentBox();
+  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)}</div></div><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
+  $('bankBalances').innerHTML=list.length?list.map(a=>`<div class="item"><span>${esc(a.name)} <span class="muted">(${esc(a.bank)})</span></span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta cadastrada.</p>';
+}
+
 function persist(){localStorage.setItem(KEY,JSON.stringify(data));render()}
 function money(n){return Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -53,26 +95,95 @@ function formatInput(){let n=parseBR($('value').value);if(Number.isFinite(n))$('
 function signed(t){return t.type==='Despesa'?-Number(t.value):Number(t.value)}
 function currentBox(){return $('dashBox').value||data.boxes[0]}
 function boxBalance(b){return data.tx.filter(t=>t.box===b&&t.status==='Realizado').reduce((s,t)=>s+signed(t),0)}
+
+const expenseCategories = [
+  'Moradia',
+  'Supermercado',
+  'Alimentação',
+  'Padaria',
+  'Açougue',
+  'Sacolão',
+  'Restaurantes e refeições',
+  'Transporte',
+  'Combustível',
+  'Manutenção de veículo',
+  'Estacionamento e pedágios',
+  'Saúde',
+  'Farmácia',
+  'Plano de saúde',
+  'Educação',
+  'Vestuário',
+  'Lazer',
+  'Viagens',
+  'Assinaturas e streaming',
+  'Telefone e internet',
+  'Energia elétrica',
+  'Água e gás',
+  'Condomínio',
+  'Seguros',
+  'Impostos e taxas',
+  'Pets',
+  'Casa e manutenção',
+  'Móveis e eletrodomésticos',
+  'Presentes e doações',
+  'Tarifas bancárias',
+  'Compras pessoais',
+  'Outros gastos'
+];
+
+const incomeCategories = [
+  'Salário',
+  'Aposentadoria',
+  'Pensão',
+  'Freelance e serviços',
+  'Pró-labore',
+  'Aluguéis',
+  'Rendimentos de investimentos',
+  'Juros',
+  'Reembolsos',
+  'Vendas',
+  'Outras receitas'
+];
+
+function renderCategorySuggestions(){
+  const type = $('type').value;
+  const list = type === 'Receita' ? incomeCategories : expenseCategories;
+  $('categorySuggestions').innerHTML = list.map(c => `<option value="${esc(c)}"></option>`).join('');
+  $('expenseCategoriesList').innerHTML = expenseCategories.map(c => `<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
+  $('incomeCategoriesList').innerHTML = incomeCategories.map(c => `<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
+}
+
 function render(){
+renderCategorySuggestions();
+renderAccounts();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0];$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('box').value=selected;$('historyBox').textContent=selected;
 let bal=boxBalance(selected),app=0;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value),0),ee=exp.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
 $('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount">${money(app)}</div><span class="mini">Cadastre aplicações depois</span></div><div class="card purple"><small>Total financeiro</small><div class="amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo projetado</small><div class="amount">${money(proj)}</div><span class="mini">mês atual</span></div>`;
 $('monthSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo</small><div class="amount">${money(rr-ee)}</div></div>`;
 let upcoming=tx.filter(t=>t.status==='Previsto').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.payment||'')}</div></div><strong class="negative">${money(t.value)}</strong></div>`).join('')||'Nenhuma conta próxima.';
-let cats={};exp.filter(t=>t.status==='Realizado').forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
-let months=[];let d=new Date();for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let rs=tx.filter(t=>t.box===selected&&t.date?.startsWith(key)&&t.type==='Receita').reduce((s,t)=>s+Number(t.value),0);let es=tx.filter(t=>t.box===selected&&t.date?.startsWith(key)&&t.type==='Despesa').reduce((s,t)=>s+Number(t.value),0);months.push(`<div class="item"><span>${name}</span><strong>${money(bal+rs-es)}</strong></div>`)}$('forecast').innerHTML=months.join('');
+let cats={};exp.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
+let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
 let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';$('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span>${esc(b)}</span><button class="btn" onclick="renameBox(${i})">Renomear</button></div>`).join('');
 }
-function txHTML(t){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.status)} · ${esc(t.payment||'')}${t.category?' · '+esc(t.category):''}${t.recurring==='Sim'?' · 🔄 Recorrente':''}${t.payment==='Cartão de crédito'&&t.card?' · 💳 '+esc(t.card):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong><br><button class="btn" onclick="editTx('${t.id}')">Editar</button> <button class="btn" onclick="removeTx('${t.id}')">Excluir</button></div></div>`}
+function txHTML(t){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.status)} · ${esc(t.payment||'')}${t.category?' · '+esc(t.category):''}${(t.accountId||t.account)?' · 🏦 '+esc(accountName(t.accountId)||t.account):''}${t.recurring==='Sim'?' · 🔄 Recorrente':''}${t.payment==='Cartão de crédito'&&t.card?' · 💳 '+esc(t.card):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong><br><button class="btn" onclick="editTx('${t.id}')">Editar</button> <button class="btn" onclick="removeTx('${t.id}')">Excluir</button></div></div>`}
 function showTab(tab){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));$(tab).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render()}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));$('dashBox').onchange=()=>{localStorage.setItem(LAST,$('dashBox').value);render()};
-$('value').addEventListener('blur',formatInput);$('payment').onchange=()=>{$('cardWrap').classList.toggle('hidden',$('payment').value!=='Cartão de crédito');$('accountWrap').classList.toggle('hidden',$('payment').value==='Cartão de crédito'||$('payment').value==='Dinheiro')};$('installmentType').onchange=()=>{$('installmentWrap').classList.toggle('hidden',$('installmentType').value!=='Parcelada');previewParcels()};$('installments').oninput=previewParcels;$('recurring').onchange=()=>$('recurringWrap').classList.toggle('hidden',$('recurring').value!=='Sim');
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));$('type').onchange=()=>renderCategorySuggestions();$('dashBox').onchange=()=>{localStorage.setItem(LAST,$('dashBox').value);render()};
+$('box').onchange=()=>renderAccounts();$('value').addEventListener('blur',formatInput);$('payment').onchange=()=>{let p=$('payment').value;$('accountWrap').style.display=(p==='Dinheiro'||p==='Cartão de crédito')?'none':'block';if(p==='Dinheiro'||p==='Cartão de crédito')$('accountSelect').value='';};$('installmentType').onchange=()=>{$('installmentWrap').classList.toggle('hidden',$('installmentType').value!=='Parcelada');previewParcels()};$('installments').oninput=previewParcels;$('recurring').onchange=()=>$('recurringWrap').classList.toggle('hidden',$('recurring').value!=='Sim');
 function previewParcels(){let n=parseInt($('installments').value||0),v=parseBR($('value').value);if(n>=2&&Number.isFinite(v))$('parcelPreview').innerHTML=`<p>Prévia: ${n} parcelas de aproximadamente <strong>${money(v/n)}</strong>. A distribuição exata por fatura será integrada no módulo de cartões.</p>`;else $('parcelPreview').innerHTML=''}
 $('date').value=today();
-$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:$('category').value.trim(),payment:$('payment').value,account:$('account').value.trim(),card:$('card').value.trim(),installmentType:$('installmentType').value,installments:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};if(editingId)data.tx=data.tx.map(t=>t.id===editingId?{...t,...rec}:t);else data.tx.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...rec});localStorage.setItem(LAST,rec.box);cancelEdit(false);persist();e.target.reset();$('date').value=today();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden');showTab('inicio')};
-function editTx(id){let t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;showTab('lancamentos');$('type').value=t.type;$('desc').value=t.desc;$('value').value=Number(t.value).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('payment').value=t.payment||'Pix';$('account').value=t.account||'';$('card').value=t.card||'';$('installmentType').value=t.installmentType||'À vista';$('installments').value=t.installments||'';$('recurring').value=t.recurring||'Não';$('frequency').value=t.frequency||'Mensal';$('endDate').value=t.endDate||'';$('note').value=t.note||'';$('payment').dispatchEvent(new Event('change'));$('installmentType').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
+$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:$('category').value.trim(),payment:$('payment').value,accountId:$('accountSelect').value||'',card:$('card').value.trim(),installmentType:$('installmentType').value,installments:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};if(editingId)data.tx=data.tx.map(t=>t.id===editingId?{...t,...rec}:t);else data.tx.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...rec});localStorage.setItem(LAST,rec.box);cancelEdit(false);persist();e.target.reset();$('date').value=today();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden');showTab('inicio')};
+function editTx(id){let t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;showTab('lancamentos');$('type').value=t.type;$('desc').value=t.desc;$('value').value=Number(t.value).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('payment').value=t.payment||'Pix';$('accountSelect').value=t.accountId||'';$('card').value=t.card||'';$('installmentType').value=t.installmentType||'À vista';$('installments').value=t.installments||'';$('recurring').value=t.recurring||'Não';$('frequency').value=t.frequency||'Mensal';$('endDate').value=t.endDate||'';$('note').value=t.note||'';$('payment').dispatchEvent(new Event('change'));$('installmentType').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
 function cancelEdit(reset=true){editingId=null;$('saveTxBtn').textContent='Salvar lançamento';$('cancelEditBtn').classList.add('hidden');if(reset){$('txForm').reset();$('date').value=today();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden')}}$('cancelEditBtn').onclick=()=>cancelEdit();
 function removeTx(id){if(confirm('Excluir este lançamento?')){data.tx=data.tx.filter(t=>t.id!==id);persist()}}$('boxForm').onsubmit=e=>{e.preventDefault();let n=$('boxName').value.trim();if(n&&!data.boxes.includes(n)){data.boxes.push(n);persist();$('boxName').value=''}};function renameBox(i){let n=prompt('Novo nome do caixa:',data.boxes[i]);if(n&&n.trim()){let old=data.boxes[i];data.boxes[i]=n.trim();data.tx.forEach(t=>{if(t.box===old)t.box=n.trim()});persist()}}
+
+$('accountForm').onsubmit=e=>{
+e.preventDefault();
+const box=$('accountBox').value,bank=$('accountBank').value.trim(),name=$('accountName').value.trim(),balance=parseBR($('accountBalance').value);
+if(!box||!bank||!name||!Number.isFinite(balance)){alert('Preencha banco, nome da conta e saldo válido.');return}
+data.accounts.push({id:'acc_'+Date.now(),box,bank,name,balance,active:true});
+$('accountBank').value='';$('accountName').value='';$('accountBalance').value='';
+persist();
+};
 function exportData(){let blob=new Blob([JSON.stringify({app:'Meu Controle Financeiro',version:2,exportedAt:new Date().toISOString(),data},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Meu_Controle_Financeiro_backup_'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
 $('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let j=JSON.parse(await f.text());if(!j.data||!Array.isArray(j.data.boxes)||!Array.isArray(j.data.tx))throw Error();if(confirm('Substituir os dados atuais deste navegador?')){data=j.data;persist();alert('Backup restaurado.')}}catch(err){alert('Arquivo inválido ou incompatível.')}e.target.value=''};
 render();
