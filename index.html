@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#176b55"><title>Meu Controle Financeiro — Cadastros</title>
+<meta name="theme-color" content="#176b55"><title>Meu Controle Financeiro</title>
 <style>
 :root{--green:#176b55;--green2:#2f8f70;--mint:#e9f5ef;--blue:#2867a8;--bluebg:#edf5fc;--amber:#b7791f;--amberbg:#fff6e5;--red:#b42318;--redbg:#fff0ee;--purple:#7057a8;--purplebg:#f3effb;--ink:#20312b;--muted:#66756e;--line:#dce6e0;--bg:#f5f8f6;--white:#fff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:linear-gradient(135deg,var(--green),#248266);color:#fff;padding:20px 16px 18px;border-radius:0 0 22px 22px}header h1{font-size:21px;margin:0 0 4px}header p{margin:0;font-size:13px;opacity:.9}main{max-width:760px;margin:auto;padding:14px 13px 40px}nav{display:flex;gap:7px;overflow:auto;margin-bottom:12px}nav button,.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;background:#e5eee9;color:var(--green);white-space:nowrap}nav button.active,.btn.primary{background:var(--green);color:#fff}.filter{background:#fff;border:1px solid var(--line);padding:12px;border-radius:15px;margin-bottom:12px}.filter label{margin:0 0 5px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.card.green{border-left:5px solid var(--green)}.card.blue{border-left:5px solid var(--blue)}.card.red{border-left:5px solid var(--red)}.card.purple{border-left:5px solid var(--purple)}.card.amber{border-left:5px solid var(--amber)}.card small,.muted{color:var(--muted)}.amount{font-size:21px;font-weight:800;margin:7px 0}.mini{font-size:12px;color:var(--muted)}.summary3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.summary3 .card{padding:11px}.summary3 .amount{font-size:17px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}.panel h2{font-size:17px;margin:2px 0 10px}h3{font-size:14px;margin:0 0 8px}label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;font:inherit;color:var(--ink)}input:focus,select:focus{outline:2px solid #b8dfd0;border-color:var(--green)}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.hidden{display:none!important}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.actions button{padding:14px 8px;border:1px solid var(--line);border-radius:13px;background:#fff;font-weight:700;color:var(--ink)}.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.positive{color:var(--green)}.negative{color:var(--red)}.pill{display:inline-block;font-size:11px;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green)}.notice{padding:10px;border-radius:11px;background:var(--amberbg);color:#805b19;font-size:13px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;padding:4px 7px;border-radius:99px}.tag.red{background:var(--redbg);color:var(--red)}.tag.blue{background:var(--bluebg);color:var(--blue)}.tag.purple{background:var(--purplebg);color:var(--purple)}form .btn{margin-top:12px;width:100%}footer{font-size:12px;color:var(--muted);line-height:1.5;padding:8px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}@media(max-width:430px){.row,.row3{grid-template-columns:1fr}.summary3{grid-template-columns:1fr 1fr 1fr}.summary3 .amount{font-size:15px}}
@@ -14,6 +14,25 @@
 .mcf-cat-row span{flex:1}
 .mcf-cat-row button{padding:6px 9px}
 .mcf-card-select-note{font-size:12px;color:#66756f;margin-top:4px}
+</style>
+
+<style>
+/* Dashboard visual system */
+#inicio .card{border-width:1px;box-shadow:0 2px 8px rgba(32,49,43,.04)}
+#inicio .card.green{background:linear-gradient(180deg,#f1faf5 0%,#ffffff 100%);border-top:4px solid var(--green);border-left:1px solid #cfe5da}
+#inicio .card.blue{background:linear-gradient(180deg,#f1f7fd 0%,#ffffff 100%);border-top:4px solid var(--blue);border-left:1px solid #d3e3f3}
+#inicio .card.red{background:linear-gradient(180deg,#fff4f2 0%,#ffffff 100%);border-top:4px solid var(--red);border-left:1px solid #f0d5d1}
+#inicio .card.amber{background:linear-gradient(180deg,#fff8eb 0%,#ffffff 100%);border-top:4px solid var(--amber);border-left:1px solid #efdfbd}
+#inicio .card.purple{background:linear-gradient(180deg,#f7f3fc 0%,#ffffff 100%);border-top:4px solid var(--purple);border-left:1px solid #ded5ef}
+#inicio .dashboard-panel{box-shadow:0 2px 8px rgba(32,49,43,.035)}
+#inicio .bank-panel{border-left:5px solid var(--green)}
+#inicio .app-panel{border-left:5px solid var(--blue)}
+#inicio .due-panel{border-left:5px solid var(--red)}
+#inicio .invoice-panel{border-left:5px solid var(--amber)}
+#inicio .cat-panel{border-left:5px solid var(--blue)}
+#inicio .forecast-panel{border-left:5px solid var(--purple)}
+#inicio .section-title h2{color:#30423b}
+#inicio .summary3 .card{min-height:78px}
 </style>
 </head>
 <body>
@@ -96,70 +115,20 @@
   render();
 })();
 </script>
-<div class="mcf-quick-cadastros" id="mcfQuickCadastros">
-  <h3>⚙️ Cadastros</h3>
-  <div class="mcf-quick-grid">
-    <button type="button" data-target="contas">🏦 Contas bancárias</button>
-    <button type="button" data-target="cartoes">💳 Cartões</button>
-    <button type="button" data-target="aplicacoes">📈 Aplicações</button>
-    <button type="button" data-target="categorias">🏷️ Categorias</button>
-    <button type="button" data-target="recorrencias">🔄 Recorrências</button>
-  </div>
-  <div class="mcf-quick-note">Cadastre aqui os itens que depois aparecem automaticamente nos lançamentos e no dashboard.</div>
-</div>
-<script>
-(function(){
-  const box=document.getElementById('mcfQuickCadastros');
-  if(!box) return;
-  box.querySelectorAll('button[data-target]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const key=btn.dataset.target;
-      const candidates=[
-        '[data-section="'+key+'"]',
-        '#'+key,
-        '#'+key+'Section',
-        '[id*="'+key+'"]'
-      ];
-      let el=null;
-      for(const sel of candidates){
-        try{ el=document.querySelector(sel); if(el) break; }catch(e){}
-      }
-      if(el){
-        el.scrollIntoView({behavior:'smooth',block:'start'});
-        el.style.outline='3px solid rgba(46,125,96,.35)';
-        setTimeout(()=>el.style.outline='',1400);
-      } else {
-        // Fallback: use text matching to find the visible section/card.
-        const nodes=[...document.querySelectorAll('h2,h3,h4,button,label,div')];
-        const terms={
-          contas:['Contas bancárias','Contas'],
-          cartoes:['Cartões'],
-          aplicacoes:['Aplicações'],
-          categorias:['Categorias'],
-          recorrencias:['Recorrências']
-        }[key]||[];
-        const found=nodes.find(n=>terms.some(t=>(n.textContent||'').trim()===t));
-        if(found){ found.scrollIntoView({behavior:'smooth',block:'start'}); }
-      }
-    });
-  });
-})();
-</script>
-
 <header><h1>Meu Controle Financeiro</h1><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
 <div class="filter"><label>Caixa em uso</label><select id="dashBox"></select></div>
-<div class="cards" id="dashboardCards"></div><div class="panel"><h2>Saldo por banco</h2><div id="bankBalances"></div></div>
-<div class="panel"><div class="section-title"><h2>Aplicações</h2><span class="tag blue" id="appTotal">R$ 0,00</span></div>
+<div class="cards" id="dashboardCards"></div><div class="panel dashboard-panel bank-panel"><h2>🏦 Saldo por banco</h2><div id="bankBalances"></div></div>
+<div class="panel dashboard-panel app-panel"><div class="section-title"><h2>📈 Aplicações</h2><span class="tag blue" id="appTotal">R$ 0,00</span></div>
 <div class="item"><span>Disponibilidade imediata</span><strong id="appImmediate">R$ 0,00</strong></div>
 <div id="applicationsList"></div>
 </div>
 <div class="summary3" id="monthSummary"></div>
-<div class="panel"><div class="section-title"><h2>Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
-<div class="panel"><div class="section-title"><h2>Faturas de cartão</h2><span class="tag amber">próximas</span></div><p class="muted">Estornos geram crédito no cartão e não são tratados como receita.</p><div id="invoiceList" class="muted"></div></div><div class="panel"><div class="section-title"><h2>Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
-<div class="panel"><div class="section-title"><h2>Próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
+<div class="panel dashboard-panel due-panel"><div class="section-title"><h2>🔴 Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
+<div class="panel dashboard-panel invoice-panel"><div class="section-title"><h2>🟠 Faturas de cartão</h2><span class="tag amber">próximas</span></div><p class="muted">Estornos geram crédito no cartão e não são tratados como receita.</p><div id="invoiceList" class="muted"></div></div><div class="panel dashboard-panel cat-panel"><div class="section-title"><h2>🔵 Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
+<div class="panel dashboard-panel forecast-panel"><div class="section-title"><h2>🟣 Próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
 </section>
 <section id="lancamentos" class="hidden">
 <div class="panel"><h2>Novo lançamento</h2><div id="draftNotice" class="notice hidden"></div><form id="txForm">
@@ -182,6 +151,17 @@
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
 <section id="cadastros" class="hidden">
+<div class="mcf-quick-cadastros" id="mcfQuickCadastros">
+  <h3>⚙️ Cadastros rápidos</h3>
+  <div class="mcf-quick-grid">
+    <button type="button" data-target="contas">🏦 Contas bancárias</button>
+    <button type="button" data-target="cartoes">💳 Cartões</button>
+    <button type="button" data-target="aplicacoes">📈 Aplicações</button>
+    <button type="button" data-target="categorias">🏷️ Categorias</button>
+    <button type="button" data-target="recorrencias">🔄 Recorrências</button>
+  </div>
+  <div class="mcf-quick-note">Cadastre aqui os itens que depois aparecem automaticamente nos lançamentos e no dashboard.</div>
+</div>
 <div class="panel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
 <div class="panel"><h2>Categorias pré-cadastradas</h2>
 <p class="muted">São sugestões para agilizar os lançamentos. A categoria continua opcional e você pode digitar outra quando quiser.</p>
@@ -703,7 +683,43 @@ document.addEventListener('DOMContentLoaded',()=>{
  $('clearDraftBtn').addEventListener('click',()=>{if(confirm('Descartar o rascunho atual?')){clearDraft();resetForm();}});
  restoreDraft();
 });
-</script></body></html>
+</script>
+<script>
+(function(){
+  const box=document.getElementById('mcfQuickCadastros');
+  if(!box) return;
+  box.querySelectorAll('button[data-target]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const key=btn.dataset.target;
+      const candidates=['[data-section="'+key+'"]','#'+key,'#'+key+'Section','[id*="'+key+'"]'];
+      let el=null;
+      for(const sel of candidates){try{el=document.querySelector(sel);if(el)break;}catch(e){}}
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  function openDashboard(){
+    try{
+      if(typeof showTab==='function') showTab('inicio');
+      else {
+        document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));
+        const el=document.getElementById('inicio'); if(el) el.classList.remove('hidden');
+        document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab==='inicio'));
+      }
+    }catch(e){}
+    requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,0)));
+  }
+  window.addEventListener('pageshow',openDashboard);
+  window.addEventListener('load',openDashboard);
+  if(document.readyState!=='loading') setTimeout(openDashboard,30);
+  else document.addEventListener('DOMContentLoaded',()=>setTimeout(openDashboard,30));
+})();
+</script>
+</body></html>
 
 <script>
 (function(){
