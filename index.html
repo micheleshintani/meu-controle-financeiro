@@ -34,6 +34,26 @@
 #inicio .section-title h2{color:#30423b}
 #inicio .summary3 .card{min-height:78px}
 </style>
+<style>
+/* Dashboard colors: visible but clean */
+#inicio .card.green{background:linear-gradient(135deg,#dff4e9 0%,#f8fcfa 72%);border:1px solid #b9dfcf;border-top:6px solid #17795d}
+#inicio .card.blue{background:linear-gradient(135deg,#e1effc 0%,#f9fbfe 72%);border:1px solid #bfd6ee;border-top:6px solid #2867a8}
+#inicio .card.red{background:linear-gradient(135deg,#ffe4df 0%,#fffafa 72%);border:1px solid #efc2bc;border-top:6px solid #c52b20}
+#inicio .card.amber{background:linear-gradient(135deg,#fff0cc 0%,#fffdf8 72%);border:1px solid #ebd29e;border-top:6px solid #c18420}
+#inicio .card.purple{background:linear-gradient(135deg,#ece4fa 0%,#fcfaff 72%);border:1px solid #d5c6ed;border-top:6px solid #7355a9}
+#inicio .card.green .amount{color:#14755a}#inicio .card.blue .amount{color:#2366a8}#inicio .card.red .amount{color:#bd2a20}#inicio .card.amber .amount{color:#b36f10}#inicio .card.purple .amount{color:#7355a9}
+#inicio .card small{font-weight:700;color:#51635c}
+#inicio .bank-panel{background:linear-gradient(135deg,#f2faf6,#fff);border-left:7px solid #17795d}
+#inicio .app-panel{background:linear-gradient(135deg,#f0f7fe,#fff);border-left:7px solid #2867a8}
+#inicio .due-panel{background:linear-gradient(135deg,#fff4f1,#fff);border-left:7px solid #c52b20}
+#inicio .invoice-panel{background:linear-gradient(135deg,#fff8e8,#fff);border-left:7px solid #c18420}
+#inicio .cat-panel{background:linear-gradient(135deg,#f2f8fe,#fff);border-left:7px solid #2867a8}
+#inicio .forecast-panel{background:linear-gradient(135deg,#f6f1fc,#fff);border-left:7px solid #7355a9}
+#inicio .summary3 .card:nth-child(1){background:#e5f5ed;border-top:5px solid #17795d}
+#inicio .summary3 .card:nth-child(2){background:#ffe8e4;border-top:5px solid #c52b20}
+#inicio .summary3 .card:nth-child(3){background:#eef4f1;border-top:5px solid #59786b}
+#inicio .summary3 .card:nth-child(1) .amount{color:#14755a}#inicio .summary3 .card:nth-child(2) .amount{color:#bd2a20}
+</style>
 </head>
 <body>
 <script>
@@ -66,55 +86,6 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<div class="mcf-cat-admin" id="mcfCategoryManager">
-  <strong>🏷️ Gerenciar categorias</strong>
-  <div class="mcf-cat-help">As categorias são únicas no aplicativo e podem ser usadas em qualquer caixa.</div>
-  <div id="mcfCategoryList"></div>
-  <button type="button" id="mcfAddCategory">＋ Nova categoria</button>
-</div>
-<script>
-(function(){
-  function getStore(){
-    try { return JSON.parse(localStorage.getItem('meu_controle_financeiro') || '{}'); }
-    catch(e){ return {}; }
-  }
-  function saveStore(d){ localStorage.setItem('meu_controle_financeiro', JSON.stringify(d)); }
-  function cats(){
-    const d=getStore();
-    return Array.isArray(d.categories) ? d.categories : [];
-  }
-  function render(){
-    const el=document.getElementById('mcfCategoryList'); if(!el) return;
-    el.innerHTML='';
-    cats().forEach((c,i)=>{
-      const row=document.createElement('div'); row.className='mcf-cat-row';
-      const s=document.createElement('span'); s.textContent=(typeof c==='string'?c:(c.name||'')); row.appendChild(s);
-      const b=document.createElement('button'); b.type='button'; b.textContent='Editar';
-      b.onclick=()=>{
-        const old=s.textContent;
-        const name=prompt('Nome da categoria:',old);
-        if(name===null) return;
-        const n=name.trim(); if(!n) return alert('Informe um nome.');
-        const d=getStore(); if(!Array.isArray(d.categories)) return;
-        d.categories[i]=typeof d.categories[i]==='string'?n:{...d.categories[i],name:n};
-        saveStore(d); render();
-      };
-      row.appendChild(b); el.appendChild(row);
-    });
-  }
-  const add=document.getElementById('mcfAddCategory');
-  if(add) add.onclick=()=>{
-    const n=prompt('Nome da nova categoria:');
-    if(n===null) return;
-    const name=n.trim(); if(!name) return;
-    const d=getStore(); if(!Array.isArray(d.categories)) d.categories=[];
-    if(d.categories.some(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===name.toLowerCase()))
-      return alert('Essa categoria já existe.');
-    d.categories.push(name); saveStore(d); render();
-  };
-  render();
-})();
-</script>
 <header><h1>Meu Controle Financeiro</h1><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
@@ -141,7 +112,7 @@
 <datalist id="categorySuggestions"></datalist>
 <div id="paymentWrap"><label id="paymentLabel">Forma de pagamento</label><select id="payment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div>
 <div id="accountWrap"><label id="accountLabel">Conta utilizada</label><select id="accountSelect"><option value="">Selecione a conta</option></select></div>
-<div id="cardWrap" class="hidden"><label>Cartão utilizado</label><select id="cardSelect"><option value="">Selecione o cartão</option></select>
+<div id="cardWrap" class="hidden"><label>Cartão de crédito</label><select id="cardSelect"><option value="">Selecione o cartão</option></select>
 <label>Compra</label><select id="installmentType"><option>À vista</option><option>Parcelada</option></select><div id="installmentWrap" class="hidden"><label>Número de parcelas</label><input id="installments" type="number" min="2" step="1" inputmode="numeric" placeholder="6"><div id="parcelPreview" class="muted"></div></div><div id="invoicePreview" class="muted"></div></div>
 <label>Recorrente?</label><select id="recurring"><option>Não</option><option>Sim</option></select>
 <div id="recurringWrap" class="hidden"><div class="row"><div><label>Frequência</label><select id="frequency"><option>Mensal</option><option>Semanal</option><option>Quinzenal</option><option>Anual</option></select></div><div><label>Fim (opcional)</label><input id="endDate" type="date"></div></div><p class="muted">O cadastro recorrente serve para a projeção. O histórico passado não é alterado.</p></div>
@@ -151,6 +122,12 @@
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
 <section id="cadastros" class="hidden">
+<div class="mcf-cat-admin" id="mcfCategoryManager">
+  <div class="section-title"><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">categorias únicas</span></div>
+  <div class="mcf-cat-help">As categorias são únicas no aplicativo e podem ser usadas em qualquer caixa.</div>
+  <div id="mcfCategoryList"></div>
+  <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
+</div>
 <div class="mcf-quick-cadastros" id="mcfQuickCadastros">
   <h3>⚙️ Cadastros rápidos</h3>
   <div class="mcf-quick-grid">
@@ -569,7 +546,7 @@ $('payment').onchange=()=>{let p=$('payment').value;$('accountWrap').style.displ
 function previewParcels(){let n=parseInt($('installments').value||0),v=parseBR($('value').value);if(n>=2&&Number.isFinite(v))$('parcelPreview').innerHTML=`<p>Prévia: ${n} parcelas de aproximadamente <strong>${money(v/n)}</strong>. A distribuição exata por fatura será integrada no módulo de cartões.</p>`;else $('parcelPreview').innerHTML=''}
 $('date').value=today();
 updateTypeUI();
-$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:$('category').value.trim(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()}
+$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};if(syn[n])return syn[n];const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===q.toLowerCase());return hit?(typeof hit==='string'?hit:hit.name):q})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()}
 if(rec.recurring==='Sim'&&!editingId){
   data.recurring.push({id:'rr_'+Date.now(),box:rec.box,type:rec.type,desc:rec.desc,value:rec.value,category:rec.category,payment:rec.payment,accountId:rec.accountId||'',cardId:rec.cardId||'',frequency:rec.frequency,startDate:rec.date,endDate:rec.endDate||'',active:true});
 }
@@ -686,6 +663,36 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 <script>
 (function(){
+  function getStore(){try{return JSON.parse(localStorage.getItem('meu_controle_financeiro')||'{}')}catch(e){return {}}}
+  function saveStore(d){localStorage.setItem('meu_controle_financeiro',JSON.stringify(d));}
+  function cats(){const d=getStore();return Array.isArray(d.categories)?d.categories:[]}
+  function render(){
+    const el=document.getElementById('mcfCategoryList'); if(!el)return;
+    const arr=cats();
+    el.innerHTML=arr.map((c,i)=>{
+      const name=typeof c==='string'?c:(c.name||'');
+      return `<div class="mcf-cat-row"><span>${name.replace(/</g,'&lt;')}</span><button type="button" class="btn" data-edit-cat="${i}">Editar</button></div>`;
+    }).join('') || '<div class="muted" style="margin:8px 0">Nenhuma categoria cadastrada.</div>';
+    el.querySelectorAll('[data-edit-cat]').forEach(b=>b.onclick=()=>{
+      const i=Number(b.dataset.editCat), a=cats(), old=typeof a[i]==='string'?a[i]:(a[i]?.name||'');
+      const n=prompt('Nome da categoria:',old); if(n===null)return; const name=n.trim(); if(!name)return alert('Informe um nome.');
+      if(a.some((c,j)=>(j!==i?(typeof c==='string'?c:c.name||''):'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+      const d=getStore(); d.categories[i]=typeof d.categories[i]==='string'?name:{...d.categories[i],name}; saveStore(d); render(); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+    });
+  }
+  function add(){
+    const n=prompt('Nome da nova categoria:'); if(n===null)return; const name=n.trim(); if(!name)return;
+    const d=getStore(); if(!Array.isArray(d.categories))d.categories=[];
+    if(d.categories.some(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+    d.categories.push(name); saveStore(d); render(); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+  }
+  document.addEventListener('click',e=>{if(e.target.id==='mcfAddCategory')add()});
+  window.addEventListener('mcfCategoriesChanged',render);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+})();
+</script>
+<script>
+(function(){
   const box=document.getElementById('mcfQuickCadastros');
   if(!box) return;
   box.querySelectorAll('button[data-target]').forEach(btn=>{
@@ -719,6 +726,41 @@ document.addEventListener('DOMContentLoaded',()=>{
   else document.addEventListener('DOMContentLoaded',()=>setTimeout(openDashboard,30));
 })();
 </script>
+<script>
+(function(){
+  const synonyms={
+    'assinaturas e streaming':['streaming','assinatura','tv','televisao','netflix','prime video','disney','disney+','max','hbo'],
+    'supermercado':['mercado','super','compras de mercado'],
+    'farmacia':['farmacia','remedio','remedios','medicamento','medicamentos'],
+    'combustivel':['combustivel','gasolina','etanol','alcool','posto'],
+    'restaurantes e refeicoes':['restaurante','restaurantes','refeicao','delivery','ifood'],
+    'telefone e internet':['internet','telefone','celular','wifi'],
+    'agua e gas':['agua','gas','botijao','botijao'],
+    'pets':['pet','cachorro','caes','veterinario','racao']
+  };
+  const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  function store(){try{return JSON.parse(localStorage.getItem('meu_controle_financeiro')||'{}')}catch(e){return {}}}
+  function names(){const a=Array.isArray(store().categories)?store().categories:[];return a.map(x=>typeof x==='string'?x:(x.name||'')).filter(Boolean)}
+  function matches(q){q=norm(q);if(!q)return [];return names().filter(c=>{const cn=norm(c);if(cn.includes(q))return true;const syn=synonyms[cn]||[];return syn.some(x=>norm(x).includes(q)||q.includes(norm(x)));}).slice(0,6)}
+  function attach(){
+    const inp=document.getElementById('category'); if(!inp||inp.dataset.catReady)return; inp.dataset.catReady='1';
+    let box=document.getElementById('mcfCategorySuggestions');
+    if(!box){box=document.createElement('div');box.id='mcfCategorySuggestions';box.style.cssText='display:none;margin-top:5px;border:1px solid #cfe0d8;border-radius:10px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);overflow:hidden';inp.parentElement.insertBefore(box,inp.nextSibling)}
+    function choose(c){inp.value=c;box.style.display='none';inp.dispatchEvent(new Event('change',{bubbles:true}));}
+    function update(){
+      const ms=matches(inp.value);
+      if(!inp.value.trim()||!ms.length){box.style.display='none';return}
+      box.innerHTML=ms.map(c=>`<button type="button" style="display:block;width:100%;padding:11px 12px;border:0;border-bottom:1px solid #edf2ef;background:#fff;text-align:left;font:inherit;color:#20312b">${c}</button>`).join('');
+      [...box.querySelectorAll('button')].forEach((b,i)=>b.onclick=()=>choose(ms[i])); box.style.display='block';
+    }
+    inp.addEventListener('input',update);inp.addEventListener('focus',update);document.addEventListener('click',e=>{if(e.target!==inp&&!box.contains(e.target))box.style.display='none'});
+    inp.setAttribute('autocomplete','off');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
+  new MutationObserver(attach).observe(document.body,{subtree:true,childList:true});
+  window.addEventListener('mcfCategoriesChanged',()=>{const i=document.getElementById('category');if(i)i.dataset.catReady='';attach()});
+})();
+</script>
 </body></html>
 
 <script>
@@ -744,142 +786,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 })();
 </script>
 
-<script>
-(function(){
-  function improveExpenseCategoryFields(){
-    document.querySelectorAll('input').forEach(inp=>{
-      const ph=(inp.placeholder||'').toLowerCase();
-      const nm=(inp.name||'').toLowerCase();
-      if(ph.includes('categoria') || nm.includes('categoria')){
-        inp.setAttribute('list','mcfCategoryOptions');
-        inp.title='Selecione uma categoria existente. Para criar outra, use Cadastros > Categorias.';
-      }
-    });
-    let dl=document.getElementById('mcfCategoryOptions');
-    if(!dl){
-      dl=document.createElement('datalist'); dl.id='mcfCategoryOptions'; document.body.appendChild(dl);
-    }
-    let d=getStoreSafe(), arr=Array.isArray(d.categories)?d.categories:[];
-    dl.innerHTML='';
-    arr.forEach(c=>{
-      const o=document.createElement('option');
-      o.value=typeof c==='string'?c:(c.name||''); dl.appendChild(o);
-    });
-  }
-  function getStoreSafe(){
-    try{return JSON.parse(localStorage.getItem('meu_controle_financeiro')||'{}')}catch(e){return {}}
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',improveExpenseCategoryFields);
-  else improveExpenseCategoryFields();
-  new MutationObserver(improveExpenseCategoryFields).observe(document.body,{subtree:true,childList:true});
-})();
-</script>
 
-<script>
-(function(){
-  function data(){
-    try{return JSON.parse(localStorage.getItem('meu_controle_financeiro')||'{}')}catch(e){return {}}
-  }
-  function enhance(){
-    const d=data(), cards=Array.isArray(d.cards)?d.cards:[];
-    document.querySelectorAll('select').forEach(sel=>{
-      const txt=(sel.name+' '+sel.id+' '+sel.previousElementSibling?.textContent).toLowerCase();
-      if(txt.includes('forma') && txt.includes('pag')){
-        sel.addEventListener('change',()=>showCardChoice(sel));
-        showCardChoice(sel);
-      }
-    });
-  }
-  function showCardChoice(payment){
-    const val=(payment.value||'').toLowerCase();
-    const isCard=val.includes('cart') || val.includes('crédito') || val.includes('credito');
-    let box=document.getElementById('mcfCardChoice');
-    if(!isCard){ if(box) box.remove(); return; }
-    if(box) return;
-    const d=data(), cards=Array.isArray(d.cards)?d.cards:[];
-    box=document.createElement('div'); box.id='mcfCardChoice'; box.className='mcf-card-select-note';
-    const label=document.createElement('label'); label.textContent='Cartão de crédito';
-    const sel=document.createElement('select'); sel.name='mcfSelectedCard'; sel.id='mcfSelectedCard';
-    const empty=document.createElement('option'); empty.value=''; empty.textContent='Selecione o cartão'; sel.appendChild(empty);
-    cards.forEach(c=>{
-      const o=document.createElement('option');
-      o.value=c.id||c.name||c.nome||'';
-      o.textContent=c.name||c.nome||c.cardName||'';
-      sel.appendChild(o);
-    });
-    box.appendChild(label); box.appendChild(sel);
-    payment.parentElement.appendChild(box);
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',enhance);
-  else enhance();
-})();
-</script>
 
-<style>
-.mcf-category-suggest{position:relative}
-.mcf-category-hint{font-size:12px;color:#66756f;margin-top:4px}
-.mcf-category-match{margin-top:5px;padding:7px 9px;border:1px solid #d8e4df;border-radius:9px;background:#f7fbf9;cursor:pointer}
-</style>
-<script>
-(function(){
-  const synonyms = {
-    'assinaturas e streaming':['streaming','assinatura','tv','televisão','netflix','prime video','disney','disney+','max','hbo'],
-    'supermercado':['mercado','super','compras de mercado'],
-    'farmácia':['farmacia','remédio','remedios','medicamento','medicamentos'],
-    'combustível':['combustivel','gasolina','etanol','álcool','alcool','posto'],
-    'restaurantes e refeições':['restaurante','restaurantes','refeição','refeicao','delivery','ifood'],
-    'telefone e internet':['internet','telefone','celular','wifi'],
-    'água e gás':['agua','gás','gas','botijão','botijao'],
-    'pets':['pet','cachorro','cães','caes','veterinário','veterinario','ração','racao']
-  };
-  function store(){
-    try{return JSON.parse(localStorage.getItem('meu_controle_financeiro')||'{}')}catch(e){return {}}
-  }
-  function names(){
-    const d=store(), a=Array.isArray(d.categories)?d.categories:[];
-    return a.map(x=>typeof x==='string'?x:(x.name||'')).filter(Boolean);
-  }
-  function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-  function findMatches(q){
-    q=norm(q); if(!q) return [];
-    return names().filter(c=>{
-      const cn=norm(c);
-      if(cn.includes(q)) return true;
-      const syn=synonyms[cn]||[];
-      return syn.some(s=>norm(s).includes(q)||q.includes(norm(s)));
-    });
-  }
-  function attach(){
-    document.querySelectorAll('input').forEach(inp=>{
-      const ph=norm(inp.placeholder), nm=norm(inp.name), id=norm(inp.id);
-      if(!(ph.includes('categoria')||nm.includes('categoria')||id.includes('categoria'))) return;
-      if(inp.dataset.mcfCatSearch) return;
-      inp.dataset.mcfCatSearch='1';
-      const wrap=document.createElement('div'); wrap.className='mcf-category-suggest';
-      inp.parentNode.insertBefore(wrap,inp); wrap.appendChild(inp);
-      const hint=document.createElement('div'); hint.className='mcf-category-hint';
-      hint.textContent='Digite parte do nome (ex.: streaming ou TV) para encontrar a categoria.';
-      wrap.appendChild(hint);
-      const box=document.createElement('div'); box.className='mcf-category-match'; box.style.display='none'; wrap.appendChild(box);
-      function update(){
-        const ms=findMatches(inp.value);
-        if(!inp.value.trim()||!ms.length){box.style.display='none';return;}
-        box.innerHTML='';
-        ms.slice(0,5).forEach(c=>{
-          const item=document.createElement('div');
-          item.textContent=c;
-          item.style.padding='4px';
-          item.onclick=()=>{inp.value=c;box.style.display='none';inp.dispatchEvent(new Event('change',{bubbles:true}));};
-          box.appendChild(item);
-        });
-        box.style.display='block';
-      }
-      inp.addEventListener('input',update);
-      inp.addEventListener('focus',update);
-      document.addEventListener('click',e=>{if(!wrap.contains(e.target))box.style.display='none'});
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',attach); else attach();
-  new MutationObserver(attach).observe(document.body,{subtree:true,childList:true});
-})();
-</script>
+
+
+
