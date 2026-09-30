@@ -2,25 +2,96 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#176b55"><title>Meu Controle Financeiro</title>
+<meta name="theme-color" content="#176b55"><title>Meu Controle Financeiro — Cadastros</title>
 <style>
 :root{--green:#176b55;--green2:#2f8f70;--mint:#e9f5ef;--blue:#2867a8;--bluebg:#edf5fc;--amber:#b7791f;--amberbg:#fff6e5;--red:#b42318;--redbg:#fff0ee;--purple:#7057a8;--purplebg:#f3effb;--ink:#20312b;--muted:#66756e;--line:#dce6e0;--bg:#f5f8f6;--white:#fff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:linear-gradient(135deg,var(--green),#248266);color:#fff;padding:20px 16px 18px;border-radius:0 0 22px 22px}header h1{font-size:21px;margin:0 0 4px}header p{margin:0;font-size:13px;opacity:.9}main{max-width:760px;margin:auto;padding:14px 13px 40px}nav{display:flex;gap:7px;overflow:auto;margin-bottom:12px}nav button,.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;background:#e5eee9;color:var(--green);white-space:nowrap}nav button.active,.btn.primary{background:var(--green);color:#fff}.filter{background:#fff;border:1px solid var(--line);padding:12px;border-radius:15px;margin-bottom:12px}.filter label{margin:0 0 5px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.card.green{border-left:5px solid var(--green)}.card.blue{border-left:5px solid var(--blue)}.card.red{border-left:5px solid var(--red)}.card.purple{border-left:5px solid var(--purple)}.card.amber{border-left:5px solid var(--amber)}.card small,.muted{color:var(--muted)}.amount{font-size:21px;font-weight:800;margin:7px 0}.mini{font-size:12px;color:var(--muted)}.summary3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.summary3 .card{padding:11px}.summary3 .amount{font-size:17px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}.panel h2{font-size:17px;margin:2px 0 10px}h3{font-size:14px;margin:0 0 8px}label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;font:inherit;color:var(--ink)}input:focus,select:focus{outline:2px solid #b8dfd0;border-color:var(--green)}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.hidden{display:none!important}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.actions button{padding:14px 8px;border:1px solid var(--line);border-radius:13px;background:#fff;font-weight:700;color:var(--ink)}.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.positive{color:var(--green)}.negative{color:var(--red)}.pill{display:inline-block;font-size:11px;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green)}.notice{padding:10px;border-radius:11px;background:var(--amberbg);color:#805b19;font-size:13px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;padding:4px 7px;border-radius:99px}.tag.red{background:var(--redbg);color:var(--red)}.tag.blue{background:var(--bluebg);color:var(--blue)}.tag.purple{background:var(--purplebg);color:var(--purple)}form .btn{margin-top:12px;width:100%}footer{font-size:12px;color:var(--muted);line-height:1.5;padding:8px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}@media(max-width:430px){.row,.row3{grid-template-columns:1fr}.summary3{grid-template-columns:1fr 1fr 1fr}.summary3 .amount{font-size:15px}}
 </style></head>
 <body>
+<style>
+.mcf-quick-cadastros{
+  margin:12px 0 16px;
+  padding:14px;
+  border:1px solid #d8e4df;
+  border-radius:14px;
+  background:#f7fbf9;
+}
+.mcf-quick-cadastros h3{margin:0 0 10px;font-size:17px}
+.mcf-quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mcf-quick-grid button{
+  border:1px solid #cfded8;background:white;border-radius:10px;
+  padding:10px 8px;font-size:14px;text-align:left;cursor:pointer
+}
+.mcf-quick-grid button:hover{background:#eef7f3}
+.mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
+</style>
+<div class="mcf-quick-cadastros" id="mcfQuickCadastros">
+  <h3>⚙️ Cadastros</h3>
+  <div class="mcf-quick-grid">
+    <button type="button" data-target="contas">🏦 Contas bancárias</button>
+    <button type="button" data-target="cartoes">💳 Cartões</button>
+    <button type="button" data-target="aplicacoes">📈 Aplicações</button>
+    <button type="button" data-target="categorias">🏷️ Categorias</button>
+    <button type="button" data-target="recorrencias">🔄 Recorrências</button>
+  </div>
+  <div class="mcf-quick-note">Cadastre aqui os itens que depois aparecem automaticamente nos lançamentos e no dashboard.</div>
+</div>
+<script>
+(function(){
+  const box=document.getElementById('mcfQuickCadastros');
+  if(!box) return;
+  box.querySelectorAll('button[data-target]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const key=btn.dataset.target;
+      const candidates=[
+        '[data-section="'+key+'"]',
+        '#'+key,
+        '#'+key+'Section',
+        '[id*="'+key+'"]'
+      ];
+      let el=null;
+      for(const sel of candidates){
+        try{ el=document.querySelector(sel); if(el) break; }catch(e){}
+      }
+      if(el){
+        el.scrollIntoView({behavior:'smooth',block:'start'});
+        el.style.outline='3px solid rgba(46,125,96,.35)';
+        setTimeout(()=>el.style.outline='',1400);
+      } else {
+        // Fallback: use text matching to find the visible section/card.
+        const nodes=[...document.querySelectorAll('h2,h3,h4,button,label,div')];
+        const terms={
+          contas:['Contas bancárias','Contas'],
+          cartoes:['Cartões'],
+          aplicacoes:['Aplicações'],
+          categorias:['Categorias'],
+          recorrencias:['Recorrências']
+        }[key]||[];
+        const found=nodes.find(n=>terms.some(t=>(n.textContent||'').trim()===t));
+        if(found){ found.scrollIntoView({behavior:'smooth',block:'start'}); }
+      }
+    });
+  });
+})();
+</script>
+
 <header><h1>Meu Controle Financeiro</h1><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
-<nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="backup">Backup</button></nav>
+<nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
 <div class="filter"><label>Caixa em uso</label><select id="dashBox"></select></div>
 <div class="cards" id="dashboardCards"></div><div class="panel"><h2>Saldo por banco</h2><div id="bankBalances"></div></div>
+<div class="panel"><div class="section-title"><h2>Aplicações</h2><span class="tag blue" id="appTotal">R$ 0,00</span></div>
+<div class="item"><span>Disponibilidade imediata</span><strong id="appImmediate">R$ 0,00</strong></div>
+<div id="applicationsList"></div>
+</div>
 <div class="summary3" id="monthSummary"></div>
 <div class="panel"><div class="section-title"><h2>Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
-<div class="panel"><div class="section-title"><h2>Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
+<div class="panel"><div class="section-title"><h2>Faturas de cartão</h2><span class="tag amber">próximas</span></div><p class="muted">Estornos geram crédito no cartão e não são tratados como receita.</p><div id="invoiceList" class="muted"></div></div><div class="panel"><div class="section-title"><h2>Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
 <div class="panel"><div class="section-title"><h2>Próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
 </section>
 <section id="lancamentos" class="hidden">
-<div class="panel"><h2>Novo lançamento</h2><form id="txForm">
+<div class="panel"><h2>Novo lançamento</h2><div id="draftNotice" class="notice hidden"></div><form id="txForm">
 <label>Tipo</label><select id="type"><option>Despesa</option><option>Receita</option></select>
 <label>Descrição</label><input id="desc" required placeholder="Ex.: Supermercado, pensão...">
 <div class="row"><div><label>Valor (R$)</label><input id="value" type="text" required inputmode="decimal" autocomplete="off" placeholder="230 ou 230,30"></div><div><label>Data</label><input id="date" type="date" required></div></div>
@@ -28,14 +99,14 @@
 <label>Categoria (opcional)</label>
 <input id="category" list="categorySuggestions" placeholder="Ex.: Supermercado">
 <datalist id="categorySuggestions"></datalist>
-<label>Forma de pagamento</label><select id="payment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select>
-<div id="accountWrap"><label>Conta utilizada</label><select id="accountSelect"><option value="">Selecione a conta</option></select></div>
-<div id="cardWrap" class="hidden"><label>Cartão utilizado</label><input id="card" placeholder="Ex.: Nubank">
-<label>Compra</label><select id="installmentType"><option>À vista</option><option>Parcelada</option></select><div id="installmentWrap" class="hidden"><label>Número de parcelas</label><input id="installments" type="number" min="2" step="1" inputmode="numeric" placeholder="6"><div id="parcelPreview" class="muted"></div></div></div>
+<div id="paymentWrap"><label id="paymentLabel">Forma de pagamento</label><select id="payment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div>
+<div id="accountWrap"><label id="accountLabel">Conta utilizada</label><select id="accountSelect"><option value="">Selecione a conta</option></select></div>
+<div id="cardWrap" class="hidden"><label>Cartão utilizado</label><select id="cardSelect"><option value="">Selecione o cartão</option></select>
+<label>Compra</label><select id="installmentType"><option>À vista</option><option>Parcelada</option></select><div id="installmentWrap" class="hidden"><label>Número de parcelas</label><input id="installments" type="number" min="2" step="1" inputmode="numeric" placeholder="6"><div id="parcelPreview" class="muted"></div></div><div id="invoicePreview" class="muted"></div></div>
 <label>Recorrente?</label><select id="recurring"><option>Não</option><option>Sim</option></select>
 <div id="recurringWrap" class="hidden"><div class="row"><div><label>Frequência</label><select id="frequency"><option>Mensal</option><option>Semanal</option><option>Quinzenal</option><option>Anual</option></select></div><div><label>Fim (opcional)</label><input id="endDate" type="date"></div></div><p class="muted">O cadastro recorrente serve para a projeção. O histórico passado não é alterado.</p></div>
 <label>Observação (opcional)</label><input id="note">
-<button class="btn primary" type="submit" id="saveTxBtn">Salvar lançamento</button><button class="btn hidden" type="button" id="cancelEditBtn">Cancelar edição</button>
+<button class="btn primary" type="submit" id="saveTxBtn">Salvar lançamento</button><button class="btn hidden" type="button" id="cancelEditBtn">Cancelar edição</button><button class="btn hidden" type="button" id="clearDraftBtn">Descartar rascunho</button>
 </form></div>
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
@@ -57,15 +128,60 @@
 <button class="btn primary" type="submit">Adicionar conta</button>
 </form>
 </div>
-<div class="panel"><h2>Cartões</h2><p class="muted">Nesta etapa, o lançamento já permite informar o cartão. O cadastro completo de cartões, fechamento, vencimento e faturas será integrado na próxima camada.</p></div>
+<div class="panel"><h2>Recorrências</h2>
+<p class="muted">Cadastro-base para receitas ou despesas que se repetem. O valor pode ser ajustado em um mês específico ou a partir de determinado mês sem alterar o passado.</p>
+<div id="recurringList"></div>
+</div>
+<div class="panel"><h2>Aplicações</h2>
+<p class="muted">Cadastre apenas totais agrupados, como “Total de CDBs”. Não é necessário cadastrar cada CDB, ação ou investimento individual.</p>
+<div id="applicationsList"></div>
+<form id="applicationForm">
+<label>Caixa</label><select id="appBox"></select>
+<label>Instituição</label><input id="appInstitution" required placeholder="Ex.: Banco X">
+<label>Descrição</label><input id="appDescription" required placeholder="Ex.: Total de CDBs">
+<label>Tipo (opcional)</label><input id="appType" placeholder="Ex.: CDB, ações, fundos">
+<label>Saldo atual</label><input id="appBalance" required inputmode="decimal" placeholder="0">
+<label>Liquidez (opcional)</label><select id="appLiquidity"><option value="">Não informar</option><option>Imediata</option><option>Parcial</option><option>Sem liquidez imediata</option></select>
+<button class="btn primary" type="submit">Adicionar aplicação</button>
+</form>
+</div>
+<div class="panel"><h2>Cartões de crédito</h2>
+<p class="muted">Cadastre os cartões que você usa. O fechamento pode ser informado depois; o vencimento já fica pré-cadastrado quando conhecido.</p>
+<div id="cardsList"></div>
+<form id="cardForm">
+<label>Caixa</label><select id="cardBox"></select>
+<label>Nome do cartão</label><input id="cardName" required placeholder="Ex.: Nubank">
+<div class="row"><div><label>Dia do vencimento</label><input id="cardDueDay" type="number" min="1" max="31" inputmode="numeric" placeholder="16"></div>
+<div><label>Dia do fechamento (opcional)</label><input id="cardCloseDay" type="number" min="1" max="31" inputmode="numeric" placeholder="Ex.: 10"></div></div>
+<button class="btn primary" type="submit">Adicionar cartão</button>
+</form>
+</div>
 </section>
-<section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Esta função permanece disponível para dados de teste. O backup definitivo será validado depois que a estrutura completa estiver pronta.</p><button class="btn primary" style="width:100%" onclick="exportData()">📤 Exportar backup</button><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"></div></section>
+<section id="relatorios" class="hidden"><div class="panel"><h2>Relatórios</h2><p class="muted">Filtre os lançamentos do caixa selecionado.</p><div class="row"><div><label>Caixa</label><select id="reportBox"></select></div><div><label>Período inicial</label><input id="reportStart" type="date"></div></div><div class="row"><div><label>Período final</label><input id="reportEnd" type="date"></div><div><label>Tipo</label><select id="reportType"><option>Todos</option><option>Receita</option><option>Despesa</option></select></div></div><div class="row"><div><label>Categoria</label><select id="reportCategory"><option>Todos</option></select></div><div><label>Situação</label><select id="reportStatus"><option>Todos</option><option>Realizado</option><option>Previsto</option><option>Cancelada</option></select></div></div><div class="row"><div><label>Conta</label><select id="reportAccount"><option>Todos</option></select></div><div><label>Cartão</label><select id="reportCard"><option>Todos</option></select></div></div><div class="row"><div><label>Loja</label><select id="reportStore"><option>Todos</option></select></div><div><label>Forma de pagamento</label><select id="reportPayment"><option>Todos</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div></div><button class="btn primary" type="button" onclick="renderReports()">Aplicar filtros</button> <button class="btn" type="button" onclick="clearReportFilters()">Limpar filtros</button></div><div class="panel"><h2>Resumo</h2><div id="reportSummary" class="grid"></div></div><div class="panel"><h2>Por categoria</h2><div id="reportCategories"></div></div><div class="panel"><h2>Por loja</h2><div id="reportStores"></div></div><div class="panel"><h2>Por cartão</h2><div id="reportCards"></div></div><div class="panel"><h2>Fluxo mensal</h2><div id="reportMonths"></div></div><div class="panel"><div class="section-title"><h2>Lançamentos filtrados</h2><span class="pill" id="reportCount"></span></div><div id="reportList"></div></div></section>
+<section id="seguranca" class="hidden">
+<div class="panel"><h2>Segurança e acesso</h2>
+<p class="muted">Proteja o acesso ao aplicativo neste aparelho. O PIN é usado como alternativa de desbloqueio.</p>
+<div id="securityStatus" class="notice"></div>
+<label>PIN de acesso</label><input id="securityPin" type="password" inputmode="numeric" maxlength="8" placeholder="4 a 8 números" autocomplete="new-password">
+<label>Confirmação do PIN</label><input id="securityPin2" type="password" inputmode="numeric" maxlength="8" placeholder="Digite novamente" autocomplete="new-password">
+<button class="btn primary" type="button" onclick="setSecurityPin()">Salvar/alterar PIN</button>
+<button class="btn" type="button" onclick="removeSecurityPin()">Remover PIN</button>
+<hr>
+<label>Bloqueio automático</label>
+<select id="lockTimeout"><option value="0">Nunca</option><option value="5">Após 5 minutos</option><option value="15" selected>Após 15 minutos</option><option value="30">Após 30 minutos</option></select>
+<button class="btn" type="button" onclick="saveLockTimeout()">Salvar preferência</button>
+<p class="muted">Quando disponível, a autenticação biométrica do aparelho poderá ser usada futuramente como complemento. Nesta etapa, o PIN é o método de acesso implementado.</p>
+</div></section>
+<section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON e pode ser guardado no Google Drive, iCloud, computador ou outro local seguro.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
 <footer>Versão de teste • Um caixa por vez no dashboard e no histórico. Não use dados bancários reais nesta etapa.</footer>
 </main>
 <script>
-const KEY='mcf_data_v2';const LAST='mcf_last_box';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
+const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
 try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s){data=JSON.parse(s);data.boxes=Array.isArray(data.boxes)?data.boxes:['Meu Financeiro','Casa'];data.tx=Array.isArray(data.tx)?data.tx:[]}}catch(e){};
+let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();
+try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
 const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);
+
 const defaultAccounts=[
 {id:'acc_nubank',box:'Meu Financeiro',bank:'Nubank',name:'Nubank',balance:0,active:true},
 {id:'acc_bradesco',box:'Meu Financeiro',bank:'Bradesco',name:'Bradesco',balance:0,active:true},
@@ -86,7 +202,137 @@ function renderAccounts(){
   $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)}</div></div><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
   $('bankBalances').innerHTML=list.length?list.map(a=>`<div class="item"><span>${esc(a.name)} <span class="muted">(${esc(a.bank)})</span></span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta cadastrada.</p>';
 }
+if(!Array.isArray(data.applications))data.applications=[];
+function activeApplications(b){return data.applications.filter(a=>a.box===b&&a.active!==false)}
+function applicationTotals(b){
+  const apps=activeApplications(b);
+  const total=apps.reduce((s,a)=>s+Number(a.balance||0),0);
+  const immediate=apps.filter(a=>a.liquidity==='Imediata').reduce((s,a)=>s+Number(a.balance||0),0);
+  return {total,immediate};
+}
+function renderApplications(){
+  $('appBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
+  $('appBox').value=currentBox();
+  const apps=activeApplications(currentBox());
+  const totals=applicationTotals(currentBox());
+  $('applicationsList').innerHTML=apps.length
+    ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><strong>${money(a.balance)}</strong></div>`).join('')
+    : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
+  $('appTotal').textContent=money(totals.total);
+  $('appImmediate').textContent=money(totals.immediate);
+}
+const defaultCards=[
+{id:'card_nubank',box:'Meu Financeiro',name:'Nubank',dueDay:16,closeDay:'',active:true},
+{id:'card_santander',box:'Meu Financeiro',name:'Santander',dueDay:12,closeDay:'',active:true},
+{id:'card_inter',box:'Meu Financeiro',name:'Inter',dueDay:20,closeDay:'',active:true},
+{id:'card_itau',box:'Casa',name:'Itaú',dueDay:17,closeDay:'',active:true},
+{id:'card_livix',box:'Casa',name:'Livix Alimentação',dueDay:20,closeDay:'',active:true}
+];
+if(!Array.isArray(data.cards))data.cards=defaultCards.map(c=>({...c}));
 
+// Fechamentos confirmados/inferidos a partir das faturas enviadas.
+// Só preenche quando ainda não houver um fechamento salvo pelo usuário.
+const knownCardClosures={
+  card_nubank:9,
+  card_santander:5,
+  card_inter:13,
+  card_itau:9
+};
+data.cards.forEach(c=>{
+  if(Object.prototype.hasOwnProperty.call(knownCardClosures,c.id) && (c.closeDay==='' || c.closeDay==null)){
+    c.closeDay=knownCardClosures[c.id];
+  }
+});
+function activeCards(b){return data.cards.filter(c=>c.box===b&&c.active!==false)}
+function cardById(id){return data.cards.find(c=>c.id===id)}
+function renderCards(){
+  const cards=activeCards(currentBox());
+  $('cardSelect').innerHTML='<option value="">Selecione o cartão</option>'+cards.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}${c.dueDay?' — vence dia '+c.dueDay:''}</option>`).join('');
+  $('cardBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
+  $('cardBox').value=currentBox();
+  $('cardsList').innerHTML=cards.length?cards.map(c=>`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">Vencimento: dia ${esc(c.dueDay||'—')} · Fechamento: ${esc(c.closeDay||'não informado')}</div></div></div>`).join(''):'<p class="muted">Nenhum cartão ativo neste caixa.</p>';
+}
+if(!Array.isArray(data.installments))data.installments=[];
+if(!Array.isArray(data.invoices))data.invoices=[];
+function monthAdd(ym,n){let [y,m]=ym.split('-').map(Number);let d=new Date(y,m-1+n,1);return d.toISOString().slice(0,7)}
+function monthLabel(ym){let [y,m]=ym.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}
+function invoiceMonth(card,date){
+  const close=Number(card?.closeDay||0), day=Number(String(date||'').slice(8,10)||0);
+  let ym=String(date||today()).slice(0,7);
+  if(close && day>close) ym=monthAdd(ym,1);
+  return ym;
+}
+function splitCents(total,n){
+  total=Math.round(Number(total)*100); n=Math.max(1,parseInt(n||1));
+  const base=Math.floor(total/n), rem=total-base*n, vals=[];
+  for(let i=0;i<n;i++) vals.push((base+(i<rem?1:0))/100);
+  return vals;
+}
+function invoiceFor(cardId,ym){
+  let inv=data.invoices.find(x=>x.cardId===cardId&&x.month===ym);
+  if(!inv){const c=cardById(cardId);inv={id:'inv_'+cardId+'_'+ym,cardId,month:ym,officialValue:null,paidValue:0,paid:false};data.invoices.push(inv)}
+  return inv;
+}
+function previewInstallments(){
+  const p=$('payment').value;
+  if(p!=='Cartão de crédito'){ $('parcelPreview').textContent=''; $('invoicePreview').textContent=''; return; }
+  const card=cardById($('cardSelect').value);
+  const total=parseBR($('value').value);
+  if(!card || !Number.isFinite(total) || total<=0){$('parcelPreview').textContent='';$('invoicePreview').textContent='';return}
+  const n=$('installmentType').value==='Parcelada'?Math.max(2,parseInt($('installments').value||2)):1;
+  const vals=splitCents(total,n);
+  const first=invoiceMonth(card,$('date').value||today());
+  $('parcelPreview').innerHTML='<strong>Parcelas:</strong> '+vals.map((v,i)=>`${i+1}/${n} — ${money(v)} — ${esc(monthLabel(monthAdd(first,i)))}`).join('<br>');
+  $('invoicePreview').innerHTML=`<strong>Fatura inicial:</strong> ${esc(monthLabel(first))}${card.dueDay?' · vencimento dia '+card.dueDay:''}${card.closeDay?' · fechamento dia '+card.closeDay:''}`;
+}
+
+
+
+
+
+async function hashPin(pin){const b=new TextEncoder().encode(pin);const h=await crypto.subtle.digest('SHA-256',b);return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function setSecurityPin(){
+ const a=$('securityPin').value.trim(),b=$('securityPin2').value.trim();
+ if(!/^\d{4,8}$/.test(a)||a!==b){alert('Digite o mesmo PIN numérico de 4 a 8 números nos dois campos.');return}
+ security={enabled:true,hash:await hashPin(a)};localStorage.setItem(SEC,JSON.stringify(security));$('securityPin').value='';$('securityPin2').value='';renderSecurityStatus();alert('PIN de acesso salvo.')
+}
+function removeSecurityPin(){if(!security.enabled){alert('Não há PIN configurado.');return}if(confirm('Remover o PIN de acesso?')){security={enabled:false,hash:''};localStorage.setItem(SEC,JSON.stringify(security));renderSecurityStatus()}}
+function saveLockTimeout(){lockTimeout=Number($('lockTimeout').value||0);localStorage.setItem(LOCK,String(lockTimeout));lastActivity=Date.now();alert('Preferência de bloqueio salva.')}
+function renderSecurityStatus(){$('securityStatus').textContent=security.enabled?'PIN de acesso ativado.':'PIN de acesso desativado.';$('lockTimeout').value=String(lockTimeout)}
+async function unlockApp(){
+ if(!security.enabled){locked=false;return}
+ const pin=prompt('Digite seu PIN para desbloquear o Meu Controle Financeiro.');
+ if(pin===null)return;
+ if((await hashPin(pin))===security.hash){locked=false;lastActivity=Date.now();hideLockScreen()}else alert('PIN incorreto.')
+}
+function showLockScreen(){
+ if(locked)return;locked=true;
+ let el=document.getElementById('lockScreen');
+ if(!el){el=document.createElement('div');el.id='lockScreen';el.style='position:fixed;inset:0;background:rgba(245,248,246,.98);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center';
+ el.innerHTML='<div style="max-width:360px;background:#fff;border:1px solid #dce6e0;border-radius:18px;padding:24px"><h2 style="margin-top:0">Meu Controle Financeiro</h2><p class="muted">Aplicativo bloqueado por segurança.</p><button class="btn primary" type="button" onclick="unlockApp()">Desbloquear</button></div>';document.body.appendChild(el)}
+ el.style.display='flex'
+}
+function hideLockScreen(){const el=document.getElementById('lockScreen');if(el)el.style.display='none'}
+function securityActivity(){lastActivity=Date.now();if(locked)return}
+function securityTick(){if(security.enabled&&lockTimeout>0&&!locked&&Date.now()-lastActivity>lockTimeout*60000)showLockScreen()}
+['click','touchstart','keydown','input','change'].forEach(ev=>document.addEventListener(ev,securityActivity,{passive:true}));setInterval(securityTick,30000);
+
+const draftFields=['type','desc','value','date','box','status','category','payment','accountSelect','cardSelect','installmentType','installments','recurring','frequency','endDate','note'];
+function saveDraft(){
+ if(editingId)return;
+ const d={};draftFields.forEach(id=>{const e=$(id);if(e)d[id]=e.value});d.savedAt=new Date().toISOString();
+ if(Object.values(d).some(v=>v!==''&&v!==null&&v!==undefined&&v!==today()))localStorage.setItem(DRAFT,JSON.stringify(d));
+}
+function clearDraft(){
+ localStorage.removeItem(DRAFT);$('draftNotice').classList.add('hidden');$('clearDraftBtn').classList.add('hidden');
+}
+function restoreDraft(){
+ try{const raw=localStorage.getItem(DRAFT);if(!raw)return;const d=JSON.parse(raw);
+  draftFields.forEach(id=>{const e=$(id);if(e&&d[id]!==undefined)e.value=d[id]});
+  $('draftNotice').textContent='Rascunho recuperado automaticamente. O que você digitou anteriormente foi mantido. Você pode continuar e salvar normalmente.';
+  $('draftNotice').classList.remove('hidden');$('clearDraftBtn').classList.remove('hidden');
+ }catch(e){}
+}
 function persist(){localStorage.setItem(KEY,JSON.stringify(data));render()}
 function money(n){return Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -153,26 +399,136 @@ function renderCategorySuggestions(){
   $('incomeCategoriesList').innerHTML = incomeCategories.map(c => `<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
 }
 
+
+
+if(!Array.isArray(data.recurring))data.recurring=[];
+if(!Array.isArray(data.refunds))data.refunds=[];
+function addMonthsDate(date,n){
+  const [y,m,d]=String(date).split('-').map(Number);
+  const dt=new Date(y,m-1+n,d);
+  const last=new Date(dt.getFullYear(),dt.getMonth()+1,0).getDate();
+  if(dt.getDate()!==d)dt.setDate(last);
+  return dt.toISOString().slice(0,10);
+}
+function recurringDates(start,end,frequency){
+  const out=[];let d=start;
+  const limit=end||addMonthsDate(start,12);
+  while(d<=limit){
+    out.push(d);
+    if(frequency==='Mensal')d=addMonthsDate(d,1);
+    else if(frequency==='Quinzenal')d=addMonthsDate(d,0).replace(/$/, '');
+    else if(frequency==='Anual')d=addMonthsDate(d,12);
+    else if(frequency==='Semanal'){const x=new Date(d+'T12:00:00');x.setDate(x.getDate()+7);d=x.toISOString().slice(0,10)}
+    else break;
+    if(out.length>120)break;
+  }
+  return out;
+}
+function refundTotal(purchaseId){
+  return data.refunds.filter(r=>r.purchaseId===purchaseId).reduce((s,r)=>s+Number(r.value||0),0);
+}
+function registerRefund(purchaseId){
+  const t=data.tx.find(x=>x.id===purchaseId);if(!t)return;
+  const v=prompt('Valor do estorno:',String(t.value).replace('.',','));
+  if(v===null)return;
+  const amount=parseBR(v);if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
+  if(amount>Number(t.value)+0.005){alert('O estorno não pode ser maior que o valor da compra.');return}
+  data.refunds.push({id:'ref_'+Date.now(),purchaseId,value:amount,date:today(),type:amount>=Number(t.value)?'Integral':'Parcial'});
+  persist();
+}
+function cancelTx(id){
+  const t=data.tx.find(x=>x.id===id);if(!t)return;
+  if(t.status==='Realizado'){alert('Um lançamento realizado não é apagado como previsão. Use a edição ou registre o estorno quando aplicável.');return}
+  if(confirm('Cancelar esta previsão? Ela sairá do planejamento futuro, mas ficará registrada no histórico.')){
+    t.status='Cancelada';persist();
+  }
+}
+function renderInvoices(){
+  const cards=activeCards(currentBox());
+  const rows=[];
+  cards.forEach(c=>{
+    const current=invoiceMonth(c,today());
+    for(let i=0;i<3;i++){
+      const ym=monthAdd(current,i);
+      const parts=data.installments.filter(p=>p.cardId===c.id&&p.month===ym&&p.status==='Previsto');
+      const partTotal=parts.reduce((s,p)=>s+Number(p.value||0),0);
+      const tx=data.tx.filter(t=>t.box===currentBox()&&t.type==='Despesa'&&t.status==='Previsto'&&t.payment==='Cartão de crédito'&&t.cardId===c.id&&(!data.installments.some(p=>p.purchaseId===t.id)));
+      const directTotal=tx.reduce((s,t)=>s+Number(t.value||0),0);
+      const total=partTotal+directTotal;
+      const inv=data.invoices.find(x=>x.cardId===c.id&&x.month===ym);
+      const shown=inv&&inv.officialValue!==null?Number(inv.officialValue):total;
+      if(total||inv) rows.push(`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">${esc(monthLabel(ym))}${c.dueDay?' · vence dia '+c.dueDay:''}${inv&&inv.paid?' · paga':''}</div></div><div style="text-align:right"><strong>${money(shown)}</strong><br><button class="btn" onclick="adjustInvoice('${c.id}','${ym}')">Ajustar</button> <button class="btn" onclick="payInvoice('${c.id}','${ym}')">Pagar</button></div></div>`);
+    }
+  });
+  $('invoiceList').innerHTML=rows.join('')||'Nenhuma fatura prevista.';
+}
+
+function renderRecurring(){
+  const list=data.recurring.filter(r=>r.box===currentBox()&&r.active!==false);
+  $('recurringList').innerHTML=list.length?list.map(r=>`<div class="item"><div><strong>${esc(r.desc)}</strong><div class="muted">${r.type==='Receita'?'💰 Receita':'💸 Despesa'} · ${money(r.value)} · ${esc(r.frequency)} · ${esc(r.startDate)}${r.endDate?' até '+esc(r.endDate):''}</div></div><span class="pill">${esc(r.category||'Sem categoria')}</span></div>`).join(''):'<p class="muted">Nenhuma recorrência cadastrada neste caixa.</p>';
+}
+function reportOptions(){const b=$('reportBox').value||currentBox();const tx=data.tx.filter(t=>t.box===b);const fill=(id,values)=>{const el=$(id),old=el.value;el.innerHTML='<option>Todos</option>'+[...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old};fill('reportCategory',tx.map(t=>t.category));fill('reportAccount',tx.map(t=>accountName(t.accountId)||t.account));fill('reportCard',tx.map(t=>(cardById(t.cardId)||{}).name||t.card));fill('reportStore',tx.map(t=>t.store||t.loja));}
+function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||(t.store||t.loja||'')===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
+function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card"><small>Saldo do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(m)}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
+function clearReportFilters(){['reportStart','reportEnd'].forEach(id=>$(id).value='');['reportType','reportStatus','reportCategory','reportAccount','reportCard','reportStore','reportPayment'].forEach(id=>$(id).value='Todos');$('reportBox').value=currentBox();reportOptions();renderReports();}
 function render(){
 renderCategorySuggestions();
+if($('reportBox')){const sel=currentBox();$('reportBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('reportBox').value=sel;reportOptions();renderReports();}
+
 renderAccounts();
+renderApplications();
+renderCards();
+renderInvoices();
+renderRecurring();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0];$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('box').value=selected;$('historyBox').textContent=selected;
-let bal=boxBalance(selected),app=0;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value),0),ee=exp.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
+let bal=boxBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value),0),ee=exp.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
 $('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount">${money(app)}</div><span class="mini">Cadastre aplicações depois</span></div><div class="card purple"><small>Total financeiro</small><div class="amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo projetado</small><div class="amount">${money(proj)}</div><span class="mini">mês atual</span></div>`;
 $('monthSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo</small><div class="amount">${money(rr-ee)}</div></div>`;
-let upcoming=tx.filter(t=>t.status==='Previsto').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.payment||'')}</div></div><strong class="negative">${money(t.value)}</strong></div>`).join('')||'Nenhuma conta próxima.';
+let upcoming=tx.filter(t=>t.status==='Previsto').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.payment||'')}${t.cardId?' · 💳 '+esc((cardById(t.cardId)||{}).name||''):''}</div></div><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong></div>`).join('')||'Nenhuma conta próxima.';
 let cats={};exp.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
 let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
 let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';$('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span>${esc(b)}</span><button class="btn" onclick="renameBox(${i})">Renomear</button></div>`).join('');
 }
-function txHTML(t){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.status)} · ${esc(t.payment||'')}${t.category?' · '+esc(t.category):''}${(t.accountId||t.account)?' · 🏦 '+esc(accountName(t.accountId)||t.account):''}${t.recurring==='Sim'?' · 🔄 Recorrente':''}${t.payment==='Cartão de crédito'&&t.card?' · 💳 '+esc(t.card):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong><br><button class="btn" onclick="editTx('${t.id}')">Editar</button> <button class="btn" onclick="removeTx('${t.id}')">Excluir</button></div></div>`}
+function txHTML(t){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.status)} · ${esc(t.payment||'')}${t.category?' · '+esc(t.category):''}${t.status==='Cancelada'?' · 🚫 Cancelada':''}${refundTotal(t.id)>0?' · ↩ Estorno '+money(refundTotal(t.id)):''}${(t.accountId||t.account)?' · 🏦 '+esc(accountName(t.accountId)||t.account):''}${t.recurring==='Sim'?' · 🔄 Recorrente':''}${t.payment==='Cartão de crédito'&&(t.cardId||t.card)?' · 💳 '+esc((cardById(t.cardId)||{}).name||t.card||''):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong><br><button class="btn" onclick="editTx('${t.id}')">Editar</button> ${t.status==='Previsto'?`<button class="btn" onclick="cancelTx('${t.id}')">Cancelar</button>`:''} ${t.status==='Realizado'&&t.type==='Despesa'?`<button class="btn" onclick="registerRefund('${t.id}')">Estorno</button>`:''} <button class="btn" onclick="removeTx('${t.id}')">Excluir</button></div></div>`}
 function showTab(tab){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));$(tab).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render()}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));$('type').onchange=()=>renderCategorySuggestions();$('dashBox').onchange=()=>{localStorage.setItem(LAST,$('dashBox').value);render()};
-$('box').onchange=()=>renderAccounts();$('value').addEventListener('blur',formatInput);$('payment').onchange=()=>{let p=$('payment').value;$('accountWrap').style.display=(p==='Dinheiro'||p==='Cartão de crédito')?'none':'block';if(p==='Dinheiro'||p==='Cartão de crédito')$('accountSelect').value='';};$('installmentType').onchange=()=>{$('installmentWrap').classList.toggle('hidden',$('installmentType').value!=='Parcelada');previewParcels()};$('installments').oninput=previewParcels;$('recurring').onchange=()=>$('recurringWrap').classList.toggle('hidden',$('recurring').value!=='Sim');
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function updateTypeUI(){
+  const income=$('type').value==='Receita';
+  renderCategorySuggestions();
+  const status=$('status');
+  const current=status.value;
+  status.innerHTML=income
+    ? '<option value="Previsto">Prevista</option><option value="Realizado">Recebida</option>'
+    : '<option value="Realizado">Realizada</option><option value="Previsto">Prevista</option>';
+  if(current==='Previsto'||current==='Realizado') status.value=current; else status.value=income?'Previsto':'Realizado';
+  $('paymentWrap').classList.toggle('hidden',income);
+  $('cardWrap').classList.toggle('hidden',income || $('payment').value!=='Cartão de crédito');
+  $('installmentWrap').classList.toggle('hidden',income || $('installmentType').value!=='Parcelada');
+  $('accountLabel').textContent=income?'Conta de destino':'Conta utilizada';
+  $('accountWrap').style.display='block';
+  if(income){ $('payment').value=''; $('cardSelect').value=''; $('installmentType').value='À vista'; }
+  previewInstallments();
+}
+$('type').onchange=()=>{ const income=$('type').value==='Receita'; $('status').value=income?'Previsto':'Realizado'; updateTypeUI(); };
+$('dashBox').onchange=()=>{localStorage.setItem(LAST,$('dashBox').value);render()};
+$('box').onchange=()=>renderAccounts();$('value').addEventListener('blur',formatInput);
+$('payment').onchange=()=>{let p=$('payment').value;$('accountWrap').style.display=(p==='Dinheiro'||p==='Cartão de crédito')?'none':'block';$('cardWrap').classList.toggle('hidden',p!=='Cartão de crédito'||$('type').value==='Receita');if(p==='Dinheiro'||p==='Cartão de crédito')$('accountSelect').value='';renderCards();previewInstallments();};$('installmentType').onchange=()=>{$('installmentWrap').classList.toggle('hidden',$('installmentType').value!=='Parcelada');previewParcels()};$('installments').oninput=previewParcels;$('recurring').onchange=()=>$('recurringWrap').classList.toggle('hidden',$('recurring').value!=='Sim');
 function previewParcels(){let n=parseInt($('installments').value||0),v=parseBR($('value').value);if(n>=2&&Number.isFinite(v))$('parcelPreview').innerHTML=`<p>Prévia: ${n} parcelas de aproximadamente <strong>${money(v/n)}</strong>. A distribuição exata por fatura será integrada no módulo de cartões.</p>`;else $('parcelPreview').innerHTML=''}
 $('date').value=today();
-$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:$('category').value.trim(),payment:$('payment').value,accountId:$('accountSelect').value||'',card:$('card').value.trim(),installmentType:$('installmentType').value,installments:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};if(editingId)data.tx=data.tx.map(t=>t.id===editingId?{...t,...rec}:t);else data.tx.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...rec});localStorage.setItem(LAST,rec.box);cancelEdit(false);persist();e.target.reset();$('date').value=today();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden');showTab('inicio')};
-function editTx(id){let t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;showTab('lancamentos');$('type').value=t.type;$('desc').value=t.desc;$('value').value=Number(t.value).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('payment').value=t.payment||'Pix';$('accountSelect').value=t.accountId||'';$('card').value=t.card||'';$('installmentType').value=t.installmentType||'À vista';$('installments').value=t.installments||'';$('recurring').value=t.recurring||'Não';$('frequency').value=t.frequency||'Mensal';$('endDate').value=t.endDate||'';$('note').value=t.note||'';$('payment').dispatchEvent(new Event('change'));$('installmentType').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
+updateTypeUI();
+$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:$('category').value.trim(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()}
+if(rec.recurring==='Sim'&&!editingId){
+  data.recurring.push({id:'rr_'+Date.now(),box:rec.box,type:rec.type,desc:rec.desc,value:rec.value,category:rec.category,payment:rec.payment,accountId:rec.accountId||'',cardId:rec.cardId||'',frequency:rec.frequency,startDate:rec.date,endDate:rec.endDate||'',active:true});
+}
+;if(editingId)data.tx=data.tx.map(t=>t.id===editingId?{...t,...rec}:t);else {
+  const id=crypto.randomUUID?crypto.randomUUID():String(Date.now());
+  data.tx.push({id,...rec});
+  if(rec.type==='Despesa'&&rec.payment==='Cartão de crédito'&&rec.cardId){
+    const card=cardById(rec.cardId), n=rec.installmentType==='Parcelada'?Math.max(2,rec.installments||2):1, vals=splitCents(rec.value,n), first=invoiceMonth(card,rec.date);
+    vals.forEach((v,i)=>data.installments.push({id:'par_'+id+'_'+(i+1),purchaseId:id,cardId:rec.cardId,number:i+1,total:n,value:v,month:monthAdd(first,i),date:rec.date,status:rec.status}));
+  }
+}localStorage.setItem(LAST,rec.box);cancelEdit(false);persist();e.target.reset();$('date').value=today();$('type').value='Despesa';$('status').value='Realizado';updateTypeUI();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden');showTab('inicio')};
+function editTx(id){let t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;showTab('lancamentos');$('type').value=t.type;$('desc').value=t.desc;$('value').value=Number(t.value).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('payment').value=t.payment||'Pix';$('accountSelect').value=t.accountId||'';$('cardSelect').value=t.cardId||'';$('installmentType').value=t.installmentType||'À vista';$('installments').value=t.installments||'';$('recurring').value=t.recurring||'Não';$('frequency').value=t.frequency||'Mensal';$('endDate').value=t.endDate||'';$('note').value=t.note||'';updateTypeUI();$('payment').dispatchEvent(new Event('change'));$('installmentType').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
 function cancelEdit(reset=true){editingId=null;$('saveTxBtn').textContent='Salvar lançamento';$('cancelEditBtn').classList.add('hidden');if(reset){$('txForm').reset();$('date').value=today();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden')}}$('cancelEditBtn').onclick=()=>cancelEdit();
 function removeTx(id){if(confirm('Excluir este lançamento?')){data.tx=data.tx.filter(t=>t.id!==id);persist()}}$('boxForm').onsubmit=e=>{e.preventDefault();let n=$('boxName').value.trim();if(n&&!data.boxes.includes(n)){data.boxes.push(n);persist();$('boxName').value=''}};function renameBox(i){let n=prompt('Novo nome do caixa:',data.boxes[i]);if(n&&n.trim()){let old=data.boxes[i];data.boxes[i]=n.trim();data.tx.forEach(t=>{if(t.box===old)t.box=n.trim()});persist()}}
 
@@ -184,7 +540,61 @@ data.accounts.push({id:'acc_'+Date.now(),box,bank,name,balance,active:true});
 $('accountBank').value='';$('accountName').value='';$('accountBalance').value='';
 persist();
 };
-function exportData(){let blob=new Blob([JSON.stringify({app:'Meu Controle Financeiro',version:2,exportedAt:new Date().toISOString(),data},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Meu_Controle_Financeiro_backup_'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
-$('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let j=JSON.parse(await f.text());if(!j.data||!Array.isArray(j.data.boxes)||!Array.isArray(j.data.tx))throw Error();if(confirm('Substituir os dados atuais deste navegador?')){data=j.data;persist();alert('Backup restaurado.')}}catch(err){alert('Arquivo inválido ou incompatível.')}e.target.value=''};
+
+$('applicationForm').onsubmit=e=>{
+e.preventDefault();
+const box=$('appBox').value,institution=$('appInstitution').value.trim(),description=$('appDescription').value.trim(),type=$('appType').value.trim(),balance=parseBR($('appBalance').value),liquidity=$('appLiquidity').value;
+if(!box||!institution||!description||!Number.isFinite(balance)||balance<0){alert('Preencha instituição, descrição e saldo válido.');return}
+data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
+$('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
+persist();
+};
+
+$('cardForm').onsubmit=e=>{
+e.preventDefault();
+const box=$('cardBox').value,name=$('cardName').value.trim(),due=parseInt($('cardDueDay').value||0),close=parseInt($('cardCloseDay').value||0);
+if(!box||!name||due<1||due>31){alert('Informe o nome e um dia de vencimento válido.');return}
+data.cards.push({id:'card_'+Date.now(),box,name,dueDay:due,closeDay:close||'',active:true});
+$('cardName').value='';$('cardDueDay').value='';$('cardCloseDay').value='';
+persist();
+};
+
+$('cardSelect').onchange=previewInstallments;
+$('installmentType').onchange=()=>{
+  $('installmentWrap').classList.toggle('hidden',$('installmentType').value!=='Parcelada');
+  previewInstallments();
+};
+$('installments').oninput=previewInstallments;
+$('value').addEventListener('input',previewInstallments);
+$('date').addEventListener('change',previewInstallments);
+
+function adjustInvoice(cardId,ym){
+ const inv=invoiceFor(cardId,ym),v=prompt('Valor oficial da fatura (deixe em branco para voltar ao total dos lançamentos):',inv.officialValue===null?'':String(inv.officialValue).replace('.',','));
+ if(v===null)return;
+ inv.officialValue=v.trim()===''?null:parseBR(v);
+ persist();
+}
+function payInvoice(cardId,ym){
+ const inv=invoiceFor(cardId,ym),v=prompt('Valor efetivamente pago:',inv.officialValue!==null?String(inv.officialValue).replace('.',','):'');
+ if(v===null)return;
+ const amount=parseBR(v); if(!Number.isFinite(amount)||amount<0){alert('Valor inválido.');return}
+ inv.paidValue=amount;inv.paid=true;persist();
+}
+function backupPayload(){return {app:'Meu Controle Financeiro',version:3,exportedAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(data))}}
+function saveBackupBlob(payload,filename){let blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function exportData(){let payload=backupPayload();saveBackupBlob(payload,'Meu_Controle_Financeiro_backup_'+today()+'.json');localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'arquivo'}));renderBackupInfo();alert('Backup criado. Guarde o arquivo em um local seguro, como o Google Drive.')}
+function createLocalSnapshot(){try{localStorage.setItem('mcf_snapshot',JSON.stringify(backupPayload()));localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'local'}));renderBackupInfo();alert('Cópia local criada neste navegador. Ela é útil como proteção rápida, mas não substitui o arquivo guardado fora do aparelho.')}catch(e){alert('Não foi possível criar a cópia local.')}}
+function renderBackupInfo(){let el=$('backupInfo');if(!el)return;let raw=localStorage.getItem('mcf_last_backup');let snap=localStorage.getItem('mcf_snapshot');if(!raw&&!snap){el.innerHTML='⚠️ <b>Nenhum backup registrado ainda.</b>';return}let info=raw?JSON.parse(raw):null;let d=info?new Date(info.at):null;el.innerHTML=(info?`✅ Último backup: <b>${d.toLocaleString('pt-BR')}</b> (${info.type==='arquivo'?'arquivo exportado':'cópia local'})`:'')+(snap?' <span class="muted">• Cópia local disponível</span>':'')}
+function validateBackup(j){if(!j||j.app!=='Meu Controle Financeiro'||!j.data||!Array.isArray(j.data.boxes)||!Array.isArray(j.data.tx))return false;return true}
+$('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let j=JSON.parse(await f.text());if(!validateBackup(j))throw Error('invalid');if(!confirm('Substituir os dados atuais deste navegador? Uma cópia local será criada antes da restauração.')){e.target.value='';return}localStorage.setItem('mcf_snapshot',JSON.stringify(backupPayload()));data=j.data;localStorage.setItem(KEY,JSON.stringify(data));render();renderBackupInfo();alert('Backup restaurado com sucesso.')}catch(err){alert('Arquivo inválido ou incompatível com o Meu Controle Financeiro.')}e.target.value=''};
+renderBackupInfo();
 render();
+
+document.addEventListener('DOMContentLoaded',()=>{
+ renderSecurityStatus();
+ $('lockTimeout').value=String(lockTimeout);
+ draftFields.forEach(id=>{const e=$(id);if(e)e.addEventListener('input',saveDraft);});
+ $('clearDraftBtn').addEventListener('click',()=>{if(confirm('Descartar o rascunho atual?')){clearDraft();resetForm();}});
+ restoreDraft();
+});
 </script></body></html>
