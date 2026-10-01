@@ -9,7 +9,13 @@
 </style>
 <style>
 .mcf-cat-help{font-size:12px;color:#66756f;margin-top:4px}
-.mcf-cat-admin{margin-top:12px;padding:12px;border:1px solid #d8e4df;border-radius:12px;background:#f7fbf9}
+.mcf-cat-admin{margin-top:12px;padding:0;border:1px solid #d8e4df;border-radius:12px;background:#f7fbf9;overflow:hidden}
+.mcf-cat-admin summary{list-style:none;cursor:pointer;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.mcf-cat-admin summary::-webkit-details-marker{display:none}
+.mcf-cat-admin summary:after{content:'⌄';font-size:18px;color:#5f716a}
+.mcf-cat-admin[open] summary:after{content:'⌃'}
+.mcf-cat-admin .mcf-cat-help,.mcf-cat-admin #mcfCategoryList,.mcf-cat-admin #mcfAddCategory{margin-left:12px;margin-right:12px}
+.mcf-cat-admin #mcfAddCategory{margin-bottom:12px}
 .mcf-cat-row{display:flex;gap:8px;align-items:center;margin:7px 0}
 .mcf-cat-row span{flex:1}
 .mcf-cat-row button{padding:6px 9px}
@@ -121,12 +127,12 @@
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
 <section id="cadastros" class="hidden">
-<div class="mcf-cat-admin" id="mcfCategoryManager">
-  <div class="section-title"><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">categorias únicas</span></div>
+<details class="mcf-cat-admin" id="mcfCategoryManager">
+  <summary><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">abrir</span></summary>
   <div class="mcf-cat-help">As categorias são únicas no aplicativo e podem ser usadas em qualquer caixa.</div>
   <div id="mcfCategoryList"></div>
   <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
-</div>
+</details>
 <div class="mcf-quick-cadastros" id="mcfQuickCadastros">
   <h3>⚙️ Cadastros rápidos</h3>
   <div class="mcf-quick-grid">
@@ -139,11 +145,6 @@
   <div class="mcf-quick-note">Cadastre aqui os itens que depois aparecem automaticamente nos lançamentos e no dashboard.</div>
 </div>
 <div class="panel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
-<div class="panel"><h2>Categorias pré-cadastradas</h2>
-<p class="muted">São sugestões para agilizar os lançamentos. A categoria continua opcional e você pode digitar outra quando quiser.</p>
-<h3>Despesas</h3><div id="expenseCategoriesList"></div>
-<hr><h3>Receitas</h3><div id="incomeCategoriesList"></div>
-</div>
 <div class="panel"><h2>Contas bancárias</h2>
 <p class="muted">As contas são cadastradas no caixa em uso. O saldo é manual e pode ser alterado a qualquer momento, sem criar receita ou despesa.</p>
 <div id="accountsList"></div>
@@ -711,7 +712,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       const candidates=['[data-section="'+key+'"]','#'+key,'#'+key+'Section','[id*="'+key+'"]'];
       let el=null;
       for(const sel of candidates){try{el=document.querySelector(sel);if(el)break;}catch(e){}}
-      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
+      if(el){if(key==='categorias' && el.tagName==='DETAILS') el.open=true; el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
     });
   });
 })();
