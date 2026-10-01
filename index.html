@@ -85,7 +85,7 @@ details.compact{border-top:1px solid var(--line);padding-top:10px;margin-top:10p
 <div class="panel"><div class="section-title"><h2>Próximos 6 meses</h2><span class="tag purple">projeção</span></div><div class="muted" id="forecast"></div></div>
 </section>
 <section class="hidden" id="lancamentos">
-<div class="panel"><h2 id="launchTitle">Novo lançamento</h2><div class="info-field" id="launchBoxInfo">Caixa: —</div><div class="notice hidden" id="draftNotice"></div><form id="txForm">
+<div class="panel"><h2 id="launchTitle">Novo lançamento</h2><div class="notice hidden" id="draftNotice"></div><form id="txForm">
 <label>Tipo</label><select id="type"><option>Despesa</option><option>Receita</option></select>
 <label>Descrição</label><input id="desc" placeholder="Ex.: Supermercado, pensão..." required=""/>
 <div class="row"><div><label>Valor (R$)</label><input autocomplete="off" id="value" inputmode="decimal" placeholder="230 ou 230,30" required="" type="text"/></div><div><label>Data</label><input id="date" required="" type="date"/></div></div>
@@ -95,14 +95,14 @@ details.compact{border-top:1px solid var(--line);padding-top:10px;margin-top:10p
 <div id="accountWrap"><label id="accountLabel">Conta utilizada</label><select id="accountSelect"><option value="">Selecione a conta</option></select></div>
 <div class="hidden" id="cardWrap"><label>Cartão de crédito</label><select id="cardSelect"><option value="">Selecione o cartão</option></select><label>Compra</label><select id="installmentType"><option>À vista</option><option>Parcelada</option></select><div class="hidden" id="installmentWrap"><label>Número de parcelas</label><input id="installments" inputmode="numeric" min="2" placeholder="6" step="1" type="number"/><div class="muted" id="parcelPreview"></div></div><div class="muted" id="invoicePreview"></div></div>
 <label>Recorrente?</label><select id="recurring"><option>Não</option><option>Sim</option></select>
-<div class="hidden" id="recurringWrap"><div class="row"><div><label>Frequência</label><select id="frequency"><option>Mensal</option><option>Semanal</option><option>Quinzenal</option><option>Bimestral</option><option>Trimestral</option><option>Semestral</option><option>Anual</option></select></div><div><label>Fim (opcional)</label><input id="endDate" type="date"/></div></div></div>
+<div class="hidden" id="recurringWrap"><div class="row"><div><label>Frequência</label><select id="frequency"><option>Mensal</option><option>Semanal</option><option>Quinzenal</option><option value="Bimestral">Bimestral — a cada 2 meses</option><option value="Trimestral">Trimestral — a cada 3 meses</option><option value="Semestral">Semestral — a cada 6 meses</option><option>Anual</option></select></div><div><label>Fim (opcional)</label><input id="endDate" type="date"/></div></div></div>
 <label>Observação (opcional)</label><input id="note"/>
 <button class="btn primary" id="saveTxBtn" type="submit">Salvar lançamento</button><button class="btn" id="cancelLaunchBtn" type="button">Cancelar lançamento</button><button class="btn hidden" id="cancelEditBtn" type="button">Cancelar edição</button><button class="btn hidden" id="clearDraftBtn" type="button">Descartar rascunho</button>
 </form></div>
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
 <section class="hidden" id="cadastros">
-<div class="panel"><div class="section-title"><h2>Cadastros</h2><span class="pill" id="cadastroBoxInfo">Caixa: —</span></div>
+<div class="panel"><h2>Cadastros</h2>
 <div class="quick-grid">
 <button class="btn" onclick="openCadastro('accountsPanel')" type="button">🏦 Contas bancárias</button>
 <button class="btn" onclick="openCadastro('applicationsPanel')" type="button">📈 Aplicações</button>
@@ -118,7 +118,7 @@ details.compact{border-top:1px solid var(--line);padding-top:10px;margin-top:10p
 <div class="panel cadastro-subpanel hidden" id="recurringPanel"><h2>Recorrências</h2><div id="recurringList"></div></div>
 <div class="panel cadastro-subpanel hidden" id="cardsPanel"><h2>Cartões de crédito</h2><div id="cardsList"></div><form id="cardForm"><input id="cardBox" type="hidden"/><label>Nome do cartão</label><input id="cardName" placeholder="Ex.: Nubank" required=""/><div class="row"><div><label>Dia do vencimento</label><input id="cardDueDay" inputmode="numeric" max="31" min="1" placeholder="16" type="number"/></div><div><label>Dia do fechamento</label><input id="cardCloseDay" inputmode="numeric" max="31" min="1" placeholder="9" type="number"/></div></div><button class="btn primary" type="submit">Adicionar cartão</button></form></div>
 </section>
-<section class="hidden" id="relatorios"><div class="panel"><h2>Relatórios</h2><p class="muted">Filtre os lançamentos do caixa selecionado.</p><div class="info-field" id="reportBoxInfo">Caixa: —</div><input id="reportBox" type="hidden"/><div class="row"><div><label>Período inicial</label><input id="reportStart" type="date"/></div><div><label>Período final</label><input id="reportEnd" type="date"/></div></div><div class="row"><div><label>Tipo</label><select id="reportType"><option>Todos</option><option>Despesa</option><option>Receita</option></select></div><div><label>Categoria</label><select id="reportCategory"><option>Todos</option></select></div></div><div class="row"><div><label>Situação</label><select id="reportStatus"><option>Todos</option><option>Realizado</option><option>Previsto</option><option>Cancelada</option></select></div><div></div></div><div class="row"><div><label>Conta</label><select id="reportAccount"><option>Todos</option></select></div><div><label>Cartão</label><select id="reportCard"><option>Todos</option></select></div></div><div class="row"><div><label>Loja</label><select id="reportStore"><option>Todos</option></select></div><div><label>Forma de pagamento</label><select id="reportPayment"><option>Todos</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div></div><button class="btn primary" onclick="renderReports()" type="button">Aplicar filtros</button> <button class="btn" onclick="clearReportFilters()" type="button">Limpar filtros</button><button class="btn" onclick="generateReportPDF()" type="button">Gerar PDF</button> </div><div class="panel"><h2>Resumo</h2><div class="grid" id="reportSummary"></div></div><div class="panel"><h2>Por categoria</h2><div id="reportCategories"></div></div><div class="panel"><h2>Por loja</h2><div id="reportStores"></div></div><div class="panel"><h2>Por cartão</h2><div id="reportCards"></div></div><div class="panel"><h2>Fluxo mensal</h2><div id="reportMonths"></div></div><div class="panel"><div class="section-title"><h2>Lançamentos filtrados</h2><span class="pill" id="reportCount"></span></div><div id="reportList"></div></div></section>
+<section class="hidden" id="relatorios"><div class="panel"><h2>Relatórios</h2><p class="muted">Filtre os lançamentos do caixa selecionado.</p><input id="reportBox" type="hidden"/><div class="row"><div><label>Período inicial</label><input id="reportStart" type="date"/></div><div><label>Período final</label><input id="reportEnd" type="date"/></div></div><div class="row"><div><label>Tipo</label><select id="reportType"><option>Todos</option><option>Despesa</option><option>Receita</option></select></div><div><label>Categoria</label><select id="reportCategory"><option>Todos</option></select></div></div><div class="row"><div><label>Situação</label><select id="reportStatus"><option>Todos</option><option>Realizado</option><option>Previsto</option><option>Cancelada</option></select></div><div></div></div><div class="row"><div><label>Conta</label><select id="reportAccount"><option>Todos</option></select></div><div><label>Cartão</label><select id="reportCard"><option>Todos</option></select></div></div><div class="row"><div><label>Loja</label><select id="reportStore"><option>Todos</option></select></div><div><label>Forma de pagamento</label><select id="reportPayment"><option>Todos</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div></div><button class="btn primary" onclick="renderReports()" type="button">Aplicar filtros</button> <button class="btn" onclick="clearReportFilters()" type="button">Limpar filtros</button><button class="btn" onclick="generateReportPDF()" type="button">Gerar PDF</button> </div><div class="panel"><h2>Resumo</h2><div class="grid" id="reportSummary"></div></div><div class="panel"><h2>Por categoria</h2><div id="reportCategories"></div></div><div class="panel"><h2>Por loja</h2><div id="reportStores"></div></div><div class="panel"><h2>Por cartão</h2><div id="reportCards"></div></div><div class="panel"><h2>Fluxo mensal</h2><div id="reportMonths"></div></div><div class="panel"><div class="section-title"><h2>Lançamentos filtrados</h2><span class="pill" id="reportCount"></span></div><div id="reportList"></div></div></section>
 <section class="hidden" id="seguranca">
 <div class="panel"><h2>Segurança e acesso</h2>
 <p class="muted">Proteja o acesso ao aplicativo neste aparelho. O PIN é usado como alternativa de desbloqueio.</p>
@@ -136,8 +136,18 @@ details.compact{border-top:1px solid var(--line);padding-top:10px;margin-top:10p
 <section class="hidden" id="backup"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON e pode ser guardado no Google Drive, iCloud, computador ou outro local seguro.</p><div class="notice" id="backupInfo"></div><button class="btn primary" onclick="exportData()" style="width:100%">📤 Fazer backup agora</button><button class="btn" onclick="createLocalSnapshot()" style="width:100%;margin-top:8px">💾 Criar cópia local de segurança</button><hr/><label>Restaurar backup (.json)</label><input accept=".json,application/json" id="restoreFile" type="file"/><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
 </main>
 <script>
-const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const BIO='mcf_biometric_v1';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
-try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s){data=JSON.parse(s);data.boxes=Array.isArray(data.boxes)?data.boxes:['Meu Financeiro','Casa'];data.tx=Array.isArray(data.tx)?data.tx:[]}}catch(e){};
+const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const BIO='mcf_biometric_v1';let editingId=null;
+function scoreData(d){if(!d||typeof d!=='object')return -1;return (Array.isArray(d.tx)?d.tx.length:0)*100000+(Array.isArray(d.accounts)?d.accounts.length:0)*1000+(Array.isArray(d.applications)?d.applications.length:0)*100+(Array.isArray(d.cards)?d.cards.length:0)*50+(Array.isArray(d.recurring)?d.recurring.length:0)*25;}
+function readJSON(key){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):null}catch(e){return null}}
+function normalizeData(d){d=d&&typeof d==='object'?d:{};d.boxes=Array.isArray(d.boxes)&&d.boxes.length?d.boxes:['Meu Financeiro','Casa'];d.tx=Array.isArray(d.tx)?d.tx:[];if(!Array.isArray(d.closedBoxes))d.closedBoxes=[];return d}
+const candidates=['mcf_data_v2','mcf_data_v1','mcf_snapshot','meu_controle_financeiro'].map(k=>({key:k,data:readJSON(k)})).filter(x=>x.data&&typeof x.data==='object');
+let primary=candidates.find(x=>x.key===KEY)?.data||null;
+if(!primary || scoreData(primary)<=0){const richer=candidates.slice().sort((a,b)=>scoreData(b.data)-scoreData(a.data))[0];primary=richer?.data||null;}
+let data=normalizeData(primary||{boxes:['Meu Financeiro','Casa'],tx:[]});
+// If the current v2 copy is missing a whole data group, recover that group from the richest legacy copy.
+const richest=candidates.slice().sort((a,b)=>scoreData(b.data)-scoreData(a.data))[0]?.data;
+if(richest&&richest!==data){['tx','accounts','applications','cards','recurring','refunds','installments','categories'].forEach(k=>{if((!Array.isArray(data[k])||data[k].length===0)&&Array.isArray(richest[k])&&richest[k].length)data[k]=richest[k]});if(Array.isArray(richest.boxes))data.boxes=[...new Set([...(data.boxes||[]),...richest.boxes])];}
+
 let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();let biometricCredentialId=localStorage.getItem(BIO)||'';
 try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
 if(!Array.isArray(data.closedBoxes))data.closedBoxes=[];
@@ -303,7 +313,7 @@ function parseBR(v){let s=String(v??'').trim().replace(/\s/g,'').replace(/R\$/i,
 function formatInput(){let n=parseBR($('value').value);if(Number.isFinite(n))$('value').value=n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function signed(t){return t.type==='Despesa'?-Number(t.value):Number(t.value)}
 function availableBoxes(){return data.boxes.filter(b=>!data.closedBoxes.includes(b));}
-function currentBox(){return $('dashBox').value||availableBoxes()[0]||data.boxes[0]}
+function currentBox(){const boxes=availableBoxes();const v=$('dashBox')?.value;const last=localStorage.getItem(LAST);return (v&&boxes.includes(v))?v:((last&&boxes.includes(last))?last:(boxes[0]||data.boxes[0]||''))}
 function boxBalance(b){return activeAccounts(b).reduce((s,a)=>{const n=typeof a.balance==='number'?a.balance:parseBR(a.balance);return s+(Number.isFinite(n)?n:0)},0)}
 function applyTxToAccount(t,reverse=false){
   if(!t || t.status!=='Realizado' || !t.accountId || t.payment==='Cartão de crédito') return;
@@ -392,7 +402,6 @@ const incomeCategories = [
   data.categories=[...expenseCategories,...incomeCategories,...existingCats.map(c=>typeof c==='string'?c:c?.name||''),...legacyCats.map(c=>typeof c==='string'?c:c?.name||'')]
     .filter(Boolean)
     .filter((v,i,a)=>a.findIndex(x=>x.toLowerCase()===v.toLowerCase())===i);
-  localStorage.setItem(KEY,JSON.stringify(data));
 }
 
 
@@ -546,6 +555,7 @@ function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('
 function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card"><small>Saldo do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(m)}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
 function clearReportFilters(){['reportStart','reportEnd'].forEach(id=>$(id).value='');['reportType','reportStatus','reportCategory','reportAccount','reportCard','reportStore','reportPayment'].forEach(id=>$(id).value='Todos');$('reportBox').value=currentBox();reportOptions();renderReports();}
 function openCadastro(id){showTab('cadastros');document.querySelectorAll('#cadastros .cadastro-subpanel').forEach(p=>p.classList.add('hidden'));const el=$(id);if(el){el.classList.remove('hidden');setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),60);}}
+window.openCadastro=openCadastro;
 function renderCategoryAdmin(){const el=$('categoryAdminList');if(!el)return;const cats=categoryItems();el.innerHTML=cats.map((c,i)=>`<div class="item"><span>${esc(c)}</span><span><button type="button" class="btn" onclick="editCategory(${i})">Editar</button> <button type="button" class="btn" onclick="deleteCategory(${i})">Excluir</button></span></div>`).join('');const d=el.closest('details');if(d)d.open=false;}
 function addCategory(){const n=prompt('Nome da nova categoria:');if(n===null)return;const name=n.trim();if(!name)return;if(categoryItems().some(c=>c.toLowerCase()===name.toLowerCase())){alert('Essa categoria já existe.');return}data.categories.push(name);persist();renderCategoryAdmin();}
 function editCategory(i){const cats=categoryItems(),old=cats[i];if(!old)return;const n=prompt('Nome da categoria:',old);if(n===null)return;const name=n.trim();if(!name)return;if(cats.some((c,j)=>j!==i&&c.toLowerCase()===name.toLowerCase())){alert('Essa categoria já existe.');return}const all=Array.isArray(data.categories)?data.categories:[];let seen=0;for(let j=0;j<all.length;j++){const val=typeof all[j]==='string'?all[j]:(all[j]?.name||'');if(categoryTypeAllowed(val)){if(seen===i){all[j]=name;break}seen++;}}data.categories=all;persist();renderCategoryAdmin();}
@@ -559,7 +569,7 @@ function removeBiometric(){localStorage.removeItem(BIO);biometricCredentialId=''
 function renderBiometricStatus(){const el=$('biometricStatus');if(el)el.textContent=biometricCredentialId?'Biometria ativada neste aparelho.':'Biometria não ativada.';}
 async function unlockWithBiometric(){if(!biometricCredentialId)return false;try{const raw=Uint8Array.from(atob(biometricCredentialId),c=>c.charCodeAt(0));const challenge=crypto.getRandomValues(new Uint8Array(32));const cred=await navigator.credentials.get({publicKey:{challenge,allowCredentials:[{id:raw,type:'public-key'}],userVerification:'required',timeout:60000}});if(cred){locked=false;lastActivity=Date.now();hideLockScreen();return true;}}catch(e){}return false;}
 function render(){
-let selected=localStorage.getItem(LAST);if(!availableBoxes().includes(selected))selected=availableBoxes()[0]||data.boxes[0];$('dashBox').innerHTML=availableBoxes().map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').value=selected;$('historyBox').textContent=selected;if($('launchBoxInfo'))$('launchBoxInfo').textContent='Caixa: '+selected;if($('cadastroBoxInfo'))$('cadastroBoxInfo').textContent='Caixa: '+selected;if($('reportBoxInfo'))$('reportBoxInfo').textContent='Caixa: '+selected;if($('reportBox'))$('reportBox').value=selected;
+let selected=localStorage.getItem(LAST);if(!availableBoxes().includes(selected))selected=availableBoxes()[0]||data.boxes[0];$('dashBox').innerHTML=availableBoxes().map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').value=selected;$('historyBox').textContent=selected;if($('reportBox'))$('reportBox').value=selected;
 renderCategorySuggestions();renderCategoryAdmin();renderBiometricStatus();
 if($('reportBox')){reportOptions();renderReports();}
 renderAccounts();
@@ -765,134 +775,31 @@ window.addEventListener('pagehide',()=>{if(security.enabled)showLockScreen();});
     .observe(document.body,{subtree:true,childList:true});
 })();
 </script>
-<script>
-(function(){
-  function data(){
-    try{return JSON.parse(localStorage.getItem('meu_controle_financeiro')||'{}')}catch(e){return {}}
-  }
-  function enhance(){
-    const d=data(), cards=Array.isArray(d.cards)?d.cards:[];
-    document.querySelectorAll('select').forEach(sel=>{
-      const txt=(sel.name+' '+sel.id+' '+sel.previousElementSibling?.textContent).toLowerCase();
-      if(txt.includes('forma') && txt.includes('pag')){
-        sel.addEventListener('change',()=>showCardChoice(sel));
-        showCardChoice(sel);
-      }
-    });
-  }
-  function showCardChoice(payment){
-    const val=(payment.value||'').toLowerCase();
-    const isCard=val.includes('cart') || val.includes('crédito') || val.includes('credito');
-    let box=document.getElementById('mcfCardChoice');
-    if(!isCard){ if(box) box.remove(); return; }
-    if(box) return;
-    const d=data(), cards=Array.isArray(d.cards)?d.cards:[];
-    box=document.createElement('div'); box.id='mcfCardChoice'; box.className='mcf-card-select-note';
-    const label=document.createElement('label'); label.textContent='Cartão de crédito';
-    const sel=document.createElement('select'); sel.name='mcfSelectedCard'; sel.id='mcfSelectedCard';
-    const empty=document.createElement('option'); empty.value=''; empty.textContent='Selecione o cartão'; sel.appendChild(empty);
-    cards.forEach(c=>{
-      const o=document.createElement('option');
-      o.value=c.id||c.name||c.nome||'';
-      o.textContent=c.name||c.nome||c.cardName||'';
-      sel.appendChild(o);
-    });
-    box.appendChild(label); box.appendChild(sel);
-    payment.parentElement.appendChild(box);
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',enhance);
-  else enhance();
-})();
-</script>
+
 <style>
 .mcf-category-suggest{position:relative}
 .mcf-category-hint{font-size:12px;color:#66756f;margin-top:4px}
 .mcf-category-match{margin-top:5px;padding:7px 9px;border:1px solid #d8e4df;border-radius:9px;background:#f7fbf9;cursor:pointer}
 </style>
+
+
+
 <script>
 (function(){
-  const synonyms = {
-    'assinaturas e streaming':['streaming','assinatura','tv','televisão','netflix','prime video','disney','disney+','max','hbo'],
-    'supermercado':['mercado','super','compras de mercado'],
-    'farmácia':['farmacia','remédio','remedios','medicamento','medicamentos'],
-    'combustível':['combustivel','gasolina','etanol','álcool','alcool','posto'],
-    'restaurantes e refeições':['restaurante','restaurantes','refeição','refeicao','delivery','ifood'],
-    'telefone e internet':['internet','telefone','celular','wifi'],
-    'água e gás':['agua','gás','gas','botijão','botijao'],
-    'pets':['pet','cachorro','cães','caes','veterinário','veterinario','ração','racao']
-  };
-  function store(){
-    try{return JSON.parse(localStorage.getItem('meu_controle_financeiro')||'{}')}catch(e){return {}}
+  function startMcf(){
+    try{
+      ['accountsPanel','applicationsPanel','cardsPanel','categoriesPanel','recurringPanel','boxesPanel'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('cadastro-subpanel','hidden')});
+      document.querySelectorAll('#cadastros .quick-grid button').forEach(btn=>{
+        if(btn.dataset.mcfBound)return;
+        btn.dataset.mcfBound='1';
+        btn.addEventListener('click',function(){const m=(this.getAttribute('onclick')||'').match(/openCadastro\('([^']+)'\)/);if(m&&window.openCadastro)window.openCadastro(m[1])});
+      });
+      if(typeof showTab==='function')showTab('inicio');
+      window.scrollTo(0,0);
+      const d=document.querySelector('#categoriesPanel details');if(d)d.open=false;
+      if(typeof security!=='undefined'&&security.enabled&&typeof showLockScreen==='function')setTimeout(showLockScreen,80);
+    }catch(e){console.error(e)}
   }
-  function names(){
-    const d=store(), a=Array.isArray(d.categories)?d.categories:[];
-    return a.map(x=>typeof x==='string'?x:(x.name||'')).filter(Boolean);
-  }
-  function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-  function findMatches(q){
-    q=norm(q); if(!q) return [];
-    return names().filter(c=>{
-      const cn=norm(c);
-      if(cn.includes(q)) return true;
-      const syn=synonyms[cn]||[];
-      return syn.some(s=>norm(s).includes(q)||q.includes(norm(s)));
-    });
-  }
-  function attach(){
-    document.querySelectorAll('input').forEach(inp=>{
-      const ph=norm(inp.placeholder), nm=norm(inp.name), id=norm(inp.id);
-      if(!(ph.includes('categoria')||nm.includes('categoria')||id.includes('categoria'))) return;
-      if(inp.dataset.mcfCatSearch) return;
-      inp.dataset.mcfCatSearch='1';
-      const wrap=document.createElement('div'); wrap.className='mcf-category-suggest';
-      inp.parentNode.insertBefore(wrap,inp); wrap.appendChild(inp);
-      const hint=document.createElement('div'); hint.className='mcf-category-hint';
-      hint.textContent='Digite parte do nome (ex.: streaming ou TV) para encontrar a categoria.';
-      wrap.appendChild(hint);
-      const box=document.createElement('div'); box.className='mcf-category-match'; box.style.display='none'; wrap.appendChild(box);
-      function update(){
-        const ms=findMatches(inp.value);
-        if(!inp.value.trim()||!ms.length){box.style.display='none';return;}
-        box.innerHTML='';
-        ms.slice(0,5).forEach(c=>{
-          const item=document.createElement('div');
-          item.textContent=c;
-          item.style.padding='4px';
-          item.onclick=()=>{inp.value=c;box.style.display='none';inp.dispatchEvent(new Event('change',{bubbles:true}));};
-          box.appendChild(item);
-        });
-        box.style.display='block';
-      }
-      inp.addEventListener('input',update);
-      inp.addEventListener('focus',update);
-      document.addEventListener('click',e=>{if(!wrap.contains(e.target))box.style.display='none'});
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',attach); else attach();
-  new MutationObserver(attach).observe(document.body,{subtree:true,childList:true});
-})();
-</script>
-<script>
-(function(){
-  function normalizeCadastroLayout(){
-    const cad=document.getElementById('cadastros');
-    if(!cad) return;
-    ['categoriesPanel','boxesPanel','accountsPanel','applicationsPanel','recurringPanel','cardsPanel'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el && el.parentElement!==cad) cad.appendChild(el);
-      if(el) el.classList.add('cadastro-subpanel','hidden');
-    });
-  }
-  function startClean(){
-    normalizeCadastroLayout();
-    if(typeof showTab==='function') showTab('inicio');
-    window.scrollTo(0,0);
-    const details=document.querySelector('#categoriesPanel details');
-    if(details) details.open=false;
-    if(typeof security!=='undefined' && security.enabled){
-      setTimeout(()=>{ if(typeof showLockScreen==='function') showLockScreen(); },50);
-    }
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',startClean); else startClean();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',startMcf);else startMcf();
 })();
 </script>
