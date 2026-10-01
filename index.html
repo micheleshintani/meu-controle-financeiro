@@ -86,7 +86,8 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><h1>Meu Controle Financeiro</h1><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div><h1>Meu Controle Financeiro</h1><p>Seu dinheiro, organizado do seu jeito.</p></div><span id="appVersion" style="font-size:11px;opacity:.82;padding-top:3px;white-space:nowrap">v2026.10.01.02</span></div></header>
+<div id="exitScreen" class="hidden" style="max-width:760px;margin:0 auto;padding:30px 18px"><div class="panel" style="text-align:center;margin-top:30vh"><h2>Você saiu do aplicativo</h2><p class="muted">Se você acabou de receber uma versão nova do arquivo, feche esta aba e abra o novo arquivo para garantir que está usando a versão atualizada.</p><button type="button" class="btn primary" style="width:100%;margin-top:10px" onclick="reenterApp()">Entrar novamente</button></div></div>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -200,7 +201,7 @@
 <p class="muted">Quando disponível, a autenticação biométrica do aparelho poderá ser usada futuramente como complemento. Nesta etapa, o PIN é o método de acesso implementado.</p>
 </div></section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON e pode ser guardado no Google Drive, iCloud, computador ou outro local seguro.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
-<footer>Versão de teste • Um caixa por vez no dashboard e no histórico. Não use dados bancários reais nesta etapa.</footer>
+<footer><div>Versão de teste • Um caixa por vez no dashboard e no histórico.</div><button type="button" class="btn" style="margin-top:8px" onclick="exitApp()">Sair do aplicativo</button><div class="muted" style="margin-top:6px">Versão instalada: v2026.10.01.02</div></footer>
 </main>
 <script>
 const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
@@ -208,6 +209,18 @@ try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s)
 let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();
 try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
 const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);
+function exitApp(){
+  document.querySelector('header').classList.add('hidden');
+  document.querySelector('main').classList.add('hidden');
+  $('exitScreen').classList.remove('hidden');
+}
+function reenterApp(){
+  $('exitScreen').classList.add('hidden');
+  document.querySelector('header').classList.remove('hidden');
+  document.querySelector('main').classList.remove('hidden');
+  render();
+}
+
 
 const defaultAccounts=[
 {id:'acc_nubank',box:'Meu Financeiro',bank:'Nubank',name:'Nubank',balance:0,active:true},
