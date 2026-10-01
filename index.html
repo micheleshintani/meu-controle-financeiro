@@ -9,13 +9,7 @@
 </style>
 <style>
 .mcf-cat-help{font-size:12px;color:#66756f;margin-top:4px}
-.mcf-cat-admin{margin-top:12px;padding:0;border:1px solid #d8e4df;border-radius:12px;background:#f7fbf9;overflow:hidden}
-.mcf-cat-admin summary{list-style:none;cursor:pointer;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.mcf-cat-admin summary::-webkit-details-marker{display:none}
-.mcf-cat-admin summary:after{content:'⌄';font-size:18px;color:#5f716a}
-.mcf-cat-admin[open] summary:after{content:'⌃'}
-.mcf-cat-admin .mcf-cat-help,.mcf-cat-admin #mcfCategoryList,.mcf-cat-admin #mcfAddCategory{margin-left:12px;margin-right:12px}
-.mcf-cat-admin #mcfAddCategory{margin-bottom:12px}
+.mcf-cat-admin{margin-top:12px;padding:12px;border:1px solid #d8e4df;border-radius:12px;background:#f7fbf9}
 .mcf-cat-row{display:flex;gap:8px;align-items:center;margin:7px 0}
 .mcf-cat-row span{flex:1}
 .mcf-cat-row button{padding:6px 9px}
@@ -127,12 +121,12 @@
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
 <section id="cadastros" class="hidden">
-<details class="mcf-cat-admin" id="mcfCategoryManager">
-  <summary><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">abrir</span></summary>
+<div class="mcf-cat-admin" id="mcfCategoryManager">
+  <div class="section-title"><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">categorias únicas</span></div>
   <div class="mcf-cat-help">As categorias são únicas no aplicativo e podem ser usadas em qualquer caixa.</div>
   <div id="mcfCategoryList"></div>
   <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
-</details>
+</div>
 <div class="mcf-quick-cadastros" id="mcfQuickCadastros">
   <h3>⚙️ Cadastros rápidos</h3>
   <div class="mcf-quick-grid">
@@ -145,6 +139,11 @@
   <div class="mcf-quick-note">Cadastre aqui os itens que depois aparecem automaticamente nos lançamentos e no dashboard.</div>
 </div>
 <div class="panel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
+<div class="panel"><h2>Categorias pré-cadastradas</h2>
+<p class="muted">São sugestões para agilizar os lançamentos. A categoria continua opcional e você pode digitar outra quando quiser.</p>
+<h3>Despesas</h3><div id="expenseCategoriesList"></div>
+<hr><h3>Receitas</h3><div id="incomeCategoriesList"></div>
+</div>
 <div class="panel"><h2>Contas bancárias</h2>
 <p class="muted">As contas são cadastradas no caixa em uso. O saldo é manual e pode ser alterado a qualquer momento, sem criar receita ou despesa.</p>
 <div id="accountsList"></div>
@@ -228,7 +227,7 @@ function renderAccounts(){
   $('accountSelect').innerHTML='<option value="">Selecione a conta</option>'+list.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.bank)}</option>`).join('');
   $('accountBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
   $('accountBox').value=currentBox();
-  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
+  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button> <button type="button" class="btn" onclick="removeAccount('${esc(a.id)}')">Excluir</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
   $('bankBalances').innerHTML=list.length?list.map(a=>`<div class="item"><span>${esc(a.name)} <span class="muted">(${esc(a.bank)})</span></span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta cadastrada.</p>';
 }
 if(!Array.isArray(data.applications))data.applications=[];
@@ -514,7 +513,7 @@ renderInvoices();
 renderRecurring();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0];$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('box').value=selected;$('historyBox').textContent=selected;
 let bal=boxBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value),0),ee=exp.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
-$('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo ao final do mês</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">projeção até o fim do mês</span></div>`;
+$('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div><span class="mini">Cadastre aplicações depois</span></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo projetado</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">mês atual</span></div>`;
 $('monthSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo</small><div class="amount">${money(rr-ee)}</div></div>`;
 let upcoming=tx.filter(t=>t.status==='Previsto').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.payment||'')}${t.cardId?' · 💳 '+esc((cardById(t.cardId)||{}).name||''):''}</div></div><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong></div>`).join('')||'Nenhuma conta próxima.';
 let cats={};exp.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
@@ -605,6 +604,20 @@ function editAccount(id){
   }
   $('accountForm').scrollIntoView({behavior:'smooth',block:'center'});
 }
+function removeAccount(id){
+  const a=data.accounts.find(x=>x.id===id);
+  if(!a)return;
+  const linked=(data.tx||[]).some(t=>t.accountId===id);
+  if(linked){
+    alert('Esta conta possui lançamentos vinculados. Exclua ou edite esses lançamentos antes de excluir a conta.');
+    return;
+  }
+  if(!confirm(`Excluir a conta \"${a.name}\"?`))return;
+  data.accounts=data.accounts.filter(x=>x.id!==id);
+  if(editingAccountId===id)cancelAccountEdit();
+  persist();
+}
+
 function cancelAccountEdit(){
   editingAccountId=null;
   $('accountBank').value='';$('accountName').value='';$('accountBalance').value='';
@@ -712,7 +725,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       const candidates=['[data-section="'+key+'"]','#'+key,'#'+key+'Section','[id*="'+key+'"]'];
       let el=null;
       for(const sel of candidates){try{el=document.querySelector(sel);if(el)break;}catch(e){}}
-      if(el){if(key==='categorias' && el.tagName==='DETAILS') el.open=true; el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
     });
   });
 })();
