@@ -9,13 +9,7 @@
 </style>
 <style>
 .mcf-cat-help{font-size:12px;color:#66756f;margin-top:4px}
-.mcf-cat-admin{margin-top:12px;padding:0;border:1px solid #d8e4df;border-radius:12px;background:#f7fbf9;overflow:hidden}
-.mcf-cat-admin summary{list-style:none;cursor:pointer;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.mcf-cat-admin summary::-webkit-details-marker{display:none}
-.mcf-cat-admin summary:after{content:'⌄';font-size:18px;color:#5f716a}
-.mcf-cat-admin[open] summary:after{content:'⌃'}
-.mcf-cat-admin .mcf-cat-help,.mcf-cat-admin #mcfCategoryList,.mcf-cat-admin #mcfAddCategory{margin-left:12px;margin-right:12px}
-.mcf-cat-admin #mcfAddCategory{margin-bottom:12px}
+.mcf-cat-admin{margin-top:12px;border:1px solid #d8e4df;border-radius:12px;background:#f7fbf9;overflow:hidden}.mcf-cat-admin summary{list-style:none;cursor:pointer;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}.mcf-cat-admin summary::-webkit-details-marker{display:none}.mcf-cat-admin summary:after{content:'⌄';font-size:18px;color:#5f716a}.mcf-cat-admin[open] summary:after{content:'⌃'}.mcf-cat-admin .mcf-cat-help,.mcf-cat-admin #mcfCategoryList,.mcf-cat-admin #mcfAddCategory{margin-left:12px;margin-right:12px}.mcf-cat-admin #mcfAddCategory{margin-bottom:12px}
 .mcf-cat-row{display:flex;gap:8px;align-items:center;margin:7px 0}
 .mcf-cat-row span{flex:1}
 .mcf-cat-row button{padding:6px 9px}
@@ -712,7 +706,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       const candidates=['[data-section="'+key+'"]','#'+key,'#'+key+'Section','[id*="'+key+'"]'];
       let el=null;
       for(const sel of candidates){try{el=document.querySelector(sel);if(el)break;}catch(e){}}
-      if(el){if(key==='categorias' && el.tagName==='DETAILS') el.open=true; el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
     });
   });
 })();
