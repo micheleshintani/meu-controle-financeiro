@@ -13,7 +13,7 @@
 .mcf-cat-row{display:flex;gap:8px;align-items:center;margin:7px 0}
 .mcf-cat-row span{flex:1}
 .mcf-cat-row button{padding:6px 9px}
-.mcf-card-select-note{font-size:12px;color:#66756f;margin-top:4px}.mcf-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;margin-top:6px}
+.mcf-card-select-note{font-size:12px;color:#66756f;margin-top:4px}
 </style>
 
 <style>
@@ -88,7 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>v2026.10.02.01</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>v2026.10.01.04</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -172,7 +172,7 @@
 <label>Tipo (opcional)</label><input id="appType" placeholder="Ex.: CDB, ações, fundos">
 <label>Saldo atual</label><input id="appBalance" required inputmode="decimal" placeholder="0">
 <label>Liquidez (opcional)</label><select id="appLiquidity"><option value="">Não informar</option><option>Imediata</option><option>Parcial</option><option>Sem liquidez imediata</option></select>
-<button class="btn primary" type="submit" id="applicationSubmitBtn">Adicionar aplicação</button><button class="btn hidden" type="button" id="cancelApplicationEdit">Cancelar edição</button>
+<button class="btn primary" type="submit">Adicionar aplicação</button>
 </form>
 </div>
 <div class="panel"><h2>Cartões de crédito</h2>
@@ -206,7 +206,7 @@
 <footer>Versão de teste • Um caixa por vez no dashboard e no histórico. Não use dados bancários reais nesta etapa.</footer>
 </main>
 <script>
-const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;let editingApplicationId=null;
+const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
 try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s){data=JSON.parse(s);data.boxes=Array.isArray(data.boxes)?data.boxes:['Meu Financeiro','Casa'];data.tx=Array.isArray(data.tx)?data.tx:[]}}catch(e){};
 let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();
 try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
@@ -249,14 +249,8 @@ function renderApplications(){
   $('appBox').value=currentBox();
   const apps=activeApplications(currentBox());
   const totals=applicationTotals(currentBox());
-  const dashboardList=$('dashboardApplicationsList');
-  const adminList=$('applicationsList');
-  const rows=apps.length
+  $('applicationsList').innerHTML=apps.length
     ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><strong>${money(a.balance)}</strong></div>`).join('')
-    : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
-  if(dashboardList) dashboardList.innerHTML=rows;
-  if(adminList) adminList.innerHTML=apps.length
-    ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><div><strong>${money(a.balance)}</strong><div class="mcf-actions"><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button><button type="button" class="btn" onclick="deleteApplication('${esc(a.id)}')">Excluir</button></div></div></div>`).join('')
     : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
   $('appTotal').textContent=money(totals.total);
   $('appImmediate').textContent=money(totals.immediate);
@@ -387,14 +381,7 @@ const draftFields=['type','desc','value','date','box','status','category','payme
 function saveDraft(){
  if(editingId)return;
  const d={};draftFields.forEach(id=>{const e=$(id);if(e)d[id]=e.value});d.savedAt=new Date().toISOString();
- const meaningful=['desc','value','category','note','accountSelect','cardSelect','installments','endDate'].some(id=>String(d[id]??'').trim()!=='');
- if(meaningful){
-   localStorage.setItem(DRAFT,JSON.stringify(d));
-   $('draftNotice').textContent='Rascunho em andamento. Você pode continuar ou descartar.';
-   $('draftNotice').classList.remove('hidden');$('clearDraftBtn').classList.remove('hidden');
- }else{
-   localStorage.removeItem(DRAFT);$('draftNotice').classList.add('hidden');$('clearDraftBtn').classList.add('hidden');
- }
+ if(Object.values(d).some(v=>v!==''&&v!==null&&v!==undefined&&v!==today()))localStorage.setItem(DRAFT,JSON.stringify(d));
 }
 function clearDraft(){
  localStorage.removeItem(DRAFT);$('draftNotice').classList.add('hidden');$('clearDraftBtn').classList.add('hidden');
@@ -631,8 +618,6 @@ $('accountBank').value='';$('accountName').value='';$('accountBalance').value=''
 persist();
 };
 
-$('accountBalance').addEventListener('focus',()=>{if($('accountBalance').value.trim()==='0')$('accountBalance').value='';});
-
 function editAccount(id){
   const a=data.accounts.find(x=>x.id===id);
   if(!a) return;
@@ -662,35 +647,10 @@ $('applicationForm').onsubmit=e=>{
 e.preventDefault();
 const box=$('appBox').value,institution=$('appInstitution').value.trim(),description=$('appDescription').value.trim(),type=$('appType').value.trim(),balance=parseBR($('appBalance').value),liquidity=$('appLiquidity').value;
 if(!box||!institution||!description||!Number.isFinite(balance)||balance<0){alert('Preencha instituição, descrição e saldo válido.');return}
-if(editingApplicationId){
-  const a=data.applications.find(x=>x.id===editingApplicationId);
-  if(a){a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=balance;a.liquidity=liquidity;}
-  editingApplicationId=null;
-}else{
-  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
-}
+data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
 $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
-$('applicationSubmitBtn').textContent='Adicionar aplicação';$('cancelApplicationEdit').classList.add('hidden');
 persist();
 };
-function editApplication(id){
-  const a=data.applications.find(x=>x.id===id); if(!a)return;
-  editingApplicationId=id;
-  $('appBox').value=a.box||currentBox();$('appInstitution').value=a.institution||'';$('appDescription').value=a.description||'';$('appType').value=a.type||'';$('appBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('appLiquidity').value=a.liquidity||'';
-  $('applicationSubmitBtn').textContent='Salvar alterações';$('cancelApplicationEdit').classList.remove('hidden');
-  $('applicationForm').scrollIntoView({behavior:'smooth',block:'center'});
-}
-function cancelApplicationEdit(){
-  editingApplicationId=null;$('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';$('applicationSubmitBtn').textContent='Adicionar aplicação';$('cancelApplicationEdit').classList.add('hidden');
-}
-function deleteApplication(id){
-  const a=data.applications.find(x=>x.id===id); if(!a)return;
-  if(!confirm(`Excluir a aplicação “${a.institution} — ${a.description}”?`))return;
-  data.applications=data.applications.filter(x=>x.id!==id);
-  if(editingApplicationId===id)cancelApplicationEdit();
-  persist();
-}
-$('cancelApplicationEdit').addEventListener('click',cancelApplicationEdit);
 
 $('cardForm').onsubmit=e=>{
 e.preventDefault();
