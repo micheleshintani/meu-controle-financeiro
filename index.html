@@ -267,6 +267,7 @@ if(!Array.isArray(data.cards))data.cards=defaultCards.map(c=>({...c}));
 // Dados fictícios de teste reconstruídos para esta versão.
 // Só entram quando o armazenamento atual está vazio, para não sobrescrever dados do usuário.
 function seedDadosDeTeste(){
+  if(!Array.isArray(data.boxes)||data.boxes.length===0)data.boxes=['Meu Financeiro','Casa'];
   const hasData = Array.isArray(data.tx)&&data.tx.length ||
     (Array.isArray(data.accounts)&&data.accounts.some(a=>Number(a.balance||0)!==0)) ||
     (Array.isArray(data.applications)&&data.applications.length) ||
