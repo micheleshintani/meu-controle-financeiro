@@ -455,7 +455,7 @@ const incomeCategories = [
 
 function renderCategorySuggestions(){
   const custom=Array.isArray(data.categories)?data.categories.map(c=>typeof c==='string'?c:(c.name||'')).filter(Boolean):[];
-  const list=custom.length?custom:categoryNamesForType();
+  const list=custom.length?custom:(typeof categoryNamesForType==='function'?categoryNamesForType():expenseCategories);
   const allExp=custom.length?custom:expenseCategories, allInc=custom.length?custom:incomeCategories;
   const ex=$('expenseCategoriesList'), inc=$('incomeCategoriesList');
   if(ex)ex.innerHTML=allExp.map(c=>`<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
