@@ -57,23 +57,6 @@
 #inicio .summary3 .card:nth-child(3){background:#eef4f1;border-top:5px solid #59786b}
 #inicio .summary3 .card:nth-child(1) .amount{color:#14755a}#inicio .summary3 .card:nth-child(2) .amount{color:#bd2a20}
 </style>
-
-<style>
-.report-export-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.report-export-actions .btn{width:100%}
-@media(max-width:430px){.report-export-actions{grid-template-columns:1fr}}
-@media print{
-  body{background:#fff!important} header,nav,body>script,main>section:not(#relatorios),footer{display:none!important}
-  main{max-width:none!important;padding:0!important;margin:0!important}
-  #relatorios{display:block!important}
-  #relatorios .report-filter-panel{display:none!important}
-  #relatorios .panel{border:0!important;box-shadow:none!important;margin:0 0 12px!important;padding:8px 0!important}
-  #relatorios .report-print-title{display:block!important}
-  .report-export-actions{display:none!important}
-  #relatorios h2{font-size:18px}
-  #relatorios .item{break-inside:avoid}
-}
-.report-print-title{display:none}
-</style>
 </head>
 <body>
 <script>
@@ -106,7 +89,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 11</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 10</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -171,7 +154,7 @@
 </details>
 <div class="panel" id="aplicacoes"><h2>Aplicações</h2>
 <p class="muted">Cadastre apenas totais agrupados, como “Total de CDBs”. Não é necessário cadastrar cada CDB, ação ou investimento individual.</p>
-<div id="applicationsCadastrosList"></div>
+<div id="applicationsList"></div>
 <form id="applicationForm">
 <label>Caixa em uso</label><select id="appBox"></select>
 <label>Instituição</label><input id="appInstitution" required placeholder="Ex.: Banco X">
@@ -194,7 +177,7 @@
 </form>
 </div>
 </section>
-<section id="relatorios" class="hidden"><div class="report-print-title"><h1>Relatório — Meu Controle Financeiro</h1><p id="reportPrintMeta"></p></div><div class="panel report-filter-panel"><h2>Relatórios</h2><p class="muted">Filtre os lançamentos do caixa selecionado.</p><div class="row"><div><label>Caixa</label><select id="reportBox"></select></div><div><label>Período inicial</label><input id="reportStart" type="date"></div></div><div class="row"><div><label>Período final</label><input id="reportEnd" type="date"></div><div><label>Tipo</label><select id="reportType"><option>Todos</option><option>Receita</option><option>Despesa</option></select></div></div><div class="row"><div><label>Categoria</label><select id="reportCategory"><option>Todos</option></select></div><div><label>Situação</label><select id="reportStatus"><option>Todos</option><option>Realizado</option><option>Previsto</option><option>Cancelada</option></select></div></div><div class="row"><div><label>Conta</label><select id="reportAccount"><option>Todos</option></select></div><div><label>Cartão</label><select id="reportCard"><option>Todos</option></select></div></div><div class="row"><div><label>Loja</label><select id="reportStore"><option>Todos</option></select></div><div><label>Forma de pagamento</label><select id="reportPayment"><option>Todos</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div></div><button class="btn primary" type="button" onclick="renderReports()">Aplicar filtros</button> <button class="btn" type="button" onclick="clearReportFilters()">Limpar filtros</button><div class="report-export-actions"><button class="btn report-export-pdf" type="button" onclick="exportReportPDF()">📄 Gerar PDF</button><button class="btn report-export-excel" type="button" onclick="exportReportExcel()">📊 Gerar Excel</button></div></div><div class="panel"><h2>Resumo</h2><div id="reportSummary" class="grid"></div></div><div class="panel"><h2>Por categoria</h2><div id="reportCategories"></div></div><div class="panel"><h2>Por loja</h2><div id="reportStores"></div></div><div class="panel"><h2>Por cartão</h2><div id="reportCards"></div></div><div class="panel"><h2>Fluxo mensal</h2><div id="reportMonths"></div></div><div class="panel"><div class="section-title"><h2>Lançamentos filtrados</h2><span class="pill" id="reportCount"></span></div><div id="reportList"></div></div></section>
+<section id="relatorios" class="hidden"><div class="panel"><h2>Relatórios</h2><p class="muted">Filtre os lançamentos do caixa selecionado.</p><div class="row"><div><label>Caixa</label><select id="reportBox"></select></div><div><label>Período inicial</label><input id="reportStart" type="date"></div></div><div class="row"><div><label>Período final</label><input id="reportEnd" type="date"></div><div><label>Tipo</label><select id="reportType"><option>Todos</option><option>Receita</option><option>Despesa</option></select></div></div><div class="row"><div><label>Categoria</label><select id="reportCategory"><option>Todos</option></select></div><div><label>Situação</label><select id="reportStatus"><option>Todos</option><option>Realizado</option><option>Previsto</option><option>Cancelada</option></select></div></div><div class="row"><div><label>Conta</label><select id="reportAccount"><option>Todos</option></select></div><div><label>Cartão</label><select id="reportCard"><option>Todos</option></select></div></div><div class="row"><div><label>Loja</label><select id="reportStore"><option>Todos</option></select></div><div><label>Forma de pagamento</label><select id="reportPayment"><option>Todos</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div></div><button class="btn primary" type="button" onclick="renderReports()">Aplicar filtros</button> <button class="btn" type="button" onclick="clearReportFilters()">Limpar filtros</button></div><div class="panel"><h2>Resumo</h2><div id="reportSummary" class="grid"></div></div><div class="panel"><h2>Por categoria</h2><div id="reportCategories"></div></div><div class="panel"><h2>Por loja</h2><div id="reportStores"></div></div><div class="panel"><h2>Por cartão</h2><div id="reportCards"></div></div><div class="panel"><h2>Fluxo mensal</h2><div id="reportMonths"></div></div><div class="panel"><div class="section-title"><h2>Lançamentos filtrados</h2><span class="pill" id="reportCount"></span></div><div id="reportList"></div></div></section>
 <section id="seguranca" class="hidden">
 <div class="panel"><h2>Segurança e acesso</h2>
 <p class="muted">Proteja o acesso ao aplicativo neste aparelho. O PIN é usado como alternativa de desbloqueio.</p>
@@ -253,24 +236,14 @@ function applicationTotals(b){
   const immediate=apps.filter(a=>a.liquidity==='Imediata').reduce((s,a)=>s+Number(a.balance||0),0);
   return {total,immediate};
 }
-let editingApplicationId=null;
 function renderApplications(){
   $('appBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
   $('appBox').value=currentBox();
   const apps=activeApplications(currentBox());
   const totals=applicationTotals(currentBox());
-  const dashboardList=$('applicationsList');
-  if(dashboardList){
-    dashboardList.innerHTML=apps.length
-      ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><strong>${money(a.balance)}</strong></div>`).join('')
-      : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
-  }
-  const cadastroList=$('applicationsCadastrosList');
-  if(cadastroList){
-    cadastroList.innerHTML=apps.length
-      ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><div style="text-align:right"><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button></div></div>`).join('')
-      : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
-  }
+  $('applicationsList').innerHTML=apps.length
+    ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><strong>${money(a.balance)}</strong></div>`).join('')
+    : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
   $('appTotal').textContent=money(totals.total);
   $('appImmediate').textContent=money(totals.immediate);
 }
@@ -563,48 +536,6 @@ function reportOptions(){const b=$('reportBox').value||currentBox();const tx=dat
 function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||(t.store||t.loja||'')===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
 function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card"><small>Saldo do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(m)}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
 function clearReportFilters(){['reportStart','reportEnd'].forEach(id=>$(id).value='');['reportType','reportStatus','reportCategory','reportAccount','reportCard','reportStore','reportPayment'].forEach(id=>$(id).value='Todos');$('reportBox').value=currentBox();reportOptions();renderReports();}
-function reportExportRows(){
-  const tx=filteredReportTx();
-  const escCell=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const rows=tx.slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||''))).map(t=>{
-    const account=accountName(t.accountId)||t.account||'';
-    const card=(cardById(t.cardId)||{}).name||t.card||'';
-    return [mcfBRDate(t.date),t.type||'',t.desc||t.description||'',t.category||'',t.status||'',Number(t.value||0),t.payment||'',account,card,t.store||t.loja||'',t.note||t.observation||''].map(escCell);
-  });
-  return rows;
-}
-function reportFilterDescription(){
-  const b=$('reportBox').value||currentBox();
-  const parts=['Caixa: '+b];
-  if($('reportStart').value)parts.push('De: '+mcfBRDate($('reportStart').value));
-  if($('reportEnd').value)parts.push('Até: '+mcfBRDate($('reportEnd').value));
-  if($('reportType').value!=='Todos')parts.push('Tipo: '+$('reportType').value);
-  if($('reportStatus').value!=='Todos')parts.push('Situação: '+$('reportStatus').value);
-  return parts.join(' · ');
-}
-function updateReportPrintMeta(){const el=$('reportPrintMeta');if(el)el.textContent=reportFilterDescription()+' · Gerado em '+mcfBRDate(today());}
-function exportReportPDF(){
-  renderReports();
-  updateReportPrintMeta();
-  window.print();
-}
-function exportReportExcel(){
-  renderReports();
-  const tx=filteredReportTx();
-  const rows=reportExportRows();
-  const escCell=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0);
-  const exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0);
-  const signedTotal=rec-exp;
-  const html='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif}table{border-collapse:collapse;margin-bottom:18px}th,td{border:1px solid #ccc;padding:6px}th{background:#e9f5ef;font-weight:700}.num{mso-number-format:"#,##0.00"}</style></head><body>'+
-    '<h1>Relatório — Meu Controle Financeiro</h1><p>'+escCell(reportFilterDescription())+' · Gerado em '+escCell(mcfBRDate(today()))+'</p>'+\
-    '<h2>Resumo</h2><table><tr><th>Receitas</th><th>Despesas</th><th>Saldo do período</th><th>Lançamentos</th></tr><tr><td class="num">'+rec.toFixed(2).replace('.',',')+'</td><td class="num">'+exp.toFixed(2).replace('.',',')+'</td><td class="num">'+signedTotal.toFixed(2).replace('.',',')+'</td><td>'+tx.length+'</td></tr></table>'+\
-    '<h2>Lançamentos</h2><table><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Categoria</th><th>Situação</th><th>Valor</th><th>Forma de pagamento</th><th>Conta</th><th>Cartão</th><th>Loja</th><th>Observação</th></tr>'+rows.map(r=>'<tr>'+r.map((v,i)=>'<td'+(i===5?' class="num"':'')+'>'+v+'</td>').join('')+'</tr>').join('')+'</table>'+\
-    '</body></html>';
-  const blob=new Blob(['\\ufeff',html],{type:'application/vnd.ms-excel;charset=utf-8'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relatorio_meu_controle_financeiro.xls';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-}
-
 function render(){
 renderCategorySuggestions();
 if($('reportBox')){const sel=currentBox();$('reportBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('reportBox').value=sel;reportOptions();renderReports();}
@@ -718,45 +649,10 @@ $('applicationForm').onsubmit=e=>{
 e.preventDefault();
 const box=$('appBox').value,institution=$('appInstitution').value.trim(),description=$('appDescription').value.trim(),type=$('appType').value.trim(),balance=parseBR($('appBalance').value),liquidity=$('appLiquidity').value;
 if(!box||!institution||!description||!Number.isFinite(balance)||balance<0){alert('Preencha instituição, descrição e saldo válido.');return}
-if(editingApplicationId){
-  const a=data.applications.find(x=>x.id===editingApplicationId);
-  if(a){a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=balance;a.liquidity=liquidity;}
-  editingApplicationId=null;
-  $('applicationForm').querySelector('button[type="submit"]').textContent='Adicionar aplicação';
-  const cancel=$('cancelApplicationEdit'); if(cancel) cancel.remove();
-}else{
-  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
-}
+data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
 $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
 persist();
 };
-
-function editApplication(id){
-  const a=data.applications.find(x=>x.id===id);
-  if(!a) return;
-  editingApplicationId=id;
-  $('appInstitution').value=a.institution||'';
-  $('appDescription').value=a.description||'';
-  $('appType').value=a.type||'';
-  $('appBalance').value=String(Number(a.balance||0)).replace('.',',');
-  $('appLiquidity').value=a.liquidity||'';
-  $('appBox').value=a.box||currentBox();
-  const btn=$('applicationForm').querySelector('button[type="submit"]');
-  btn.textContent='Salvar alterações';
-  if(!$('cancelApplicationEdit')){
-    const c=document.createElement('button');
-    c.type='button';c.className='btn';c.id='cancelApplicationEdit';c.textContent='Cancelar edição';
-    c.onclick=cancelApplicationEdit;
-    btn.parentNode.appendChild(c);
-  }
-  $('applicationForm').scrollIntoView({behavior:'smooth',block:'center'});
-}
-function cancelApplicationEdit(){
-  editingApplicationId=null;
-  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
-  $('applicationForm').querySelector('button[type="submit"]').textContent='Adicionar aplicação';
-  const c=$('cancelApplicationEdit'); if(c) c.remove();
-}
 
 $('cardForm').onsubmit=e=>{
 e.preventDefault();
@@ -993,3 +889,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     .observe(document.body,{subtree:true,childList:true});
 })();
 </script>
+
+
+
+
+
+
