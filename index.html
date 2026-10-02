@@ -264,6 +264,31 @@ const defaultCards=[
 ];
 if(!Array.isArray(data.cards))data.cards=defaultCards.map(c=>({...c}));
 
+// Dados fictícios de teste reconstruídos para esta versão.
+// Só entram quando o armazenamento atual está vazio, para não sobrescrever dados do usuário.
+function seedDadosDeTeste(){
+  const hasData = Array.isArray(data.tx)&&data.tx.length ||
+    (Array.isArray(data.accounts)&&data.accounts.some(a=>Number(a.balance||0)!==0)) ||
+    (Array.isArray(data.applications)&&data.applications.length) ||
+    (Array.isArray(data.invoices)&&data.invoices.length);
+  if(hasData)return;
+  data.accounts=defaultAccounts.map(a=>({...a}));
+  const saldoTeste={acc_nubank:-837.85,acc_bradesco:2300,acc_inter:200,acc_caixa:65,acc_btg:1500};
+  data.accounts.forEach(a=>{if(Object.prototype.hasOwnProperty.call(saldoTeste,a.id))a.balance=saldoTeste[a.id]});
+  data.applications=[{id:'app_teste_1',box:'Meu Financeiro',institution:'BTG',description:'Aplicações de teste',type:'Reserva',liquidity:'Imediata',balance:13025,active:true}];
+  data.tx=[
+    {id:'tx_teste_receita',type:'Receita',desc:'Teste',value:5000,date:'2026-10-01',box:'Meu Financeiro',status:'Previsto',category:'Outros',payment:'',accountId:'',cardId:'',installmentType:'À vista',installments:1,recurring:'Não',frequency:'Mensal',endDate:'',note:''},
+    {id:'tx_teste_despesa',type:'Despesa',desc:'Teste',value:3000,date:'2026-10-01',box:'Meu Financeiro',status:'Previsto',category:'Outros',payment:'Pix',accountId:'acc_nubank',cardId:'',installmentType:'À vista',installments:1,recurring:'Não',frequency:'Mensal',endDate:'',note:''}
+  ];
+  data.recurring=[];data.refunds=[];data.installments=[];
+  data.invoices=[
+    {id:'inv_card_nubank_2026-11',cardId:'card_nubank',month:'2026-11',officialValue:45,paidValue:0,paid:false},
+    {id:'inv_card_santander_2026-11',cardId:'card_santander',month:'2026-11',officialValue:45,paidValue:0,paid:false}
+  ];
+  localStorage.setItem(KEY,JSON.stringify(data));
+}
+seedDadosDeTeste();
+
 // Fechamentos confirmados/inferidos a partir das faturas enviadas.
 // Só preenche quando ainda não houver um fechamento salvo pelo usuário.
 const knownCardClosures={
