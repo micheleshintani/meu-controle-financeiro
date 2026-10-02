@@ -89,7 +89,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 11</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 12</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -190,7 +190,10 @@
 <label>Bloqueio automático</label>
 <select id="lockTimeout"><option value="0">Nunca</option><option value="5">Após 5 minutos</option><option value="15" selected>Após 15 minutos</option><option value="30">Após 30 minutos</option></select>
 <button class="btn" type="button" onclick="saveLockTimeout()">Salvar preferência</button>
-<p class="muted">Quando disponível, a autenticação biométrica do aparelho poderá ser usada futuramente como complemento. Nesta etapa, o PIN é o método de acesso implementado.</p>
+<hr>
+<button class="btn primary" type="button" onclick="logoutApp()">🔒 Sair e bloquear aplicativo</button>
+<p class="muted">Ao sair, o aplicativo fica bloqueado e o PIN será solicitado novamente para entrar. No Safari, a página não pode ser fechada automaticamente pelo aplicativo.</p>
+<p class="muted">Por segurança, o PIN não é incluído nos backups. Os backups guardam somente os dados financeiros.</p>
 </div></section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON e pode ser guardado no Google Drive, iCloud, computador ou outro local seguro.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><button class="btn" style="width:100%;margin-top:8px" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
 <footer>Versão de teste • Um caixa por vez no dashboard e no histórico. Não use dados bancários reais nesta etapa.</footer>
@@ -360,22 +363,61 @@ function removeSecurityPin(){if(!security.enabled){alert('Não há PIN configura
 function saveLockTimeout(){lockTimeout=Number($('lockTimeout').value||0);localStorage.setItem(LOCK,String(lockTimeout));lastActivity=Date.now();alert('Preferência de bloqueio salva.')}
 function renderSecurityStatus(){$('securityStatus').textContent=security.enabled?'PIN de acesso ativado.':'PIN de acesso desativado.';$('lockTimeout').value=String(lockTimeout)}
 async function unlockApp(){
- if(!security.enabled){locked=false;return}
- const pin=prompt('Digite seu PIN para desbloquear o Meu Controle Financeiro.');
- if(pin===null)return;
- if((await hashPin(pin))===security.hash){locked=false;lastActivity=Date.now();hideLockScreen()}else alert('PIN incorreto.')
+ if(!security.enabled){locked=false;hideLockScreen();return}
+ const pinEl=document.getElementById('lockPin');
+ const pin=pinEl?pinEl.value.trim():'';
+ if(!/^\d{4,8}$/.test(pin)){
+   const msg=document.getElementById('lockError');
+   if(msg)msg.textContent='Digite seu PIN de 4 a 8 números.';
+   return;
+ }
+ if((await hashPin(pin))===security.hash){
+   locked=false;lastActivity=Date.now();
+   if(pinEl)pinEl.value='';
+   const msg=document.getElementById('lockError');if(msg)msg.textContent='';
+   hideLockScreen();
+ }else{
+   const msg=document.getElementById('lockError');
+   if(msg)msg.textContent='PIN incorreto.';
+   if(pinEl){pinEl.value='';pinEl.focus();}
+ }
 }
 function showLockScreen(){
- if(locked)return;locked=true;
+ if(!security.enabled){locked=false;hideLockScreen();return}
+ locked=true;
  let el=document.getElementById('lockScreen');
- if(!el){el=document.createElement('div');el.id='lockScreen';el.style='position:fixed;inset:0;background:rgba(245,248,246,.98);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center';
- el.innerHTML='<div style="max-width:360px;background:#fff;border:1px solid #dce6e0;border-radius:18px;padding:24px"><h2 style="margin-top:0">Meu Controle Financeiro</h2><p class="muted">Aplicativo bloqueado por segurança.</p><button class="btn primary" type="button" onclick="unlockApp()">Desbloquear</button></div>';document.body.appendChild(el)}
- el.style.display='flex'
+ if(!el){
+   el=document.createElement('div');el.id='lockScreen';
+   el.style='position:fixed;inset:0;background:rgba(245,248,246,.98);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center';
+   el.innerHTML='<div style="width:min(360px,100%);background:#fff;border:1px solid #dce6e0;border-radius:18px;padding:24px"><h2 style="margin-top:0">Meu Controle Financeiro</h2><p class="muted">Digite seu PIN para entrar.</p><input id="lockPin" type="password" inputmode="numeric" maxlength="8" autocomplete="current-password" placeholder="PIN de 4 a 8 números" style="width:100%;box-sizing:border-box;margin:12px 0;padding:14px;border:1px solid #dce6e0;border-radius:12px;font-size:20px;text-align:center"><p id="lockError" style="min-height:20px;color:#b42318;margin:4px 0 10px"></p><button class="btn primary" type="button" onclick="unlockApp()">Desbloquear</button></div>';
+   document.body.appendChild(el);
+   const inp=el.querySelector('#lockPin');
+   inp.addEventListener('keydown',e=>{if(e.key==='Enter')unlockApp()});
+ }
+ el.style.display='flex';
+ setTimeout(()=>{const inp=document.getElementById('lockPin');if(inp){inp.value='';inp.focus()}},50);
 }
 function hideLockScreen(){const el=document.getElementById('lockScreen');if(el)el.style.display='none'}
+function logoutApp(){
+ if(!security.enabled){alert('Ative um PIN de acesso antes de usar esta opção.');return}
+ if(confirm('Sair e bloquear o aplicativo agora?')){
+   lastActivity=Date.now();
+   showLockScreen();
+ }
+}
 function securityActivity(){lastActivity=Date.now();if(locked)return}
 function securityTick(){if(security.enabled&&lockTimeout>0&&!locked&&Date.now()-lastActivity>lockTimeout*60000)showLockScreen()}
 ['click','touchstart','keydown','input','change'].forEach(ev=>document.addEventListener(ev,securityActivity,{passive:true}));setInterval(securityTick,30000);
+function securityInit(){
+  if(security.enabled){showLockScreen();}
+}
+window.addEventListener('pageshow',()=>{if(security.enabled){if(locked|| (lockTimeout>0&&Date.now()-lastActivity>lockTimeout*60000))showLockScreen();else securityActivity()}});
+window.addEventListener('pagehide',()=>{if(security.enabled&&lockTimeout>0){locked=true}});
+window.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden'){if(security.enabled&&lockTimeout>0)lastActivity=Date.now()-lockTimeout*60000-1;}
+  else if(security.enabled&&lockTimeout>0&&!locked&&Date.now()-lastActivity>lockTimeout*60000)showLockScreen();
+});
+
 
 const draftFields=['type','desc','value','date','box','status','category','payment','accountSelect','cardSelect','installmentType','installments','recurring','frequency','endDate','note'];
 function draftHasMeaningfulContent(d){
@@ -840,6 +882,7 @@ if(dataLoadWarning)setTimeout(()=>alert(dataLoadWarning),200);
 
 document.addEventListener('DOMContentLoaded',()=>{
  renderSecurityStatus();
+ securityInit();
  $('lockTimeout').value=String(lockTimeout);
  draftFields.forEach(id=>{const e=$(id);if(e)e.addEventListener('input',saveDraft);});
  $('clearDraftBtn').addEventListener('click',()=>{if(confirm('Descartar o rascunho atual?')){clearDraft();resetForm();}});
