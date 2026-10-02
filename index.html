@@ -13,7 +13,6 @@
 .mcf-cat-row{display:flex;gap:8px;align-items:center;margin:7px 0}
 .mcf-cat-row span{flex:1}
 .mcf-cat-row button{padding:6px 9px}
-.mcf-cat-row .mcf-cat-name{font-weight:700}.mcf-cat-row .mcf-cat-name.income{color:var(--green)}.mcf-cat-row .mcf-cat-name.expense{color:var(--red)}
 .mcf-card-select-note{font-size:12px;color:#66756f;margin-top:4px}
 </style>
 
@@ -89,7 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 10</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>v2026.10.01.04</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -97,13 +96,13 @@
 <div class="cards" id="dashboardCards"></div><div class="panel dashboard-panel bank-panel"><h2>🏦 Saldo por banco</h2><div id="bankBalances"></div></div>
 <div class="panel dashboard-panel app-panel"><div class="section-title"><h2>📈 Aplicações</h2><span class="tag blue" id="appTotal">R$ 0,00</span></div>
 <div class="item"><span>Disponibilidade imediata</span><strong id="appImmediate">R$ 0,00</strong></div>
-<div id="applicationsList"></div>
+<div id="dashboardApplicationsList"></div>
 </div>
 <div class="summary3" id="monthSummary"></div>
 <div class="panel dashboard-panel income-panel"><div class="section-title"><h2>🟢 Recebimentos previstos</h2><span class="tag green" id="incomeDueCount">0</span></div><div id="incomeDueList" class="muted">Nenhum recebimento previsto.</div></div>
 <div class="panel dashboard-panel due-panel"><div class="section-title"><h2>🔴 Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
-<div class="panel dashboard-panel invoice-panel"><div class="section-title"><h2>🟠 Faturas de cartão</h2><span class="tag amber">próximas</span></div><div id="invoiceList" class="muted"></div></div><div class="panel dashboard-panel cat-panel"><div class="section-title"><h2>🔵 Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
-<div class="panel dashboard-panel forecast-panel"><div class="section-title"><h2>🟣 Saldo disponível nos próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
+<div class="panel dashboard-panel invoice-panel"><div class="section-title"><h2>🟠 Faturas de cartão</h2><span class="tag amber">próximas</span></div><p class="muted">Estornos geram crédito no cartão e não são tratados como receita.</p><div id="invoiceList" class="muted"></div></div><div class="panel dashboard-panel cat-panel"><div class="section-title"><h2>🔵 Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
+<div class="panel dashboard-panel forecast-panel"><div class="section-title"><h2>🟣 Saldo disponível — próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
 </section>
 <section id="lancamentos" class="hidden">
 <div class="panel"><h2>Novo lançamento</h2><div id="draftNotice" class="notice hidden"></div><form id="txForm">
@@ -125,18 +124,30 @@
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
 <section id="cadastros" class="hidden">
+<div class="mcf-cat-admin" id="mcfCategoryManager">
+  <div class="section-title"><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">categorias únicas</span></div>
+  <div class="mcf-cat-help">As categorias são únicas no aplicativo e podem ser usadas em qualquer caixa.</div>
+  <div id="mcfCategoryList"></div>
+  <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
+</div>
 <div class="mcf-quick-cadastros" id="mcfQuickCadastros">
   <h3>⚙️ Cadastros rápidos</h3>
   <div class="mcf-quick-grid">
     <button type="button" data-target="contas">🏦 Contas bancárias</button>
-    <button type="button" data-target="aplicacoes">📈 Aplicações</button>
     <button type="button" data-target="cartoes">💳 Cartões</button>
-    <button type="button" data-target="mcfCategoryManager">🏷️ Categorias</button>
+    <button type="button" data-target="aplicacoes">📈 Aplicações</button>
+    <button type="button" data-target="categorias">🏷️ Categorias</button>
+    <button type="button" data-target="recorrencias">🔄 Recorrências</button>
   </div>
-  <div class="mcf-quick-note">Acesse rapidamente os cadastros usados nos lançamentos.</div>
+  <div class="mcf-quick-note">Cadastre aqui os itens que depois aparecem automaticamente nos lançamentos e no dashboard.</div>
 </div>
-<div class="panel" id="caixasPanel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
-<div class="panel" id="contas"><h2>Contas bancárias</h2>
+<div class="panel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
+<div class="panel"><h2>Categorias pré-cadastradas</h2>
+<p class="muted">São sugestões para agilizar os lançamentos. A categoria continua opcional e você pode digitar outra quando quiser.</p>
+<h3>Despesas</h3><div id="expenseCategoriesList"></div>
+<hr><h3>Receitas</h3><div id="incomeCategoriesList"></div>
+</div>
+<div class="panel"><h2>Contas bancárias</h2>
 <p class="muted">As contas são cadastradas no caixa em uso. O saldo é manual e pode ser alterado a qualquer momento, sem criar receita ou despesa.</p>
 <div id="accountsList"></div>
 <form id="accountForm">
@@ -147,12 +158,11 @@
 <button class="btn primary" type="submit">Adicionar conta</button>
 </form>
 </div>
-<details class="mcf-cat-admin" id="mcfCategoryManager">
-  <summary><strong>🏷️ Gerenciar categorias</strong></summary>
-  <div id="mcfCategoryList"></div>
-  <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
-</details>
-<div class="panel" id="aplicacoes"><h2>Aplicações</h2>
+<div class="panel"><h2>Recorrências</h2>
+<p class="muted">Cadastro-base para receitas ou despesas que se repetem. O valor pode ser ajustado em um mês específico ou a partir de determinado mês sem alterar o passado.</p>
+<div id="recurringList"></div>
+</div>
+<div class="panel"><h2>Aplicações</h2>
 <p class="muted">Cadastre apenas totais agrupados, como “Total de CDBs”. Não é necessário cadastrar cada CDB, ação ou investimento individual.</p>
 <div id="applicationsList"></div>
 <form id="applicationForm">
@@ -165,7 +175,7 @@
 <button class="btn primary" type="submit">Adicionar aplicação</button>
 </form>
 </div>
-<div class="panel" id="cartoes"><h2>Cartões de crédito</h2>
+<div class="panel"><h2>Cartões de crédito</h2>
 <p class="muted">Cadastre os cartões que você usa. O fechamento pode ser informado depois; o vencimento já fica pré-cadastrado quando conhecido.</p>
 <div id="cardsList"></div>
 <form id="cardForm">
@@ -192,14 +202,12 @@
 <button class="btn" type="button" onclick="saveLockTimeout()">Salvar preferência</button>
 <p class="muted">Quando disponível, a autenticação biométrica do aparelho poderá ser usada futuramente como complemento. Nesta etapa, o PIN é o método de acesso implementado.</p>
 </div></section>
-<section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON e pode ser guardado no Google Drive, iCloud, computador ou outro local seguro.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><button class="btn" style="width:100%;margin-top:8px" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
+<section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON e pode ser guardado no Google Drive, iCloud, computador ou outro local seguro.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
 <footer>Versão de teste • Um caixa por vez no dashboard e no histórico. Não use dados bancários reais nesta etapa.</footer>
 </main>
 <script>
-const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const AUTO='mcf_autobackup_v1';const SCHEMA=4;const DEFAULT_BOXES=['Pessoal','Casa'];let data={boxes:[...DEFAULT_BOXES],tx:[]};let editingId=null;let dataLoadWarning='';
-function cloneData(v){return JSON.parse(JSON.stringify(v))}
-function normalizeData(raw){const d=raw&&typeof raw==='object'?raw:{};if(!Array.isArray(d.boxes))d.boxes=[];d.boxes=d.boxes.map(b=>String(b??'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b);DEFAULT_BOXES.forEach(b=>{if(!d.boxes.includes(b))d.boxes.push(b)});d.boxes=[...new Set(d.boxes)];if(!Array.isArray(d.tx))d.tx=[];if(!Array.isArray(d.accounts))d.accounts=[];if(!Array.isArray(d.cards))d.cards=[];if(!Array.isArray(d.categories))d.categories=[];d._schemaVersion=SCHEMA;return d}
-(function loadDataSafely(){const raw=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(!raw){data=normalizeData({});return}try{const parsed=JSON.parse(raw);const before=cloneData(parsed);const needsMigration=Number(parsed._schemaVersion||0)<SCHEMA||!Array.isArray(parsed.boxes)||parsed.boxes.length===0;if(needsMigration){try{localStorage.setItem(AUTO,JSON.stringify({app:'Meu Controle Financeiro',version:SCHEMA,reason:'pré-migração automática',createdAt:new Date().toISOString(),data:before}))}catch(e){}}data=normalizeData(parsed);if(needsMigration){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}}catch(e){data=normalizeData({});dataLoadWarning='Os dados salvos não puderam ser lidos. O aplicativo não substituiu o arquivo original. Verifique a área de Backup antes de continuar.'}})();
+const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
+try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s){data=JSON.parse(s);data.boxes=Array.isArray(data.boxes)?data.boxes:['Meu Financeiro','Casa'];data.tx=Array.isArray(data.tx)?data.tx:[]}}catch(e){};
 let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();
 try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
 const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);
@@ -208,18 +216,19 @@ const parseBRDate=value=>{const s=String(value||'').trim();const m=s.match(/^(\d
 const todayBR=()=>mcfBRDate(today());
 
 const defaultAccounts=[
-{id:'acc_nubank',box:'Pessoal',bank:'Nubank',name:'Nubank',balance:0,active:true},
-{id:'acc_bradesco',box:'Pessoal',bank:'Bradesco',name:'Bradesco',balance:0,active:true},
-{id:'acc_inter',box:'Pessoal',bank:'Inter',name:'Inter',balance:0,active:true},
-{id:'acc_caixa',box:'Pessoal',bank:'Caixa',name:'Caixa',balance:0,active:true},
-{id:'acc_btg',box:'Pessoal',bank:'BTG',name:'BTG',balance:0,active:true},
+{id:'acc_nubank',box:'Meu Financeiro',bank:'Nubank',name:'Nubank',balance:0,active:true},
+{id:'acc_bradesco',box:'Meu Financeiro',bank:'Bradesco',name:'Bradesco',balance:0,active:true},
+{id:'acc_inter',box:'Meu Financeiro',bank:'Inter',name:'Inter',balance:0,active:true},
+{id:'acc_caixa',box:'Meu Financeiro',bank:'Caixa',name:'Caixa',balance:0,active:true},
+{id:'acc_btg',box:'Meu Financeiro',bank:'BTG',name:'BTG',balance:0,active:true},
 {id:'acc_itau',box:'Casa',bank:'Itaú',name:'Itaú',balance:0,active:true},
 {id:'acc_sicoob',box:'Casa',bank:'Sicoob',name:'Sicoob',balance:0,active:true}
 ];
-if(!Array.isArray(data.accounts)||!data.accounts.length)data.accounts=defaultAccounts.map(a=>({...a})); data.accounts.forEach(a=>{if(a.box==='Meu Financeiro')a.box='Pessoal'});
+if(!Array.isArray(data.accounts))data.accounts=defaultAccounts.map(a=>({...a}));
 function activeAccounts(b){return data.accounts.filter(a=>a.box===b&&a.active)}
 function accountName(id){const a=data.accounts.find(x=>x.id===id);return a?a.name:''}
 let editingAccountId=null;
+let editingApplicationId=null;
 function renderAccounts(){
   const list=activeAccounts(currentBox());
   $('accountSelect').innerHTML='<option value="">Selecione a conta</option>'+list.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.bank)}</option>`).join('');
@@ -241,19 +250,51 @@ function renderApplications(){
   $('appBox').value=currentBox();
   const apps=activeApplications(currentBox());
   const totals=applicationTotals(currentBox());
-  $('applicationsList').innerHTML=apps.length
+  const dashboardList=$('dashboardApplicationsList');
+  if(dashboardList) dashboardList.innerHTML=apps.length
     ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><strong>${money(a.balance)}</strong></div>`).join('')
+    : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
+  const cadastroList=$('applicationsList');
+  if(cadastroList) cadastroList.innerHTML=apps.length
+    ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button></div></div>`).join('')
     : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
   $('appTotal').textContent=money(totals.total);
   $('appImmediate').textContent=money(totals.immediate);
 }
 const defaultCards=[
-{id:'card_nubank',box:'Pessoal',name:'Nubank',dueDay:16,closeDay:'',active:true},
-{id:'card_santander',box:'Pessoal',name:'Santander',dueDay:12,closeDay:'',active:true},
-{id:'card_inter',box:'Pessoal',name:'Inter',dueDay:20,closeDay:'',active:true},
-{id:'card_itau',box:'Casa',name:'Itaú',dueDay:17,closeDay:'',active:true}
+{id:'card_nubank',box:'Meu Financeiro',name:'Nubank',dueDay:16,closeDay:'',active:true},
+{id:'card_santander',box:'Meu Financeiro',name:'Santander',dueDay:12,closeDay:'',active:true},
+{id:'card_inter',box:'Meu Financeiro',name:'Inter',dueDay:20,closeDay:'',active:true},
+{id:'card_itau',box:'Casa',name:'Itaú',dueDay:17,closeDay:'',active:true},
+{id:'card_livix',box:'Casa',name:'Livix Alimentação',dueDay:20,closeDay:'',active:true}
 ];
-if(!Array.isArray(data.cards))data.cards=[]; data.cards.forEach(c=>{if(c.box==='Meu Financeiro')c.box='Pessoal'}); defaultCards.forEach(def=>{const existing=data.cards.find(c=>c.id===def.id); if(!existing)data.cards.push({...def}); else {existing.box=existing.box||def.box; existing.dueDay=existing.dueDay||def.dueDay; if(existing.closeDay==null||existing.closeDay==='')existing.closeDay=def.closeDay; if(existing.active==null)existing.active=true;}});
+if(!Array.isArray(data.cards))data.cards=defaultCards.map(c=>({...c}));
+
+// Dados fictícios de teste reconstruídos para esta versão.
+// Só entram quando o armazenamento atual está vazio, para não sobrescrever dados do usuário.
+function seedDadosDeTeste(){
+  if(!Array.isArray(data.boxes)||data.boxes.length===0)data.boxes=['Meu Financeiro','Casa'];
+  const hasData = Array.isArray(data.tx)&&data.tx.length ||
+    (Array.isArray(data.accounts)&&data.accounts.some(a=>Number(a.balance||0)!==0)) ||
+    (Array.isArray(data.applications)&&data.applications.length) ||
+    (Array.isArray(data.invoices)&&data.invoices.length);
+  if(hasData)return;
+  data.accounts=defaultAccounts.map(a=>({...a}));
+  const saldoTeste={acc_nubank:-837.85,acc_bradesco:2300,acc_inter:200,acc_caixa:65,acc_btg:1500};
+  data.accounts.forEach(a=>{if(Object.prototype.hasOwnProperty.call(saldoTeste,a.id))a.balance=saldoTeste[a.id]});
+  data.applications=[{id:'app_teste_1',box:'Meu Financeiro',institution:'BTG',description:'Aplicações de teste',type:'Reserva',liquidity:'Imediata',balance:13025,active:true}];
+  data.tx=[
+    {id:'tx_teste_receita',type:'Receita',desc:'Teste',value:5000,date:'2026-10-01',box:'Meu Financeiro',status:'Previsto',category:'Outros',payment:'',accountId:'',cardId:'',installmentType:'À vista',installments:1,recurring:'Não',frequency:'Mensal',endDate:'',note:''},
+    {id:'tx_teste_despesa',type:'Despesa',desc:'Teste',value:3000,date:'2026-10-01',box:'Meu Financeiro',status:'Previsto',category:'Outros',payment:'Pix',accountId:'acc_nubank',cardId:'',installmentType:'À vista',installments:1,recurring:'Não',frequency:'Mensal',endDate:'',note:''}
+  ];
+  data.recurring=[];data.refunds=[];data.installments=[];
+  data.invoices=[
+    {id:'inv_card_nubank_2026-11',cardId:'card_nubank',month:'2026-11',officialValue:45,paidValue:0,paid:false},
+    {id:'inv_card_santander_2026-11',cardId:'card_santander',month:'2026-11',officialValue:45,paidValue:0,paid:false}
+  ];
+  localStorage.setItem(KEY,JSON.stringify(data));
+}
+seedDadosDeTeste();
 
 // Fechamentos confirmados/inferidos a partir das faturas enviadas.
 // Só preenche quando ainda não houver um fechamento salvo pelo usuário.
@@ -348,22 +389,6 @@ function saveDraft(){
  const d={};draftFields.forEach(id=>{const e=$(id);if(e)d[id]=e.value});d.savedAt=new Date().toISOString();
  if(Object.values(d).some(v=>v!==''&&v!==null&&v!==undefined&&v!==today()))localStorage.setItem(DRAFT,JSON.stringify(d));
 }
-function resetForm(){
-  editingId=null;
-  const form=$('txForm'); if(form)form.reset();
-  if($('date'))$('date').value=today();
-  if($('type'))$('type').value='Despesa';
-  if($('status'))$('status').value='Realizado';
-  if($('category'))$('category').value='';
-  if($('cardWrap'))$('cardWrap').classList.add('hidden');
-  if($('installmentWrap'))$('installmentWrap').classList.add('hidden');
-  if($('recurringWrap'))$('recurringWrap').classList.add('hidden');
-  if($('draftNotice'))$('draftNotice').classList.add('hidden');
-  if($('clearDraftBtn'))$('clearDraftBtn').classList.add('hidden');
-  if($('saveTxBtn'))$('saveTxBtn').textContent='Salvar lançamento';
-  if($('cancelEditBtn'))$('cancelEditBtn').classList.add('hidden');
-  if(typeof updateTypeUI==='function')updateTypeUI();
-}
 function clearDraft(){
  localStorage.removeItem(DRAFT);$('draftNotice').classList.add('hidden');$('clearDraftBtn').classList.add('hidden');
 }
@@ -374,13 +399,13 @@ function restoreDraft(){
   $('draftNotice').classList.remove('hidden');$('clearDraftBtn').classList.remove('hidden');
  }catch(e){}
 }
-function persist(){try{const previous=localStorage.getItem(KEY);if(previous){try{localStorage.setItem(AUTO,JSON.stringify({app:'Meu Controle Financeiro',version:SCHEMA,reason:'cópia automática anterior à gravação',createdAt:new Date().toISOString(),data:JSON.parse(previous)}))}catch(e){}}data=normalizeData(data);localStorage.setItem(KEY,JSON.stringify(data));render()}catch(e){alert('Não foi possível salvar os dados. Seus dados anteriores foram preservados. Verifique o espaço disponível e o Backup.')}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(data));render()}
 function money(n){return Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function parseBR(v){let s=String(v??'').trim().replace(/\s/g,'').replace(/R\$/i,'');if(!s)return NaN;if(s.includes(',')){s=s.replace(/\./g,'').replace(',','.')}else{s=s.replace(/\.(?=\d{3}(?:\.|$))/g,'')}return Number(s)}
 function formatInput(){let n=parseBR($('value').value);if(Number.isFinite(n))$('value').value=n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function signed(t){return t.type==='Despesa'?-Number(t.value):Number(t.value)}
-function currentBox(){if(!Array.isArray(data.boxes)||!data.boxes.length)data.boxes=[...DEFAULT_BOXES];const el=$('dashBox');const value=el&&el.value;if(value&&data.boxes.includes(value))return value;const last=localStorage.getItem(LAST);if(last&&data.boxes.includes(last))return last;return data.boxes[0]||DEFAULT_BOXES[0]}
+function currentBox(){return $('dashBox').value||data.boxes[0]}
 function boxBalance(b){return activeAccounts(b).reduce((s,a)=>s+Number(a.balance||0),0)}
 function applyAccountDelta(accountId,delta){if(!accountId)return;const a=data.accounts.find(x=>x.id===accountId);if(a)a.balance=Number(a.balance||0)+Number(delta||0)}
 function affectsAccount(t){return t && t.status==='Realizado' && t.accountId && t.payment!=='Cartão de crédito' && t.payment!=='Dinheiro'}
@@ -422,48 +447,29 @@ const expenseCategories = [
 
 const incomeCategories = [
   'Salário',
-  '13º salário',
   'Aposentadoria',
   'Pensão',
-  'Honorários',
-  'Serviços realizados',
   'Freelance e serviços',
   'Pró-labore',
-  'Comissões e bonificações',
   'Aluguéis',
   'Rendimentos de investimentos',
-  'Dividendos',
   'Juros',
   'Reembolsos',
-  'Restituição de imposto',
-  'Benefícios',
   'Vendas',
   'Outras receitas'
 ];
 
-function categoryNamesForType(){return $('type')?.value==='Receita'?incomeCategories:expenseCategories;}
-
 function renderCategorySuggestions(){
+  const custom=Array.isArray(data.categories)?data.categories.map(c=>typeof c==='string'?c:(c.name||'')).filter(Boolean):[];
+  const list=custom.length?custom:categoryNamesForType();
+  const allExp=custom.length?custom:expenseCategories, allInc=custom.length?custom:incomeCategories;
   const ex=$('expenseCategoriesList'), inc=$('incomeCategoriesList');
-  if(ex)ex.innerHTML='';
-  if(inc)inc.innerHTML='';
+  if(ex)ex.innerHTML=allExp.map(c=>`<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
+  if(inc)inc.innerHTML=allInc.map(c=>`<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
 }
 
 
 
-if(!Array.isArray(data.categories)||!data.categories.length){
-  data.categories=[...expenseCategories.map(name=>({name,type:'Despesa'})),...incomeCategories.map(name=>({name,type:'Receita'}))];
-}else{
-  data.categories=data.categories.map(c=>{
-    const name=String(typeof c==='string'?c:(c&&c.name)||'').trim();
-    const explicitType=c&&typeof c==='object'&&(c.type==='Receita'||c.type==='Despesa')?c.type:null;
-    const inferred=incomeCategories.some(x=>x.toLowerCase()===name.toLowerCase())?'Receita':'Despesa';
-    return {name,type:explicitType||inferred};
-  }).filter(c=>c.name);
-  const existing=new Set(data.categories.map(c=>c.name.toLowerCase()));
-  expenseCategories.forEach(name=>{if(!existing.has(name.toLowerCase())){data.categories.push({name,type:'Despesa'});existing.add(name.toLowerCase())}});
-  incomeCategories.forEach(name=>{if(!existing.has(name.toLowerCase())){data.categories.push({name,type:'Receita'});existing.add(name.toLowerCase())}});
-}
 if(!Array.isArray(data.recurring))data.recurring=[];
 if(!Array.isArray(data.refunds))data.refunds=[];
 function addMonthsDate(date,n){
@@ -527,10 +533,8 @@ function renderInvoices(){
 }
 
 function renderRecurring(){
-  const el=$('recurringList');
-  if(!el)return;
   const list=data.recurring.filter(r=>r.box===currentBox()&&r.active!==false);
-  el.innerHTML=list.length?list.map(r=>`<div class="item"><div><strong>${esc(r.desc)}</strong><div class="muted">${r.type==='Receita'?'💰 Receita':'💸 Despesa'} · ${money(r.value)} · ${esc(r.frequency)} · ${esc(r.startDate)}${r.endDate?' até '+esc(r.endDate):''}</div></div><span class="pill">${esc(r.category||'Sem categoria')}</span></div>`).join(''):'<p class="muted">Nenhuma recorrência cadastrada neste caixa.</p>';
+  $('recurringList').innerHTML=list.length?list.map(r=>`<div class="item"><div><strong>${esc(r.desc)}</strong><div class="muted">${r.type==='Receita'?'💰 Receita':'💸 Despesa'} · ${money(r.value)} · ${esc(r.frequency)} · ${esc(r.startDate)}${r.endDate?' até '+esc(r.endDate):''}</div></div><span class="pill">${esc(r.category||'Sem categoria')}</span></div>`).join(''):'<p class="muted">Nenhuma recorrência cadastrada neste caixa.</p>';
 }
 function reportOptions(){const b=$('reportBox').value||currentBox();const tx=data.tx.filter(t=>t.box===b);const fill=(id,values)=>{const el=$(id),old=el.value;el.innerHTML='<option>Todos</option>'+[...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old};fill('reportCategory',tx.map(t=>t.category));fill('reportAccount',tx.map(t=>accountName(t.accountId)||t.account));fill('reportCard',tx.map(t=>(cardById(t.cardId)||{}).name||t.card));fill('reportStore',tx.map(t=>t.store||t.loja));}
 function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||(t.store||t.loja||'')===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
@@ -553,7 +557,7 @@ let upcomingReceipts=tx.filter(t=>t.status==='Previsto'&&t.type==='Receita').sor
 let cats={};exp.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
 let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
 let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';const activeBoxName=currentBox(); const activeBoxIndex=data.boxes.indexOf(activeBoxName);
-$('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span><strong>${esc(b)}</strong><div class="muted">${b===activeBoxName?'Caixa em uso':'Caixa disponível'}</div></span><button class="btn" onclick="renameBox(${i})">Renomear</button></div>`).join('')+`<p class="muted" style="margin-top:8px">Selecione o caixa no dashboard para consultar contas, cartões e aplicações daquele caixa.</p>`;
+$('boxesList').innerHTML=`<div class="item"><span><strong>${esc(activeBoxName)}</strong><div class="muted">Caixa em uso</div></span><button class="btn" onclick="renameBox(${activeBoxIndex})">Renomear</button></div><p class="muted" style="margin-top:8px">Para cadastrar ou consultar contas, cartões e aplicações de outro caixa, selecione primeiro o outro caixa no dashboard.</p>`;
 }
 function txHTML(t){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.status)} · ${esc(t.payment||'')}${t.category?' · '+esc(t.category):''}${t.status==='Cancelada'?' · 🚫 Cancelada':''}${refundTotal(t.id)>0?' · ↩ Estorno '+money(refundTotal(t.id)):''}${(t.accountId||t.account)?' · 🏦 '+esc(accountName(t.accountId)||t.account):''}${t.recurring==='Sim'?' · 🔄 Recorrente':''}${t.payment==='Cartão de crédito'&&(t.cardId||t.card)?' · 💳 '+esc((cardById(t.cardId)||{}).name||t.card||''):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong><br><button class="btn" onclick="editTx('${t.id}')">Editar</button> ${t.status==='Previsto'?`<button class="btn" onclick="cancelTx('${t.id}')">Cancelar</button>`:''} ${t.status==='Realizado'&&t.type==='Despesa'?`<button class="btn" onclick="registerRefund('${t.id}')">Estorno</button>`:''} <button class="btn" onclick="removeTx('${t.id}')">Excluir</button></div></div>`}
 function showTab(tab){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));$(tab).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render()}
@@ -582,7 +586,7 @@ $('payment').onchange=()=>{let p=$('payment').value;$('accountWrap').style.displ
 function previewParcels(){let n=parseInt($('installments').value||0),v=parseBR($('value').value);if(n>=2&&Number.isFinite(v))$('parcelPreview').innerHTML=`<p>Prévia: ${n} parcelas de aproximadamente <strong>${money(v/n)}</strong>. A distribuição exata por fatura será integrada no módulo de cartões.</p>`;else $('parcelPreview').innerHTML=''}
 $('date').value=today();
 updateTypeUI();
-$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec;try{rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};const wanted=syn[n]||q;const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>String(c?.name||c).toLowerCase()===wanted.toLowerCase()&&c?.type===($('type').value));if(q&&!hit){throw new Error('CATEGORY_TYPE_MISMATCH')}return hit?hit.name:''})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};}catch(err){if(err&&err.message==='CATEGORY_TYPE_MISMATCH'){alert('Selecione uma categoria compatível com o tipo do lançamento.');return}throw err}
+$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};if(syn[n])return syn[n];const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===q.toLowerCase());return hit?(typeof hit==='string'?hit:hit.name):q})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()}
 if(editingId){
   const old=data.tx.find(t=>t.id===editingId);
   if(affectsAccount(old)) applyAccountDelta(old.accountId,-signed(old));
@@ -601,7 +605,7 @@ if(editingId){
 clearDraft();localStorage.setItem(LAST,rec.box);cancelEdit(false);persist();e.target.reset();$('date').value=today();$('type').value='Despesa';$('status').value='Realizado';updateTypeUI();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden');showTab('inicio')};
 function editTx(id){let t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;showTab('lancamentos');$('type').value=t.type;$('desc').value=t.desc;$('value').value=Number(t.value).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('payment').value=t.payment||'Pix';$('accountSelect').value=t.accountId||'';$('cardSelect').value=t.cardId||'';$('installmentType').value=t.installmentType||'À vista';$('installments').value=t.installments||'';$('recurring').value=t.recurring||'Não';$('frequency').value=t.frequency||'Mensal';$('endDate').value=t.endDate||'';$('note').value=t.note||'';updateTypeUI();$('payment').dispatchEvent(new Event('change'));$('installmentType').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
 function cancelEdit(reset=true){editingId=null;$('saveTxBtn').textContent='Salvar lançamento';$('cancelEditBtn').classList.add('hidden');if(reset){$('txForm').reset();$('date').value=today();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden')}}$('cancelEditBtn').onclick=()=>cancelEdit();
-function removeTx(id){if(confirm('Excluir este lançamento?')){const old=data.tx.find(t=>t.id===id);if(affectsAccount(old))applyAccountDelta(old.accountId,-signed(old));data.tx=data.tx.filter(t=>t.id!==id);data.installments=data.installments.filter(p=>p.purchaseId!==id);persist()}}$('boxForm').onsubmit=e=>{e.preventDefault();const input=$('boxName');const n=input.value.trim();if(!n)return;if(data.boxes.some(b=>String(b).toLowerCase()===n.toLowerCase())){alert('Esse caixa já existe.');return}data.boxes.push(n);localStorage.setItem(LAST,n);input.value='';persist();alert('Caixa adicionado com sucesso.');};function renameBox(i){let n=prompt('Novo nome do caixa:',data.boxes[i]);if(n&&n.trim()){let old=data.boxes[i];let name=n.trim();if(data.boxes.some((b,j)=>j!==i&&String(b).toLowerCase()===name.toLowerCase())){alert('Esse caixa já existe.');return}data.boxes[i]=name;data.tx.forEach(t=>{if(t.box===old)t.box=name});if(localStorage.getItem(LAST)===old)localStorage.setItem(LAST,name);persist()}}
+function removeTx(id){if(confirm('Excluir este lançamento?')){const old=data.tx.find(t=>t.id===id);if(affectsAccount(old))applyAccountDelta(old.accountId,-signed(old));data.tx=data.tx.filter(t=>t.id!==id);data.installments=data.installments.filter(p=>p.purchaseId!==id);persist()}}$('boxForm').onsubmit=e=>{e.preventDefault();let n=$('boxName').value.trim();if(n&&!data.boxes.includes(n)){data.boxes.push(n);persist();$('boxName').value=''}};function renameBox(i){let n=prompt('Novo nome do caixa:',data.boxes[i]);if(n&&n.trim()){let old=data.boxes[i];data.boxes[i]=n.trim();data.tx.forEach(t=>{if(t.box===old)t.box=n.trim()});persist()}}
 
 $('accountForm').onsubmit=e=>{
 e.preventDefault();
@@ -649,10 +653,45 @@ $('applicationForm').onsubmit=e=>{
 e.preventDefault();
 const box=$('appBox').value,institution=$('appInstitution').value.trim(),description=$('appDescription').value.trim(),type=$('appType').value.trim(),balance=parseBR($('appBalance').value),liquidity=$('appLiquidity').value;
 if(!box||!institution||!description||!Number.isFinite(balance)||balance<0){alert('Preencha instituição, descrição e saldo válido.');return}
-data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
+if(editingApplicationId){
+  const a=data.applications.find(x=>x.id===editingApplicationId);
+  if(a){a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=balance;a.liquidity=liquidity;}
+  editingApplicationId=null;
+  $('applicationForm').querySelector('button[type="submit"]').textContent='Adicionar aplicação';
+  const cancel=$('cancelApplicationEdit'); if(cancel) cancel.remove();
+}else{
+  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
+}
 $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
 persist();
 };
+
+function editApplication(id){
+  const a=data.applications.find(x=>x.id===id);
+  if(!a) return;
+  editingApplicationId=id;
+  $('appBox').value=a.box||currentBox();
+  $('appInstitution').value=a.institution||'';
+  $('appDescription').value=a.description||'';
+  $('appType').value=a.type||'';
+  $('appBalance').value=String(Number(a.balance||0)).replace('.',',');
+  $('appLiquidity').value=a.liquidity||'';
+  const btn=$('applicationForm').querySelector('button[type="submit"]');
+  btn.textContent='Salvar alterações';
+  if(!$('cancelApplicationEdit')){
+    const c=document.createElement('button');
+    c.type='button'; c.className='btn'; c.id='cancelApplicationEdit'; c.textContent='Cancelar edição';
+    c.onclick=cancelApplicationEdit;
+    btn.parentNode.appendChild(c);
+  }
+  $('applicationForm').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function cancelApplicationEdit(){
+  editingApplicationId=null;
+  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
+  $('applicationForm').querySelector('button[type="submit"]').textContent='Adicionar aplicação';
+  const c=$('cancelApplicationEdit'); if(c) c.remove();
+}
 
 $('cardForm').onsubmit=e=>{
 e.preventDefault();
@@ -745,17 +784,15 @@ function launchPayment(id){
  persist();
 }
 
-function backupPayload(){return {app:'Meu Controle Financeiro',version:SCHEMA,exportedAt:new Date().toISOString(),data:cloneData(normalizeData(data))}}
+function backupPayload(){return {app:'Meu Controle Financeiro',version:3,exportedAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(data))}}
 function saveBackupBlob(payload,filename){let blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function exportData(){let payload=backupPayload();saveBackupBlob(payload,'Meu_Controle_Financeiro_backup_'+today()+'.json');localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'arquivo'}));renderBackupInfo();alert('Backup criado. Guarde o arquivo em um local seguro, como o Google Drive.')}
 function createLocalSnapshot(){try{localStorage.setItem('mcf_snapshot',JSON.stringify(backupPayload()));localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'local'}));renderBackupInfo();alert('Cópia local criada neste navegador. Ela é útil como proteção rápida, mas não substitui o arquivo guardado fora do aparelho.')}catch(e){alert('Não foi possível criar a cópia local.')}}
-function renderBackupInfo(){let el=$('backupInfo');if(!el)return;let raw=localStorage.getItem('mcf_last_backup');let snap=localStorage.getItem('mcf_snapshot');let auto=localStorage.getItem(AUTO);if(!raw&&!snap&&!auto){el.innerHTML='⚠️ <b>Nenhum backup registrado ainda.</b>';return}let info=raw?JSON.parse(raw):null;let d=info?new Date(info.at):null;let a=auto?JSON.parse(auto):null;let ad=a?new Date(a.createdAt):null;el.innerHTML=(info?`✅ Último backup: <b>${d.toLocaleString('pt-BR')}</b> (${info.type==='arquivo'?'arquivo exportado':'cópia local'})`:'')+(snap?' <span class="muted">• Cópia local disponível</span>':'')+(a?` <span class="muted">• Cópia automática: ${ad.toLocaleString('pt-BR')}</span>`:'')}
-function restoreAutoBackup(){try{const raw=localStorage.getItem(AUTO);if(!raw){alert('Não há uma cópia automática disponível.');return}const j=JSON.parse(raw);if(!j.data||!Array.isArray(j.data.boxes))throw Error('invalid');if(!confirm('Restaurar a última cópia automática? Antes disso, será criada uma nova cópia dos dados atuais.'))return;localStorage.setItem('mcf_snapshot',JSON.stringify(backupPayload()));data=normalizeData(j.data);localStorage.setItem(KEY,JSON.stringify(data));render();renderBackupInfo();alert('Cópia automática restaurada com sucesso.')}catch(e){alert('Não foi possível restaurar a cópia automática.')}}
+function renderBackupInfo(){let el=$('backupInfo');if(!el)return;let raw=localStorage.getItem('mcf_last_backup');let snap=localStorage.getItem('mcf_snapshot');if(!raw&&!snap){el.innerHTML='⚠️ <b>Nenhum backup registrado ainda.</b>';return}let info=raw?JSON.parse(raw):null;let d=info?new Date(info.at):null;el.innerHTML=(info?`✅ Último backup: <b>${d.toLocaleString('pt-BR')}</b> (${info.type==='arquivo'?'arquivo exportado':'cópia local'})`:'')+(snap?' <span class="muted">• Cópia local disponível</span>':'')}
 function validateBackup(j){if(!j||j.app!=='Meu Controle Financeiro'||!j.data||!Array.isArray(j.data.boxes)||!Array.isArray(j.data.tx))return false;return true}
-$('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let j=JSON.parse(await f.text());if(!validateBackup(j))throw Error('invalid');if(!confirm('Substituir os dados atuais deste navegador? Uma cópia local será criada antes da restauração.')){e.target.value='';return}localStorage.setItem('mcf_snapshot',JSON.stringify(backupPayload()));localStorage.setItem(AUTO,JSON.stringify({app:'Meu Controle Financeiro',version:SCHEMA,reason:'cópia automática antes da restauração',createdAt:new Date().toISOString(),data:cloneData(data)}));data=normalizeData(j.data);localStorage.setItem(KEY,JSON.stringify(data));render();renderBackupInfo();alert('Backup restaurado com sucesso.')}catch(err){alert('Arquivo inválido ou incompatível com o Meu Controle Financeiro.')}e.target.value=''};
+$('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let j=JSON.parse(await f.text());if(!validateBackup(j))throw Error('invalid');if(!confirm('Substituir os dados atuais deste navegador? Uma cópia local será criada antes da restauração.')){e.target.value='';return}localStorage.setItem('mcf_snapshot',JSON.stringify(backupPayload()));data=j.data;localStorage.setItem(KEY,JSON.stringify(data));render();renderBackupInfo();alert('Backup restaurado com sucesso.')}catch(err){alert('Arquivo inválido ou incompatível com o Meu Controle Financeiro.')}e.target.value=''};
 renderBackupInfo();
 render();
-if(dataLoadWarning)setTimeout(()=>alert(dataLoadWarning),200);
 
 document.addEventListener('DOMContentLoaded',()=>{
  renderSecurityStatus();
@@ -767,41 +804,32 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 <script>
 (function(){
-  function getStore(){return data}
-  function saveStore(d){data=d;localStorage.setItem(KEY,JSON.stringify(data));renderCategorySuggestions();render();}
+  function getStore(){try{return data}catch(e){return data}}
+  function saveStore(d){data=d;localStorage.setItem(KEY,JSON.stringify(data));renderCategorySuggestions();}
   function cats(){const d=getStore();return Array.isArray(d.categories)?d.categories:[]}
-  function catType(c){return c&&c.type==='Receita'?'Receita':'Despesa'}
-  function catName(c){return String(c?.name||c||'').trim()}
   function render(){
     const el=document.getElementById('mcfCategoryList'); if(!el)return;
     const arr=cats();
     el.innerHTML=arr.map((c,i)=>{
-      const name=catName(c), type=catType(c), cls=type==='Receita'?'income':'expense';
-      return `<div class="mcf-cat-row"><span class="mcf-cat-name ${cls}">${esc(name)}</span><button type="button" class="btn" data-edit-cat="${i}">Editar</button></div>`;
+      const name=typeof c==='string'?c:(c.name||'');
+      return `<div class="mcf-cat-row"><span>${name.replace(/</g,'&lt;')}</span><button type="button" class="btn" data-edit-cat="${i}">Editar</button></div>`;
     }).join('') || '<div class="muted" style="margin:8px 0">Nenhuma categoria cadastrada.</div>';
     el.querySelectorAll('[data-edit-cat]').forEach(b=>b.onclick=()=>{
-      const i=Number(b.dataset.editCat), a=cats(), old=catName(a[i]), oldType=catType(a[i]);
+      const i=Number(b.dataset.editCat), a=cats(), old=typeof a[i]==='string'?a[i]:(a[i]?.name||'');
       const n=prompt('Nome da categoria:',old); if(n===null)return; const name=n.trim(); if(!name)return alert('Informe um nome.');
-      const typeInput=prompt('Tipo da categoria: digite Receita ou Despesa.',oldType); if(typeInput===null)return;
-      const type=/^receita$/i.test(typeInput.trim())?'Receita':/^despesa$/i.test(typeInput.trim())?'Despesa':'';
-      if(!type)return alert('Digite exatamente Receita ou Despesa.');
-      if(a.some((c,j)=>j!==i&&catName(c).toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
-      const d=getStore(); d.categories[i]={name,type}; saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+      if(a.some((c,j)=>(j!==i?(typeof c==='string'?c:c.name||''):'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+      const d=getStore(); d.categories[i]=typeof d.categories[i]==='string'?name:{...d.categories[i],name}; saveStore(d); render(); window.dispatchEvent(new Event('mcfCategoriesChanged'));
     });
   }
   function add(){
     const n=prompt('Nome da nova categoria:'); if(n===null)return; const name=n.trim(); if(!name)return;
-    const typeInput=prompt('Tipo da categoria: digite Receita ou Despesa.'); if(typeInput===null)return;
-    const type=/^receita$/i.test(typeInput.trim())?'Receita':/^despesa$/i.test(typeInput.trim())?'Despesa':'';
-    if(!type)return alert('Digite exatamente Receita ou Despesa.');
     const d=getStore(); if(!Array.isArray(d.categories))d.categories=[];
-    if(d.categories.some(c=>catName(c).toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
-    d.categories.push({name,type}); saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+    if(d.categories.some(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+    d.categories.push(name); saveStore(d); render(); window.dispatchEvent(new Event('mcfCategoriesChanged'));
   }
   document.addEventListener('click',e=>{if(e.target.id==='mcfAddCategory')add()});
   window.addEventListener('mcfCategoriesChanged',render);
-  const manager=document.getElementById('mcfCategoryManager'); if(manager)manager.open=false;
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(manager)manager.open=false;render()});else render();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
 })();
 </script>
 <script>
@@ -814,7 +842,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       const candidates=['[data-section="'+key+'"]','#'+key,'#'+key+'Section','[id*="'+key+'"]'];
       let el=null;
       for(const sel of candidates){try{el=document.querySelector(sel);if(el)break;}catch(e){}}
-      if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
     });
   });
 })();
@@ -852,7 +880,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     'pets':['pet','cachorro','caes','veterinario','racao']
   };
   const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  function catNames(){const type=document.getElementById('type')?.value==='Receita'?'Receita':'Despesa';const a=Array.isArray(data.categories)?data.categories:[];return [...new Set(a.filter(x=>(x?.type||'Despesa')===type).map(x=>String(x?.name||x||'')).filter(Boolean))]}
+  function catNames(){const a=Array.isArray(data.categories)?data.categories:[];return a.map(x=>typeof x==='string'?x:(x.name||'')).filter(Boolean)}
   function matches(q){const n=norm(q);const names=catNames();if(!n)return names.slice(0,10);return names.filter(c=>{const cn=norm(c);return cn.includes(n)||(synonyms[cn]||[]).some(x=>norm(x).includes(n)||n.includes(norm(x)))}).slice(0,8)}
   function attach(){
     const inp=document.getElementById('category'),wrap=inp?.parentElement,box=document.getElementById('mcfCategorySuggestions'),arrow=document.getElementById('mcfCategoryArrow');
@@ -889,9 +917,3 @@ document.addEventListener('DOMContentLoaded',()=>{
     .observe(document.body,{subtree:true,childList:true});
 })();
 </script>
-
-
-
-
-
-
