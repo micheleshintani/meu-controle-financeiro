@@ -428,6 +428,8 @@ const incomeCategories = [
   'Outras receitas'
 ];
 
+function categoryNamesForType(){return $('type')?.value==='Receita'?incomeCategories:expenseCategories;}
+
 function renderCategorySuggestions(){
   const custom=Array.isArray(data.categories)?data.categories.map(c=>typeof c==='string'?c:(c.name||'')).filter(Boolean):[];
   const list=custom.length?custom:categoryNamesForType();
