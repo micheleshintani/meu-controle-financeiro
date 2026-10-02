@@ -88,7 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 8</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 9</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -405,14 +405,21 @@ const expenseCategories = [
 
 const incomeCategories = [
   'Salário',
+  '13º salário',
   'Aposentadoria',
   'Pensão',
+  'Honorários',
+  'Serviços realizados',
   'Freelance e serviços',
   'Pró-labore',
+  'Comissões e bonificações',
   'Aluguéis',
   'Rendimentos de investimentos',
+  'Dividendos',
   'Juros',
   'Reembolsos',
+  'Restituição de imposto',
+  'Benefícios',
   'Vendas',
   'Outras receitas'
 ];
@@ -427,7 +434,11 @@ function renderCategorySuggestions(){
 
 
 
-if(!Array.isArray(data.categories)||!data.categories.length){data.categories=[...expenseCategories];}
+if(!Array.isArray(data.categories)||!data.categories.length){data.categories=[...expenseCategories,...incomeCategories];}
+else {
+  const existing=new Set(data.categories.map(c=>String(typeof c==='string'?c:(c&&c.name)||'').trim().toLowerCase()).filter(Boolean));
+  incomeCategories.forEach(c=>{if(!existing.has(c.toLowerCase())){data.categories.push(c);existing.add(c.toLowerCase())}});
+}
 if(!Array.isArray(data.recurring))data.recurring=[];
 if(!Array.isArray(data.refunds))data.refunds=[];
 function addMonthsDate(date,n){
