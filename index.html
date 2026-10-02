@@ -13,6 +13,7 @@
 .mcf-cat-row{display:flex;gap:8px;align-items:center;margin:7px 0}
 .mcf-cat-row span{flex:1}
 .mcf-cat-row button{padding:6px 9px}
+.mcf-cat-row .mcf-cat-name{font-weight:700}.mcf-cat-row .mcf-cat-name.income{color:var(--green)}.mcf-cat-row .mcf-cat-name.expense{color:var(--red)}
 .mcf-card-select-note{font-size:12px;color:#66756f;margin-top:4px}
 </style>
 
@@ -88,7 +89,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 9</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 10</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -347,6 +348,22 @@ function saveDraft(){
  const d={};draftFields.forEach(id=>{const e=$(id);if(e)d[id]=e.value});d.savedAt=new Date().toISOString();
  if(Object.values(d).some(v=>v!==''&&v!==null&&v!==undefined&&v!==today()))localStorage.setItem(DRAFT,JSON.stringify(d));
 }
+function resetForm(){
+  editingId=null;
+  const form=$('txForm'); if(form)form.reset();
+  if($('date'))$('date').value=today();
+  if($('type'))$('type').value='Despesa';
+  if($('status'))$('status').value='Realizado';
+  if($('category'))$('category').value='';
+  if($('cardWrap'))$('cardWrap').classList.add('hidden');
+  if($('installmentWrap'))$('installmentWrap').classList.add('hidden');
+  if($('recurringWrap'))$('recurringWrap').classList.add('hidden');
+  if($('draftNotice'))$('draftNotice').classList.add('hidden');
+  if($('clearDraftBtn'))$('clearDraftBtn').classList.add('hidden');
+  if($('saveTxBtn'))$('saveTxBtn').textContent='Salvar lançamento';
+  if($('cancelEditBtn'))$('cancelEditBtn').classList.add('hidden');
+  if(typeof updateTypeUI==='function')updateTypeUI();
+}
 function clearDraft(){
  localStorage.removeItem(DRAFT);$('draftNotice').classList.add('hidden');$('clearDraftBtn').classList.add('hidden');
 }
@@ -434,10 +451,18 @@ function renderCategorySuggestions(){
 
 
 
-if(!Array.isArray(data.categories)||!data.categories.length){data.categories=[...expenseCategories,...incomeCategories];}
-else {
-  const existing=new Set(data.categories.map(c=>String(typeof c==='string'?c:(c&&c.name)||'').trim().toLowerCase()).filter(Boolean));
-  incomeCategories.forEach(c=>{if(!existing.has(c.toLowerCase())){data.categories.push(c);existing.add(c.toLowerCase())}});
+if(!Array.isArray(data.categories)||!data.categories.length){
+  data.categories=[...expenseCategories.map(name=>({name,type:'Despesa'})),...incomeCategories.map(name=>({name,type:'Receita'}))];
+}else{
+  data.categories=data.categories.map(c=>{
+    const name=String(typeof c==='string'?c:(c&&c.name)||'').trim();
+    const explicitType=c&&typeof c==='object'&&(c.type==='Receita'||c.type==='Despesa')?c.type:null;
+    const inferred=incomeCategories.some(x=>x.toLowerCase()===name.toLowerCase())?'Receita':'Despesa';
+    return {name,type:explicitType||inferred};
+  }).filter(c=>c.name);
+  const existing=new Set(data.categories.map(c=>c.name.toLowerCase()));
+  expenseCategories.forEach(name=>{if(!existing.has(name.toLowerCase())){data.categories.push({name,type:'Despesa'});existing.add(name.toLowerCase())}});
+  incomeCategories.forEach(name=>{if(!existing.has(name.toLowerCase())){data.categories.push({name,type:'Receita'});existing.add(name.toLowerCase())}});
 }
 if(!Array.isArray(data.recurring))data.recurring=[];
 if(!Array.isArray(data.refunds))data.refunds=[];
@@ -557,7 +582,7 @@ $('payment').onchange=()=>{let p=$('payment').value;$('accountWrap').style.displ
 function previewParcels(){let n=parseInt($('installments').value||0),v=parseBR($('value').value);if(n>=2&&Number.isFinite(v))$('parcelPreview').innerHTML=`<p>Prévia: ${n} parcelas de aproximadamente <strong>${money(v/n)}</strong>. A distribuição exata por fatura será integrada no módulo de cartões.</p>`;else $('parcelPreview').innerHTML=''}
 $('date').value=today();
 updateTypeUI();
-$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};if(syn[n])return syn[n];const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===q.toLowerCase());return hit?(typeof hit==='string'?hit:hit.name):q})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()}
+$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec;try{rec={type:$('type').value,desc:$('desc').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};const wanted=syn[n]||q;const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>String(c?.name||c).toLowerCase()===wanted.toLowerCase()&&c?.type===($('type').value));if(q&&!hit){throw new Error('CATEGORY_TYPE_MISMATCH')}return hit?hit.name:''})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};}catch(err){if(err&&err.message==='CATEGORY_TYPE_MISMATCH'){alert('Selecione uma categoria compatível com o tipo do lançamento.');return}throw err}
 if(editingId){
   const old=data.tx.find(t=>t.id===editingId);
   if(affectsAccount(old)) applyAccountDelta(old.accountId,-signed(old));
@@ -742,32 +767,41 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 <script>
 (function(){
-  function getStore(){try{return data}catch(e){return data}}
+  function getStore(){return data}
   function saveStore(d){data=d;localStorage.setItem(KEY,JSON.stringify(data));renderCategorySuggestions();render();}
   function cats(){const d=getStore();return Array.isArray(d.categories)?d.categories:[]}
+  function catType(c){return c&&c.type==='Receita'?'Receita':'Despesa'}
+  function catName(c){return String(c?.name||c||'').trim()}
   function render(){
     const el=document.getElementById('mcfCategoryList'); if(!el)return;
     const arr=cats();
     el.innerHTML=arr.map((c,i)=>{
-      const name=typeof c==='string'?c:(c.name||'');
-      return `<div class="mcf-cat-row"><span>${esc(name)}</span><button type="button" class="btn" data-edit-cat="${i}">Editar</button></div>`;
+      const name=catName(c), type=catType(c), cls=type==='Receita'?'income':'expense';
+      return `<div class="mcf-cat-row"><span class="mcf-cat-name ${cls}">${esc(name)}</span><button type="button" class="btn" data-edit-cat="${i}">Editar</button></div>`;
     }).join('') || '<div class="muted" style="margin:8px 0">Nenhuma categoria cadastrada.</div>';
     el.querySelectorAll('[data-edit-cat]').forEach(b=>b.onclick=()=>{
-      const i=Number(b.dataset.editCat), a=cats(), old=typeof a[i]==='string'?a[i]:(a[i]?.name||'');
+      const i=Number(b.dataset.editCat), a=cats(), old=catName(a[i]), oldType=catType(a[i]);
       const n=prompt('Nome da categoria:',old); if(n===null)return; const name=n.trim(); if(!name)return alert('Informe um nome.');
-      if(a.some((c,j)=>(j!==i?(typeof c==='string'?c:c.name||''):'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
-      const d=getStore(); d.categories[i]=typeof d.categories[i]==='string'?name:{...d.categories[i],name}; saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+      const typeInput=prompt('Tipo da categoria: digite Receita ou Despesa.',oldType); if(typeInput===null)return;
+      const type=/^receita$/i.test(typeInput.trim())?'Receita':/^despesa$/i.test(typeInput.trim())?'Despesa':'';
+      if(!type)return alert('Digite exatamente Receita ou Despesa.');
+      if(a.some((c,j)=>j!==i&&catName(c).toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+      const d=getStore(); d.categories[i]={name,type}; saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
     });
   }
   function add(){
     const n=prompt('Nome da nova categoria:'); if(n===null)return; const name=n.trim(); if(!name)return;
+    const typeInput=prompt('Tipo da categoria: digite Receita ou Despesa.'); if(typeInput===null)return;
+    const type=/^receita$/i.test(typeInput.trim())?'Receita':/^despesa$/i.test(typeInput.trim())?'Despesa':'';
+    if(!type)return alert('Digite exatamente Receita ou Despesa.');
     const d=getStore(); if(!Array.isArray(d.categories))d.categories=[];
-    if(d.categories.some(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
-    d.categories.push(name); saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+    if(d.categories.some(c=>catName(c).toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+    d.categories.push({name,type}); saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
   }
   document.addEventListener('click',e=>{if(e.target.id==='mcfAddCategory')add()});
   window.addEventListener('mcfCategoriesChanged',render);
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+  const manager=document.getElementById('mcfCategoryManager'); if(manager)manager.open=false;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(manager)manager.open=false;render()});else render();
 })();
 </script>
 <script>
@@ -818,7 +852,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     'pets':['pet','cachorro','caes','veterinario','racao']
   };
   const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  function catNames(){const a=Array.isArray(data.categories)?data.categories:[];const custom=a.map(x=>typeof x==='string'?x:(x.name||'')).filter(Boolean);const base=document.getElementById('type')?.value==='Receita'?incomeCategories:expenseCategories;return [...new Set([...base,...custom])]}
+  function catNames(){const type=document.getElementById('type')?.value==='Receita'?'Receita':'Despesa';const a=Array.isArray(data.categories)?data.categories:[];return [...new Set(a.filter(x=>(x?.type||'Despesa')===type).map(x=>String(x?.name||x||'')).filter(Boolean))]}
   function matches(q){const n=norm(q);const names=catNames();if(!n)return names.slice(0,10);return names.filter(c=>{const cn=norm(c);return cn.includes(n)||(synonyms[cn]||[]).some(x=>norm(x).includes(n)||n.includes(norm(x)))}).slice(0,8)}
   function attach(){
     const inp=document.getElementById('category'),wrap=inp?.parentElement,box=document.getElementById('mcfCategorySuggestions'),arrow=document.getElementById('mcfCategoryArrow');
