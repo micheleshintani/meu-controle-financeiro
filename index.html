@@ -88,7 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 2</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 3</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -124,30 +124,18 @@
 <div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
 </section>
 <section id="cadastros" class="hidden">
-<div class="mcf-cat-admin" id="mcfCategoryManager">
-  <div class="section-title"><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">categorias únicas</span></div>
-  <div class="mcf-cat-help">As categorias são únicas no aplicativo e podem ser usadas em qualquer caixa.</div>
-  <div id="mcfCategoryList"></div>
-  <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
-</div>
 <div class="mcf-quick-cadastros" id="mcfQuickCadastros">
   <h3>⚙️ Cadastros rápidos</h3>
   <div class="mcf-quick-grid">
     <button type="button" data-target="contas">🏦 Contas bancárias</button>
-    <button type="button" data-target="cartoes">💳 Cartões</button>
     <button type="button" data-target="aplicacoes">📈 Aplicações</button>
+    <button type="button" data-target="cartoes">💳 Cartões</button>
     <button type="button" data-target="categorias">🏷️ Categorias</button>
-    <button type="button" data-target="recorrencias">🔄 Recorrências</button>
   </div>
-  <div class="mcf-quick-note">Cadastre aqui os itens que depois aparecem automaticamente nos lançamentos e no dashboard.</div>
+  <div class="mcf-quick-note">Acesse rapidamente os cadastros usados nos lançamentos.</div>
 </div>
-<div class="panel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
-<div class="panel"><h2>Categorias pré-cadastradas</h2>
-<p class="muted">São sugestões para agilizar os lançamentos. A categoria continua opcional e você pode digitar outra quando quiser.</p>
-<h3>Despesas</h3><div id="expenseCategoriesList"></div>
-<hr><h3>Receitas</h3><div id="incomeCategoriesList"></div>
-</div>
-<div class="panel"><h2>Contas bancárias</h2>
+<div class="panel" id="caixasPanel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
+<div class="panel" id="contas"><h2>Contas bancárias</h2>
 <p class="muted">As contas são cadastradas no caixa em uso. O saldo é manual e pode ser alterado a qualquer momento, sem criar receita ou despesa.</p>
 <div id="accountsList"></div>
 <form id="accountForm">
@@ -158,11 +146,17 @@
 <button class="btn primary" type="submit">Adicionar conta</button>
 </form>
 </div>
-<div class="panel"><h2>Recorrências</h2>
+<details class="mcf-cat-admin" id="mcfCategoryManager">
+  <summary><strong>🏷️ Gerenciar categorias</strong><span class="tag blue">categorias únicas</span></summary>
+  <div class="mcf-cat-help">As categorias são únicas no aplicativo e podem ser usadas em qualquer caixa.</div>
+  <div id="mcfCategoryList"></div>
+  <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
+</details>
+<div class="panel" id="recorrencias"><h2>Recorrências</h2>
 <p class="muted">Cadastro-base para receitas ou despesas que se repetem. O valor pode ser ajustado em um mês específico ou a partir de determinado mês sem alterar o passado.</p>
 <div id="recurringList"></div>
 </div>
-<div class="panel"><h2>Aplicações</h2>
+<div class="panel" id="aplicacoes"><h2>Aplicações</h2>
 <p class="muted">Cadastre apenas totais agrupados, como “Total de CDBs”. Não é necessário cadastrar cada CDB, ação ou investimento individual.</p>
 <div id="applicationsList"></div>
 <form id="applicationForm">
@@ -175,7 +169,7 @@
 <button class="btn primary" type="submit">Adicionar aplicação</button>
 </form>
 </div>
-<div class="panel"><h2>Cartões de crédito</h2>
+<div class="panel" id="cartoes"><h2>Cartões de crédito</h2>
 <p class="muted">Cadastre os cartões que você usa. O fechamento pode ser informado depois; o vencimento já fica pré-cadastrado quando conhecido.</p>
 <div id="cardsList"></div>
 <form id="cardForm">
@@ -431,12 +425,9 @@ const incomeCategories = [
 function categoryNamesForType(){return $('type')?.value==='Receita'?incomeCategories:expenseCategories;}
 
 function renderCategorySuggestions(){
-  const custom=Array.isArray(data.categories)?data.categories.map(c=>typeof c==='string'?c:(c.name||'')).filter(Boolean):[];
-  const list=custom.length?custom:categoryNamesForType();
-  const allExp=custom.length?custom:expenseCategories, allInc=custom.length?custom:incomeCategories;
   const ex=$('expenseCategoriesList'), inc=$('incomeCategoriesList');
-  if(ex)ex.innerHTML=allExp.map(c=>`<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
-  if(inc)inc.innerHTML=allInc.map(c=>`<span class="pill" style="margin:3px 3px 3px 0">${esc(c)}</span>`).join('');
+  if(ex)ex.innerHTML='';
+  if(inc)inc.innerHTML='';
 }
 
 
@@ -778,7 +769,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       const candidates=['[data-section="'+key+'"]','#'+key,'#'+key+'Section','[id*="'+key+'"]'];
       let el=null;
       for(const sel of candidates){try{el=document.querySelector(sel);if(el)break;}catch(e){}}
-      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
+      if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView({behavior:'smooth',block:'start'});el.style.outline='3px solid rgba(46,125,96,.35)';setTimeout(()=>el.style.outline='',1400);}
     });
   });
 })();
@@ -816,7 +807,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     'pets':['pet','cachorro','caes','veterinario','racao']
   };
   const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  function catNames(){const a=Array.isArray(data.categories)?data.categories:[];return a.map(x=>typeof x==='string'?x:(x.name||'')).filter(Boolean)}
+  function catNames(){const a=Array.isArray(data.categories)?data.categories:[];const custom=a.map(x=>typeof x==='string'?x:(x.name||'')).filter(Boolean);const base=document.getElementById('type')?.value==='Receita'?incomeCategories:expenseCategories;return [...new Set([...base,...custom])]}
   function matches(q){const n=norm(q);const names=catNames();if(!n)return names.slice(0,10);return names.filter(c=>{const cn=norm(c);return cn.includes(n)||(synonyms[cn]||[]).some(x=>norm(x).includes(n)||n.includes(norm(x)))}).slice(0,8)}
   function attach(){
     const inp=document.getElementById('category'),wrap=inp?.parentElement,box=document.getElementById('mcfCategorySuggestions'),arrow=document.getElementById('mcfCategoryArrow');
