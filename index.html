@@ -89,7 +89,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 10</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 11</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -97,7 +97,7 @@
 <div class="cards" id="dashboardCards"></div><div class="panel dashboard-panel bank-panel"><h2>🏦 Saldo por banco</h2><div id="bankBalances"></div></div>
 <div class="panel dashboard-panel app-panel"><div class="section-title"><h2>📈 Aplicações</h2><span class="tag blue" id="appTotal">R$ 0,00</span></div>
 <div class="item"><span>Disponibilidade imediata</span><strong id="appImmediate">R$ 0,00</strong></div>
-<div id="applicationsList"></div>
+<div id="dashboardApplicationsList"></div>
 </div>
 <div class="summary3" id="monthSummary"></div>
 <div class="panel dashboard-panel income-panel"><div class="section-title"><h2>🟢 Recebimentos previstos</h2><span class="tag green" id="incomeDueCount">0</span></div><div id="incomeDueList" class="muted">Nenhum recebimento previsto.</div></div>
@@ -177,7 +177,7 @@
 </form>
 </div>
 </section>
-<section id="relatorios" class="hidden"><div class="panel"><h2>Relatórios</h2><p class="muted">Filtre os lançamentos do caixa selecionado.</p><div class="row"><div><label>Caixa</label><select id="reportBox"></select></div><div><label>Período inicial</label><input id="reportStart" type="date"></div></div><div class="row"><div><label>Período final</label><input id="reportEnd" type="date"></div><div><label>Tipo</label><select id="reportType"><option>Todos</option><option>Receita</option><option>Despesa</option></select></div></div><div class="row"><div><label>Categoria</label><select id="reportCategory"><option>Todos</option></select></div><div><label>Situação</label><select id="reportStatus"><option>Todos</option><option>Realizado</option><option>Previsto</option><option>Cancelada</option></select></div></div><div class="row"><div><label>Conta</label><select id="reportAccount"><option>Todos</option></select></div><div><label>Cartão</label><select id="reportCard"><option>Todos</option></select></div></div><div class="row"><div><label>Loja</label><select id="reportStore"><option>Todos</option></select></div><div><label>Forma de pagamento</label><select id="reportPayment"><option>Todos</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div></div><button class="btn primary" type="button" onclick="renderReports()">Aplicar filtros</button> <button class="btn" type="button" onclick="clearReportFilters()">Limpar filtros</button></div><div class="panel"><h2>Resumo</h2><div id="reportSummary" class="grid"></div></div><div class="panel"><h2>Por categoria</h2><div id="reportCategories"></div></div><div class="panel"><h2>Por loja</h2><div id="reportStores"></div></div><div class="panel"><h2>Por cartão</h2><div id="reportCards"></div></div><div class="panel"><h2>Fluxo mensal</h2><div id="reportMonths"></div></div><div class="panel"><div class="section-title"><h2>Lançamentos filtrados</h2><span class="pill" id="reportCount"></span></div><div id="reportList"></div></div></section>
+<section id="relatorios" class="hidden"><div class="panel"><h2>Relatórios</h2><p class="muted">Filtre os lançamentos do caixa selecionado.</p><div class="row"><div><label>Caixa</label><select id="reportBox"></select></div><div><label>Período inicial</label><input id="reportStart" type="date"></div></div><div class="row"><div><label>Período final</label><input id="reportEnd" type="date"></div><div><label>Tipo</label><select id="reportType"><option>Todos</option><option>Receita</option><option>Despesa</option></select></div></div><div class="row"><div><label>Categoria</label><select id="reportCategory"><option>Todos</option></select></div><div><label>Situação</label><select id="reportStatus"><option>Todos</option><option>Realizado</option><option>Previsto</option><option>Cancelada</option></select></div></div><div class="row"><div><label>Conta</label><select id="reportAccount"><option>Todos</option></select></div><div><label>Cartão</label><select id="reportCard"><option>Todos</option></select></div></div><div class="row"><div><label>Loja</label><select id="reportStore"><option>Todos</option></select></div><div><label>Forma de pagamento</label><select id="reportPayment"><option>Todos</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div></div><button class="btn primary" type="button" onclick="renderReports()">Aplicar filtros</button> <button class="btn" type="button" onclick="clearReportFilters()">Limpar filtros</button><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" onclick="exportReportPDF()">📄 Gerar PDF</button><button class="btn" type="button" onclick="exportReportExcel()">📊 Gerar Excel</button></div></div><div class="panel"><h2>Resumo</h2><div id="reportSummary" class="grid"></div></div><div class="panel"><h2>Por categoria</h2><div id="reportCategories"></div></div><div class="panel"><h2>Por loja</h2><div id="reportStores"></div></div><div class="panel"><h2>Por cartão</h2><div id="reportCards"></div></div><div class="panel"><h2>Fluxo mensal</h2><div id="reportMonths"></div></div><div class="panel"><div class="section-title"><h2>Lançamentos filtrados</h2><span class="pill" id="reportCount"></span></div><div id="reportList"></div></div></section>
 <section id="seguranca" class="hidden">
 <div class="panel"><h2>Segurança e acesso</h2>
 <p class="muted">Proteja o acesso ao aplicativo neste aparelho. O PIN é usado como alternativa de desbloqueio.</p>
@@ -236,16 +236,51 @@ function applicationTotals(b){
   const immediate=apps.filter(a=>a.liquidity==='Imediata').reduce((s,a)=>s+Number(a.balance||0),0);
   return {total,immediate};
 }
+let editingApplicationId=null;
+function applicationItemHTML(a){
+  return `<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><div style="text-align:right"><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button> <button type="button" class="btn" onclick="removeApplication('${esc(a.id)}')">Excluir</button></div></div>`;
+}
 function renderApplications(){
   $('appBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
   $('appBox').value=currentBox();
   const apps=activeApplications(currentBox());
   const totals=applicationTotals(currentBox());
-  $('applicationsList').innerHTML=apps.length
-    ? apps.map(a=>`<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><strong>${money(a.balance)}</strong></div>`).join('')
-    : '<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
+  const html=apps.length?apps.map(applicationItemHTML).join(''):'<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
+  $('applicationsList').innerHTML=html;
+  $('dashboardApplicationsList').innerHTML=apps.length?apps.map(a=>`<div class="item"><span>${esc(a.institution)} — ${esc(a.description)}</span><strong>${money(a.balance)}</strong></div>`).join(''):'';
   $('appTotal').textContent=money(totals.total);
   $('appImmediate').textContent=money(totals.immediate);
+}
+function editApplication(id){
+  const a=data.applications.find(x=>x.id===id);
+  if(!a)return;
+  editingApplicationId=id;
+  $('appBox').value=a.box||currentBox();
+  $('appInstitution').value=a.institution||'';
+  $('appDescription').value=a.description||'';
+  $('appType').value=a.type||'';
+  $('appBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  $('appLiquidity').value=a.liquidity||'';
+  const btn=$('applicationForm').querySelector('button[type="submit"]');
+  btn.textContent='Salvar alterações';
+  if(!$('cancelApplicationEdit')){
+    const c=document.createElement('button'); c.type='button'; c.className='btn'; c.id='cancelApplicationEdit'; c.textContent='Cancelar edição'; c.onclick=cancelApplicationEdit; btn.parentNode.appendChild(c);
+  }
+  $('applicationForm').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function cancelApplicationEdit(){
+  editingApplicationId=null;
+  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
+  $('applicationForm').querySelector('button[type="submit"]').textContent='Adicionar aplicação';
+  const c=$('cancelApplicationEdit');if(c)c.remove();
+}
+function removeApplication(id){
+  const a=data.applications.find(x=>x.id===id);
+  if(!a)return;
+  if(!confirm(`Excluir a aplicação "${a.description||a.institution}"?`))return;
+  data.applications=data.applications.filter(x=>x.id!==id);
+  if(editingApplicationId===id)cancelApplicationEdit();
+  persist();
 }
 const defaultCards=[
 {id:'card_nubank',box:'Pessoal',name:'Nubank',dueDay:16,closeDay:'',active:true},
@@ -343,10 +378,25 @@ function securityTick(){if(security.enabled&&lockTimeout>0&&!locked&&Date.now()-
 ['click','touchstart','keydown','input','change'].forEach(ev=>document.addEventListener(ev,securityActivity,{passive:true}));setInterval(securityTick,30000);
 
 const draftFields=['type','desc','value','date','box','status','category','payment','accountSelect','cardSelect','installmentType','installments','recurring','frequency','endDate','note'];
+function draftHasMeaningfulContent(d){
+  const defaults={type:'Despesa',desc:'',value:'',date:today(),box:currentBox(),status:'Realizado',category:'',payment:'Pix',accountSelect:'',cardSelect:'',installmentType:'À vista',installments:'',recurring:'Não',frequency:'Mensal',endDate:'',note:''};
+  return draftFields.some(id=>String(d[id]??'')!==String(defaults[id]??''));
+}
 function saveDraft(){
  if(editingId)return;
  const d={};draftFields.forEach(id=>{const e=$(id);if(e)d[id]=e.value});d.savedAt=new Date().toISOString();
- if(Object.values(d).some(v=>v!==''&&v!==null&&v!==undefined&&v!==today()))localStorage.setItem(DRAFT,JSON.stringify(d));
+ if(draftHasMeaningfulContent(d)){
+   localStorage.setItem(DRAFT,JSON.stringify(d));
+   if($('draftNotice')){
+     $('draftNotice').textContent='Rascunho salvo automaticamente. Você pode continuar ou descartá-lo.';
+     $('draftNotice').classList.remove('hidden');
+   }
+   if($('clearDraftBtn'))$('clearDraftBtn').classList.remove('hidden');
+ }else{
+   localStorage.removeItem(DRAFT);
+   if($('draftNotice'))$('draftNotice').classList.add('hidden');
+   if($('clearDraftBtn'))$('clearDraftBtn').classList.add('hidden');
+ }
 }
 function resetForm(){
   editingId=null;
@@ -536,6 +586,31 @@ function reportOptions(){const b=$('reportBox').value||currentBox();const tx=dat
 function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||(t.store||t.loja||'')===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
 function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card"><small>Saldo do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(m)}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
 function clearReportFilters(){['reportStart','reportEnd'].forEach(id=>$(id).value='');['reportType','reportStatus','reportCategory','reportAccount','reportCard','reportStore','reportPayment'].forEach(id=>$(id).value='Todos');$('reportBox').value=currentBox();reportOptions();renderReports();}
+function reportExportRows(){
+  const tx=filteredReportTx().slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+  return tx.map(t=>({
+    Data:mcfBRDate(t.date),Tipo:t.type||'',Descrição:t.desc||'',Categoria:t.category||'',Situação:t.status||'',Valor:Number(t.value||0),
+    'Forma de pagamento':t.payment||'',Conta:accountName(t.accountId)||t.account||'',Cartão:(cardById(t.cardId)||{}).name||t.card||'',Loja:t.store||t.loja||'',Observação:t.note||''
+  }));
+}
+function exportReportExcel(){
+  const rows=reportExportRows();
+  const headers=['Data','Tipo','Descrição','Categoria','Situação','Valor','Forma de pagamento','Conta','Cartão','Loja','Observação'];
+  const cell=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const body=rows.map(r=>'<tr>'+headers.map(h=>`<td>${cell(r[h])}</td>`).join('')+'</tr>').join('');
+  const html=`<html><head><meta charset="UTF-8"></head><body><h2>Meu Controle Financeiro — Relatório</h2><p>Caixa: ${cell($('reportBox').value)} | Gerado em: ${cell(todayBR())}</p><table border="1"><thead><tr>${headers.map(h=>`<th>${cell(h)}</th>`).join('')}</tr></thead><tbody>${body||'<tr><td colspan="11">Nenhum lançamento encontrado.</td></tr>'}</tbody></table></body></html>`;
+  const blob=new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Meu_Controle_Financeiro_Relatorio_'+today()+'.xls';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function exportReportPDF(){
+  const tx=reportExportRows();
+  const popup=window.open('','_blank');
+  if(!popup){alert('O navegador bloqueou a janela do PDF. Permita pop-ups para este site e tente novamente.');return}
+  const escP=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const rows=tx.map(r=>`<tr><td>${escP(r.Data)}</td><td>${escP(r.Tipo)}</td><td>${escP(r.Descrição)}</td><td>${escP(r.Categoria)}</td><td>${escP(r.Situação)}</td><td class="num">${Number(r.Valor||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td><td>${escP(r['Forma de pagamento'])}</td><td>${escP(r.Conta)}</td><td>${escP(r.Cartão)}</td><td>${escP(r.Loja)}</td></tr>`).join('');
+  popup.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Relatório — Meu Controle Financeiro</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#222}h1{font-size:22px}p{color:#666}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #ccc;padding:6px;text-align:left}th{background:#eee}.num{text-align:right;white-space:nowrap}@media print{body{padding:8px}button{display:none}}</style></head><body><h1>Meu Controle Financeiro — Relatório</h1><p>Caixa: ${escP($('reportBox').value)} · Gerado em ${escP(todayBR())} · ${tx.length} lançamento${tx.length===1?'':'s'}</p><table><thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Categoria</th><th>Situação</th><th>Valor</th><th>Pagamento</th><th>Conta</th><th>Cartão</th><th>Loja</th></tr></thead><tbody>${rows||'<tr><td colspan="10">Nenhum lançamento encontrado.</td></tr>'}</tbody></table><script>window.onload=function(){setTimeout(function(){window.print()},300)}<\/script></body></html>`);
+  popup.document.close();
+}
 function render(){
 renderCategorySuggestions();
 if($('reportBox')){const sel=currentBox();$('reportBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('reportBox').value=sel;reportOptions();renderReports();}
@@ -649,8 +724,14 @@ $('applicationForm').onsubmit=e=>{
 e.preventDefault();
 const box=$('appBox').value,institution=$('appInstitution').value.trim(),description=$('appDescription').value.trim(),type=$('appType').value.trim(),balance=parseBR($('appBalance').value),liquidity=$('appLiquidity').value;
 if(!box||!institution||!description||!Number.isFinite(balance)||balance<0){alert('Preencha instituição, descrição e saldo válido.');return}
-data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
-$('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
+if(editingApplicationId){
+  const a=data.applications.find(x=>x.id===editingApplicationId);
+  if(a){a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=balance;a.liquidity=liquidity;a.active=true;}
+  cancelApplicationEdit();
+}else{
+  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
+  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
+}
 persist();
 };
 
