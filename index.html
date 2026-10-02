@@ -88,7 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 4</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 5</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -151,10 +151,6 @@
   <div id="mcfCategoryList"></div>
   <button type="button" id="mcfAddCategory" class="btn">＋ Nova categoria</button>
 </details>
-<div class="panel" id="recorrencias"><h2>Recorrências</h2>
-<p class="muted">Cadastro-base para receitas ou despesas que se repetem. O valor pode ser ajustado em um mês específico ou a partir de determinado mês sem alterar o passado.</p>
-<div id="recurringList"></div>
-</div>
 <div class="panel" id="aplicacoes"><h2>Aplicações</h2>
 <p class="muted">Cadastre apenas totais agrupados, como “Total de CDBs”. Não é necessário cadastrar cada CDB, ação ou investimento individual.</p>
 <div id="applicationsList"></div>
@@ -431,6 +427,7 @@ function renderCategorySuggestions(){
 
 
 
+if(!Array.isArray(data.categories)||!data.categories.length){data.categories=[...expenseCategories];}
 if(!Array.isArray(data.recurring))data.recurring=[];
 if(!Array.isArray(data.refunds))data.refunds=[];
 function addMonthsDate(date,n){
@@ -731,27 +728,27 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script>
 (function(){
   function getStore(){try{return data}catch(e){return data}}
-  function saveStore(d){data=d;localStorage.setItem(KEY,JSON.stringify(data));renderCategorySuggestions();}
+  function saveStore(d){data=d;localStorage.setItem(KEY,JSON.stringify(data));renderCategorySuggestions();render();}
   function cats(){const d=getStore();return Array.isArray(d.categories)?d.categories:[]}
   function render(){
     const el=document.getElementById('mcfCategoryList'); if(!el)return;
     const arr=cats();
     el.innerHTML=arr.map((c,i)=>{
       const name=typeof c==='string'?c:(c.name||'');
-      return `<div class="mcf-cat-row"><span>${name.replace(/</g,'&lt;')}</span><button type="button" class="btn" data-edit-cat="${i}">Editar</button></div>`;
+      return `<div class="mcf-cat-row"><span>${esc(name)}</span><button type="button" class="btn" data-edit-cat="${i}">Editar</button></div>`;
     }).join('') || '<div class="muted" style="margin:8px 0">Nenhuma categoria cadastrada.</div>';
     el.querySelectorAll('[data-edit-cat]').forEach(b=>b.onclick=()=>{
       const i=Number(b.dataset.editCat), a=cats(), old=typeof a[i]==='string'?a[i]:(a[i]?.name||'');
       const n=prompt('Nome da categoria:',old); if(n===null)return; const name=n.trim(); if(!name)return alert('Informe um nome.');
       if(a.some((c,j)=>(j!==i?(typeof c==='string'?c:c.name||''):'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
-      const d=getStore(); d.categories[i]=typeof d.categories[i]==='string'?name:{...d.categories[i],name}; saveStore(d); render(); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+      const d=getStore(); d.categories[i]=typeof d.categories[i]==='string'?name:{...d.categories[i],name}; saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
     });
   }
   function add(){
     const n=prompt('Nome da nova categoria:'); if(n===null)return; const name=n.trim(); if(!name)return;
     const d=getStore(); if(!Array.isArray(d.categories))d.categories=[];
     if(d.categories.some(c=>(typeof c==='string'?c:c.name||'').toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
-    d.categories.push(name); saveStore(d); render(); window.dispatchEvent(new Event('mcfCategoriesChanged'));
+    d.categories.push(name); saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
   }
   document.addEventListener('click',e=>{if(e.target.id==='mcfAddCategory')add()});
   window.addEventListener('mcfCategoriesChanged',render);
