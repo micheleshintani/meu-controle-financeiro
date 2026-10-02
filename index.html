@@ -88,7 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 7</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 8</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -215,7 +215,7 @@ const defaultAccounts=[
 {id:'acc_itau',box:'Casa',bank:'Itaú',name:'Itaú',balance:0,active:true},
 {id:'acc_sicoob',box:'Casa',bank:'Sicoob',name:'Sicoob',balance:0,active:true}
 ];
-if(!Array.isArray(data.accounts))data.accounts=defaultAccounts.map(a=>({...a})); data.accounts.forEach(a=>{if(a.box==='Meu Financeiro')a.box='Pessoal'});
+if(!Array.isArray(data.accounts)||!data.accounts.length)data.accounts=defaultAccounts.map(a=>({...a})); data.accounts.forEach(a=>{if(a.box==='Meu Financeiro')a.box='Pessoal'});
 function activeAccounts(b){return data.accounts.filter(a=>a.box===b&&a.active)}
 function accountName(id){const a=data.accounts.find(x=>x.id===id);return a?a.name:''}
 let editingAccountId=null;
@@ -491,8 +491,10 @@ function renderInvoices(){
 }
 
 function renderRecurring(){
+  const el=$('recurringList');
+  if(!el)return;
   const list=data.recurring.filter(r=>r.box===currentBox()&&r.active!==false);
-  $('recurringList').innerHTML=list.length?list.map(r=>`<div class="item"><div><strong>${esc(r.desc)}</strong><div class="muted">${r.type==='Receita'?'💰 Receita':'💸 Despesa'} · ${money(r.value)} · ${esc(r.frequency)} · ${esc(r.startDate)}${r.endDate?' até '+esc(r.endDate):''}</div></div><span class="pill">${esc(r.category||'Sem categoria')}</span></div>`).join(''):'<p class="muted">Nenhuma recorrência cadastrada neste caixa.</p>';
+  el.innerHTML=list.length?list.map(r=>`<div class="item"><div><strong>${esc(r.desc)}</strong><div class="muted">${r.type==='Receita'?'💰 Receita':'💸 Despesa'} · ${money(r.value)} · ${esc(r.frequency)} · ${esc(r.startDate)}${r.endDate?' até '+esc(r.endDate):''}</div></div><span class="pill">${esc(r.category||'Sem categoria')}</span></div>`).join(''):'<p class="muted">Nenhuma recorrência cadastrada neste caixa.</p>';
 }
 function reportOptions(){const b=$('reportBox').value||currentBox();const tx=data.tx.filter(t=>t.box===b);const fill=(id,values)=>{const el=$(id),old=el.value;el.innerHTML='<option>Todos</option>'+[...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old};fill('reportCategory',tx.map(t=>t.category));fill('reportAccount',tx.map(t=>accountName(t.accountId)||t.account));fill('reportCard',tx.map(t=>(cardById(t.cardId)||{}).name||t.card));fill('reportStore',tx.map(t=>t.store||t.loja));}
 function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||(t.store||t.loja||'')===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
