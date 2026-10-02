@@ -90,7 +90,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 15</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 16</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -196,7 +196,7 @@
 <p class="muted">Ao sair, o aplicativo fica bloqueado e o PIN será solicitado novamente para entrar. No Safari, a página não pode ser fechada automaticamente pelo aplicativo.</p>
 <p class="muted">Por segurança, o PIN não é incluído nos backups. Os backups guardam somente os dados financeiros.</p>
 </div></section>
-<section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON. No iPhone, <b>Fazer backup agora</b> abre o compartilhamento para você escolher onde guardar. Se o Google Drive apresentar falha no upload, use <b>Baixar backup (.json)</b> e depois mova o arquivo pelo app Arquivos para a pasta de backup do Google Drive.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="downloadBackupFile()">💾 Baixar backup (.json)</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><button class="btn" style="width:100%;margin-top:8px" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
+<section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON. No iPhone, ao tocar em <b>Fazer backup agora</b>, você poderá escolher onde guardar o arquivo, inclusive em <b>Arquivos</b> e, se disponível no aparelho, no <b>Google Drive</b>.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><button class="btn" style="width:100%;margin-top:8px" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
 <footer>Versão de teste • Um caixa por vez no dashboard e no histórico.</footer>
 </main>
 <script>
@@ -204,7 +204,7 @@ const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';
 function cloneData(v){return JSON.parse(JSON.stringify(v))}
 function normalizeData(raw){const d=raw&&typeof raw==='object'?raw:{};if(!Array.isArray(d.boxes))d.boxes=[];d.boxes=d.boxes.map(b=>String(b??'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b);DEFAULT_BOXES.forEach(b=>{if(!d.boxes.includes(b))d.boxes.push(b)});d.boxes=[...new Set(d.boxes)];if(!Array.isArray(d.tx))d.tx=[];if(!Array.isArray(d.accounts))d.accounts=[];if(!Array.isArray(d.cards))d.cards=[];if(!Array.isArray(d.categories))d.categories=[];d._schemaVersion=SCHEMA;return d}
 (function loadDataSafely(){const raw=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(!raw){data=normalizeData({});return}try{const parsed=JSON.parse(raw);const before=cloneData(parsed);const needsMigration=Number(parsed._schemaVersion||0)<SCHEMA||!Array.isArray(parsed.boxes)||parsed.boxes.length===0;if(needsMigration){try{localStorage.setItem(AUTO,JSON.stringify({app:'Meu Controle Financeiro',version:SCHEMA,reason:'pré-migração automática',createdAt:new Date().toISOString(),data:before}))}catch(e){}}data=normalizeData(parsed);if(needsMigration){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}}catch(e){data=normalizeData({});dataLoadWarning='Os dados salvos não puderam ser lidos. O aplicativo não substituiu o arquivo original. Verifique a área de Backup antes de continuar.'}})();
-let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Number(localStorage.getItem('mcf_last_activity')||Date.now());
+let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();
 try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
 const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);
 const mcfBRDate=value=>{if(!value)return '';const m=String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:String(value)};
@@ -361,7 +361,7 @@ async function setSecurityPin(){
  security={enabled:true,hash:await hashPin(a)};localStorage.setItem(SEC,JSON.stringify(security));$('securityPin').value='';$('securityPin2').value='';renderSecurityStatus();alert('PIN de acesso salvo.')
 }
 function removeSecurityPin(){if(!security.enabled){alert('Não há PIN configurado.');return}if(confirm('Remover o PIN de acesso?')){security={enabled:false,hash:''};localStorage.setItem(SEC,JSON.stringify(security));renderSecurityStatus()}}
-function saveLockTimeout(){lockTimeout=Number($('lockTimeout').value||0);localStorage.setItem(LOCK,String(lockTimeout));lastActivity=Date.now();localStorage.setItem('mcf_last_activity',String(lastActivity));alert('Preferência de bloqueio salva.')}
+function saveLockTimeout(){lockTimeout=Number($('lockTimeout').value||0);localStorage.setItem(LOCK,String(lockTimeout));lastActivity=Date.now();alert('Preferência de bloqueio salva.')}
 function renderSecurityStatus(){$('securityStatus').textContent=security.enabled?'PIN de acesso ativado.':'PIN de acesso desativado.';$('lockTimeout').value=String(lockTimeout)}
 async function unlockApp(){
  if(!security.enabled){locked=false;hideLockScreen();return}
@@ -373,7 +373,7 @@ async function unlockApp(){
    return;
  }
  if((await hashPin(pin))===security.hash){
-   locked=false;lastActivity=Date.now();localStorage.setItem('mcf_last_activity',String(lastActivity));
+   locked=false;lastActivity=Date.now();
    if(pinEl)pinEl.value='';
    const msg=document.getElementById('lockError');if(msg)msg.textContent='';
    hideLockScreen();
@@ -402,25 +402,22 @@ function hideLockScreen(){const el=document.getElementById('lockScreen');if(el)e
 function logoutApp(){
  if(!security.enabled){alert('Ative um PIN de acesso antes de usar esta opção.');return}
  if(confirm('Sair e bloquear o aplicativo agora?')){
-   lastActivity=Date.now();localStorage.setItem('mcf_last_activity',String(lastActivity));
+   lastActivity=Date.now();
    showLockScreen();
  }
 }
-function securityActivity(){if(locked)return;lastActivity=Date.now();localStorage.setItem('mcf_last_activity',String(lastActivity))}
+function securityActivity(){if(locked)return;lastActivity=Date.now()}
 function securityTick(){if(security.enabled&&lockTimeout>0&&!locked&&Date.now()-lastActivity>lockTimeout*60000)showLockScreen()}
 ['click','touchstart','keydown','input','change'].forEach(ev=>document.addEventListener(ev,securityActivity,{passive:true}));setInterval(securityTick,30000);
 function securityInit(){
-  lastActivity=Number(localStorage.getItem('mcf_last_activity')||lastActivity||Date.now());
   if(security.enabled && lockTimeout>0 && Date.now()-lastActivity>lockTimeout*60000) showLockScreen();
 }
 window.addEventListener('pageshow',()=>{
   if(!security.enabled)return;
-  lastActivity=Number(localStorage.getItem('mcf_last_activity')||lastActivity||Date.now());
   if(locked || (lockTimeout>0 && Date.now()-lastActivity>lockTimeout*60000)) showLockScreen();
 });
 window.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='hidden'){localStorage.setItem('mcf_last_activity',String(lastActivity));return}
-  if(document.visibilityState==='visible' && security.enabled && lockTimeout>0 && !locked){lastActivity=Number(localStorage.getItem('mcf_last_activity')||lastActivity||Date.now());if(Date.now()-lastActivity>lockTimeout*60000)showLockScreen();}
+  if(document.visibilityState==='visible' && security.enabled && lockTimeout>0 && !locked && Date.now()-lastActivity>lockTimeout*60000) showLockScreen();
 });
 
 
@@ -631,7 +628,7 @@ function renderRecurring(){
 }
 function reportOptions(){const b=$('reportBox').value||currentBox();const tx=data.tx.filter(t=>t.box===b);const fill=(id,values)=>{const el=$(id),old=el.value;el.innerHTML='<option>Todos</option>'+[...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old};fill('reportCategory',tx.map(t=>t.category));fill('reportAccount',tx.map(t=>accountName(t.accountId)||t.account));fill('reportCard',tx.map(t=>(cardById(t.cardId)||{}).name||t.card));fill('reportStore',tx.map(t=>t.store||t.loja));}
 function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||(t.store||t.loja||'')===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
-function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status==='Realizado').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status==='Realizado').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card neutral"><small>Saldo do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status==='Realizado').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status==='Realizado').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(m)}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
+function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status==='Realizado').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status==='Realizado').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card neutral"><small>Saldo do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(m)}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
 function clearReportFilters(){['reportStart','reportEnd'].forEach(id=>$(id).value='');['reportType','reportStatus','reportCategory','reportAccount','reportCard','reportStore','reportPayment'].forEach(id=>$(id).value='Todos');$('reportBox').value=currentBox();reportOptions();renderReports();}
 function reportExportRows(){
   const tx=filteredReportTx().slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
@@ -668,11 +665,11 @@ renderCards();
 renderInvoices();
 renderRecurring();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0];$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('box').value=selected;$('historyBox').textContent=selected;
-let bal=boxBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa');let recReal=rec.filter(t=>t.status==='Realizado'),expReal=exp.filter(t=>t.status==='Realizado');let rr=recReal.reduce((s,t)=>s+Number(t.value),0),ee=expReal.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
+let bal=boxBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita'&&t.status==='Realizado');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa'&&t.status==='Realizado');let rr=rec.reduce((s,t)=>s+Number(t.value),0),ee=exp.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
 $('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo ao final do mês</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">projetado até o fim do mês</span></div>`;
 $('monthSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo</small><div class="amount">${money(rr-ee)}</div></div>`;
 let upcomingReceipts=tx.filter(t=>t.status==='Previsto'&&t.type==='Receita').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('incomeDueCount').textContent=upcomingReceipts.length;$('incomeDueList').innerHTML=upcomingReceipts.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(mcfBRDate(t.date))}</div></div><div style="text-align:right"><strong class="positive">${money(Number(t.value||0))}</strong><br><button class="btn" onclick="launchReceipt('${t.id}')">Lançar recebimento</button></div></div>`).join('')||'Nenhum recebimento previsto.';let upcoming=tx.filter(t=>t.status==='Previsto'&&t.type==='Despesa'&&t.payment!=='Cartão de crédito').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(mcfBRDate(t.date))}${t.payment?' · '+esc(t.payment):''}</div></div><div style="text-align:right"><strong class="negative">${money(Number(t.value||0)*-1)}</strong><br><button class="btn" onclick="launchPayment('${t.id}')">Lançar pagamento</button></div></div>`).join('')||'Nenhuma conta próxima.';
-let cats={};expReal.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
+let cats={};exp.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
 let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
 let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';const activeBoxName=currentBox(); const activeBoxIndex=data.boxes.indexOf(activeBoxName);
 $('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span><strong>${esc(b)}</strong><div class="muted">${b===activeBoxName?'Caixa em uso':'Caixa disponível'}</div></span><button class="btn" onclick="renameBox(${i})">Renomear</button></div>`).join('')+`<p class="muted" style="margin-top:8px">Selecione o caixa no dashboard para consultar contas, cartões e aplicações daquele caixa.</p>`;
@@ -881,7 +878,7 @@ async function saveBackupBlob(payload,filename){
    if(typeof navigator.share==='function' && typeof File!=='undefined'){
      const file=new File([blob],filename,{type:'application/json'});
      if(!navigator.canShare || navigator.canShare({files:[file]})){
-       await navigator.share({title:'Backup — Meu Controle Financeiro',text:'Escolha onde deseja guardar este backup.',files:[file]});
+       await navigator.share({title:'Backup — Meu Controle Financeiro',files:[file]});
        return 'compartilhado';
      }
    }
@@ -898,19 +895,8 @@ async function exportData(){
  if(result==='cancelado')return;
  localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'arquivo',filename}));
  renderBackupInfo();
- if(result==='compartilhado') alert('Backup preparado. Escolha no menu do iPhone onde deseja guardar o arquivo, por exemplo em Arquivos ou Google Drive.');
- else alert('Backup criado. O navegador iniciou o salvamento do arquivo.');
-}
-
-function downloadBackupFile(){
- const payload=backupPayload();
- const filename='Meu_Controle_Financeiro_backup_'+today()+'.json';
- const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
- const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
- setTimeout(()=>URL.revokeObjectURL(url),1500);
- localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'arquivo',filename}));
- renderBackupInfo();
- alert('Backup baixado. No iPhone, abra Arquivos > Downloads e mova o arquivo para a pasta de backup que você criou no Google Drive.');
+ if(result==='compartilhado') alert('Backup realizado com sucesso.');
+ else alert('Backup realizado com sucesso.');
 }
 function createLocalSnapshot(){try{localStorage.setItem('mcf_snapshot',JSON.stringify(backupPayload()));localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'local'}));renderBackupInfo();alert('Cópia local criada neste navegador. Ela é útil como proteção rápida, mas não substitui o arquivo guardado fora do aparelho.')}catch(e){alert('Não foi possível criar a cópia local.')}}
 function renderBackupInfo(){let el=$('backupInfo');if(!el)return;let raw=localStorage.getItem('mcf_last_backup');let snap=localStorage.getItem('mcf_snapshot');let auto=localStorage.getItem(AUTO);if(!raw&&!snap&&!auto){el.innerHTML='⚠️ <b>Nenhum backup registrado ainda.</b>';return}let info=raw?JSON.parse(raw):null;let d=info?new Date(info.at):null;let a=auto?JSON.parse(auto):null;let ad=a?new Date(a.createdAt):null;el.innerHTML=(info?`✅ Último backup: <b>${d.toLocaleString('pt-BR')}</b> (${info.type==='arquivo'?'arquivo exportado':'cópia local'})`:'')+(snap?' <span class="muted">• Cópia local disponível</span>':'')+(a?` <span class="muted">• Cópia automática: ${ad.toLocaleString('pt-BR')}</span>`:'')}
