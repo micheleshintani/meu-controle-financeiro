@@ -88,7 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 5</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>Versão 6</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -197,7 +197,7 @@
 <script>
 const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const DEFAULT_BOXES=['Pessoal','Casa'];let data={boxes:[...DEFAULT_BOXES],tx:[]};let editingId=null;
 try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s){data=JSON.parse(s);data.boxes=Array.isArray(data.boxes)?data.boxes.filter(b=>String(b??'').trim()).map(b=>String(b).trim()):[];if(!data.boxes.length)data.boxes=[...DEFAULT_BOXES];data.tx=Array.isArray(data.tx)?data.tx:[]}}catch(e){data={boxes:[...DEFAULT_BOXES],tx:[]};};
-if(!Array.isArray(data.boxes)||!data.boxes.length)data.boxes=[...DEFAULT_BOXES];
+if(!Array.isArray(data.boxes))data.boxes=[]; data.boxes=data.boxes.map(b=>String(b??'').trim()).filter(Boolean); if(data.boxes.some(b=>b==='Meu Financeiro'))data.boxes=data.boxes.map(b=>b==='Meu Financeiro'?'Pessoal':b); DEFAULT_BOXES.forEach(b=>{if(!data.boxes.includes(b))data.boxes.unshift(b)}); data.boxes=[...new Set(data.boxes)];
 let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();
 try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
 const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);
@@ -206,15 +206,15 @@ const parseBRDate=value=>{const s=String(value||'').trim();const m=s.match(/^(\d
 const todayBR=()=>mcfBRDate(today());
 
 const defaultAccounts=[
-{id:'acc_nubank',box:'Meu Financeiro',bank:'Nubank',name:'Nubank',balance:0,active:true},
-{id:'acc_bradesco',box:'Meu Financeiro',bank:'Bradesco',name:'Bradesco',balance:0,active:true},
-{id:'acc_inter',box:'Meu Financeiro',bank:'Inter',name:'Inter',balance:0,active:true},
-{id:'acc_caixa',box:'Meu Financeiro',bank:'Caixa',name:'Caixa',balance:0,active:true},
-{id:'acc_btg',box:'Meu Financeiro',bank:'BTG',name:'BTG',balance:0,active:true},
+{id:'acc_nubank',box:'Pessoal',bank:'Nubank',name:'Nubank',balance:0,active:true},
+{id:'acc_bradesco',box:'Pessoal',bank:'Bradesco',name:'Bradesco',balance:0,active:true},
+{id:'acc_inter',box:'Pessoal',bank:'Inter',name:'Inter',balance:0,active:true},
+{id:'acc_caixa',box:'Pessoal',bank:'Caixa',name:'Caixa',balance:0,active:true},
+{id:'acc_btg',box:'Pessoal',bank:'BTG',name:'BTG',balance:0,active:true},
 {id:'acc_itau',box:'Casa',bank:'Itaú',name:'Itaú',balance:0,active:true},
 {id:'acc_sicoob',box:'Casa',bank:'Sicoob',name:'Sicoob',balance:0,active:true}
 ];
-if(!Array.isArray(data.accounts))data.accounts=defaultAccounts.map(a=>({...a}));
+if(!Array.isArray(data.accounts))data.accounts=defaultAccounts.map(a=>({...a})); data.accounts.forEach(a=>{if(a.box==='Meu Financeiro')a.box='Pessoal'});
 function activeAccounts(b){return data.accounts.filter(a=>a.box===b&&a.active)}
 function accountName(id){const a=data.accounts.find(x=>x.id===id);return a?a.name:''}
 let editingAccountId=null;
@@ -246,13 +246,12 @@ function renderApplications(){
   $('appImmediate').textContent=money(totals.immediate);
 }
 const defaultCards=[
-{id:'card_nubank',box:'Meu Financeiro',name:'Nubank',dueDay:16,closeDay:'',active:true},
-{id:'card_santander',box:'Meu Financeiro',name:'Santander',dueDay:12,closeDay:'',active:true},
-{id:'card_inter',box:'Meu Financeiro',name:'Inter',dueDay:20,closeDay:'',active:true},
-{id:'card_itau',box:'Casa',name:'Itaú',dueDay:17,closeDay:'',active:true},
-{id:'card_livix',box:'Casa',name:'Livix Alimentação',dueDay:20,closeDay:'',active:true}
+{id:'card_nubank',box:'Pessoal',name:'Nubank',dueDay:16,closeDay:'',active:true},
+{id:'card_santander',box:'Pessoal',name:'Santander',dueDay:12,closeDay:'',active:true},
+{id:'card_inter',box:'Pessoal',name:'Inter',dueDay:20,closeDay:'',active:true},
+{id:'card_itau',box:'Casa',name:'Itaú',dueDay:17,closeDay:'',active:true}
 ];
-if(!Array.isArray(data.cards))data.cards=defaultCards.map(c=>({...c}));
+if(!Array.isArray(data.cards))data.cards=[]; data.cards.forEach(c=>{if(c.box==='Meu Financeiro')c.box='Pessoal'}); defaultCards.forEach(def=>{const existing=data.cards.find(c=>c.id===def.id); if(!existing)data.cards.push({...def}); else {existing.box=existing.box||def.box; existing.dueDay=existing.dueDay||def.dueDay; if(existing.closeDay==null||existing.closeDay==='')existing.closeDay=def.closeDay; if(existing.active==null)existing.active=true;}});
 
 // Fechamentos confirmados/inferidos a partir das faturas enviadas.
 // Só preenche quando ainda não houver um fechamento salvo pelo usuário.
@@ -363,7 +362,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function parseBR(v){let s=String(v??'').trim().replace(/\s/g,'').replace(/R\$/i,'');if(!s)return NaN;if(s.includes(',')){s=s.replace(/\./g,'').replace(',','.')}else{s=s.replace(/\.(?=\d{3}(?:\.|$))/g,'')}return Number(s)}
 function formatInput(){let n=parseBR($('value').value);if(Number.isFinite(n))$('value').value=n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function signed(t){return t.type==='Despesa'?-Number(t.value):Number(t.value)}
-function currentBox(){const el=$('dashBox');const value=el&&el.value;if(value&&data.boxes.includes(value))return value;return data.boxes[0]||DEFAULT_BOXES[0]}
+function currentBox(){if(!Array.isArray(data.boxes)||!data.boxes.length)data.boxes=[...DEFAULT_BOXES];const el=$('dashBox');const value=el&&el.value;if(value&&data.boxes.includes(value))return value;const last=localStorage.getItem(LAST);if(last&&data.boxes.includes(last))return last;return data.boxes[0]||DEFAULT_BOXES[0]}
 function boxBalance(b){return activeAccounts(b).reduce((s,a)=>s+Number(a.balance||0),0)}
 function applyAccountDelta(accountId,delta){if(!accountId)return;const a=data.accounts.find(x=>x.id===accountId);if(a)a.balance=Number(a.balance||0)+Number(delta||0)}
 function affectsAccount(t){return t && t.status==='Realizado' && t.accountId && t.payment!=='Cartão de crédito' && t.payment!=='Dinheiro'}
