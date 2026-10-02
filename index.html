@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#176b55"><title>Meu Controle Financeiro</title>
 <style>
 :root{--green:#176b55;--green2:#2f8f70;--mint:#e9f5ef;--blue:#2867a8;--bluebg:#edf5fc;--amber:#b7791f;--amberbg:#fff6e5;--red:#b42318;--redbg:#fff0ee;--purple:#7057a8;--purplebg:#f3effb;--ink:#20312b;--muted:#66756e;--line:#dce6e0;--bg:#f5f8f6;--white:#fff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:linear-gradient(135deg,var(--green),#248266);color:#fff;padding:20px 16px 18px;border-radius:0 0 22px 22px}header h1{font-size:21px;margin:0 0 4px}header p{margin:0;font-size:13px;opacity:.9}main{max-width:760px;margin:auto;padding:14px 13px 40px}nav{display:flex;gap:7px;overflow:auto;margin-bottom:12px}nav button,.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;background:#e5eee9;color:var(--green);white-space:nowrap}nav button.active,.btn.primary{background:var(--green);color:#fff}.filter{background:#fff;border:1px solid var(--line);padding:12px;border-radius:15px;margin-bottom:12px}.filter label{margin:0 0 5px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 7px rgba(30,50,42,.05)}.card.green{border:2px solid #42a889;background:linear-gradient(135deg,#e4f5ed,#f8fcfa)}.card.blue{border:2px solid #4b91d1;background:linear-gradient(135deg,#e8f2ff,#fbfdff)}.card.red{border:2px solid #d94a3a;background:linear-gradient(135deg,#fff0ee,#fffafa)}.card.purple{border:2px solid #8460c7;background:linear-gradient(135deg,#f3edff,#fdfbff)}.card.amber{border:2px solid #d18a1b;background:linear-gradient(135deg,#fff5df,#fffdf8)}.card small,.muted{color:var(--muted)}.amount{font-size:21px;font-weight:800;margin:7px 0}.mini{font-size:12px;color:var(--muted)}.summary3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.summary3 .card{padding:11px}.summary3 .amount{font-size:17px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}.panel h2{font-size:17px;margin:2px 0 10px}h3{font-size:14px;margin:0 0 8px}label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;font:inherit;color:var(--ink)}input:focus,select:focus{outline:2px solid #b8dfd0;border-color:var(--green)}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.hidden{display:none!important}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.actions button{padding:14px 8px;border:1px solid var(--line);border-radius:13px;background:#fff;font-weight:700;color:var(--ink)}.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.positive{color:var(--green)}.negative{color:var(--red)}.pill{display:inline-block;font-size:11px;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green)}.notice{padding:10px;border-radius:11px;background:var(--amberbg);color:#805b19;font-size:13px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;padding:4px 7px;border-radius:99px}.tag.red{background:var(--redbg);color:var(--red)}.tag.blue{background:var(--bluebg);color:var(--blue)}.tag.purple{background:var(--purplebg);color:var(--purple)}form .btn{margin-top:12px;width:100%}.dashboard-panel.green-panel{border:2px solid #42a889;background:#f3fbf7}.dashboard-panel.blue-panel{border:2px solid #4b91d1;background:#f3f8ff}.dashboard-panel.red-panel{border:2px solid #d94a3a;background:#fff6f4}.dashboard-panel.amber-panel{border:2px solid #d18a1b;background:#fff9ed}.dashboard-panel.purple-panel{border:2px solid #8460c7;background:#f8f4ff}.mcf-cat-wrap{position:relative}.mcf-cat-arrow{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:#e7f2ed;color:var(--green);font-size:20px;font-weight:800;border-radius:9px;width:38px;height:38px;z-index:2}.mcf-cat-wrap input{padding-right:55px}.mcf-cat-dropdown{position:absolute;left:0;right:0;top:100%;z-index:30;background:#fff;border:1px solid #cfe0d8;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.12);overflow:hidden}.mcf-cat-dropdown button{display:block;width:100%;padding:12px 13px;border:0;border-bottom:1px solid #edf2ef;background:#fff;text-align:left;font:inherit;color:#20312b}.mcf-cat-dropdown button:last-child{border-bottom:0}.mcf-cat-dropdown button:active,.mcf-cat-dropdown button:hover{background:#edf8f3}.amount.green-amount{color:#13775c}.amount.blue-amount{color:#246fb2}.amount.red-amount{color:#c52e22}.amount.purple-amount{color:#6d4ab0}.amount.amber-amount{color:#b46e08}footer{font-size:12px;color:var(--muted);line-height:1.5;padding:8px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}@media(max-width:430px){.row,.row3{grid-template-columns:1fr}.summary3{grid-template-columns:1fr 1fr 1fr}.summary3 .amount{font-size:15px}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:linear-gradient(135deg,var(--green),#248266);color:#fff;padding:20px 16px 18px;border-radius:0 0 22px 22px}header h1{font-size:21px;margin:0 0 4px}.mcf-header-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.mcf-header-title>span{font-size:11px;opacity:.9;white-space:nowrap}header p{margin:0;font-size:13px;opacity:.9}main{max-width:760px;margin:auto;padding:14px 13px 40px}nav{display:flex;gap:7px;overflow:auto;margin-bottom:12px}nav button,.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;background:#e5eee9;color:var(--green);white-space:nowrap}nav button.active,.btn.primary{background:var(--green);color:#fff}.filter{background:#fff;border:1px solid var(--line);padding:12px;border-radius:15px;margin-bottom:12px}.filter label{margin:0 0 5px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 7px rgba(30,50,42,.05)}.card.green{border:2px solid #42a889;background:linear-gradient(135deg,#e4f5ed,#f8fcfa)}.card.blue{border:2px solid #4b91d1;background:linear-gradient(135deg,#e8f2ff,#fbfdff)}.card.red{border:2px solid #d94a3a;background:linear-gradient(135deg,#fff0ee,#fffafa)}.card.purple{border:2px solid #8460c7;background:linear-gradient(135deg,#f3edff,#fdfbff)}.card.amber{border:2px solid #d18a1b;background:linear-gradient(135deg,#fff5df,#fffdf8)}.card small,.muted{color:var(--muted)}.amount{font-size:21px;font-weight:800;margin:7px 0}.mini{font-size:12px;color:var(--muted)}.summary3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.summary3 .card{padding:11px}.summary3 .amount{font-size:17px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}.panel h2{font-size:17px;margin:2px 0 10px}h3{font-size:14px;margin:0 0 8px}label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;font:inherit;color:var(--ink)}input:focus,select:focus{outline:2px solid #b8dfd0;border-color:var(--green)}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.hidden{display:none!important}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.actions button{padding:14px 8px;border:1px solid var(--line);border-radius:13px;background:#fff;font-weight:700;color:var(--ink)}.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.positive{color:var(--green)}.negative{color:var(--red)}.pill{display:inline-block;font-size:11px;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green)}.notice{padding:10px;border-radius:11px;background:var(--amberbg);color:#805b19;font-size:13px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;padding:4px 7px;border-radius:99px}.tag.red{background:var(--redbg);color:var(--red)}.tag.blue{background:var(--bluebg);color:var(--blue)}.tag.purple{background:var(--purplebg);color:var(--purple)}form .btn{margin-top:12px;width:100%}.dashboard-panel.green-panel{border:2px solid #42a889;background:#f3fbf7}.dashboard-panel.blue-panel{border:2px solid #4b91d1;background:#f3f8ff}.dashboard-panel.red-panel{border:2px solid #d94a3a;background:#fff6f4}.dashboard-panel.amber-panel{border:2px solid #d18a1b;background:#fff9ed}.dashboard-panel.purple-panel{border:2px solid #8460c7;background:#f8f4ff}.mcf-cat-wrap{position:relative}.mcf-cat-arrow{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:#e7f2ed;color:var(--green);font-size:20px;font-weight:800;border-radius:9px;width:38px;height:38px;z-index:2}.mcf-cat-wrap input{padding-right:55px}.mcf-cat-dropdown{position:absolute;left:0;right:0;top:100%;z-index:30;background:#fff;border:1px solid #cfe0d8;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.12);overflow:hidden}.mcf-cat-dropdown button{display:block;width:100%;padding:12px 13px;border:0;border-bottom:1px solid #edf2ef;background:#fff;text-align:left;font:inherit;color:#20312b}.mcf-cat-dropdown button:last-child{border-bottom:0}.mcf-cat-dropdown button:active,.mcf-cat-dropdown button:hover{background:#edf8f3}.amount.green-amount{color:#13775c}.amount.blue-amount{color:#246fb2}.amount.red-amount{color:#c52e22}.amount.purple-amount{color:#6d4ab0}.amount.amber-amount{color:#b46e08}footer{font-size:12px;color:var(--muted);line-height:1.5;padding:8px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}@media(max-width:430px){.row,.row3{grid-template-columns:1fr}.summary3{grid-template-columns:1fr 1fr 1fr}.summary3 .amount{font-size:15px}}
 </style>
 <style>
 .mcf-cat-help{font-size:12px;color:#66756f;margin-top:4px}
@@ -27,6 +27,7 @@
 #inicio .dashboard-panel{box-shadow:0 2px 8px rgba(32,49,43,.035)}
 #inicio .bank-panel{border-left:5px solid var(--green)}
 #inicio .app-panel{border-left:5px solid var(--blue)}
+#inicio .income-panel{border-left:5px solid var(--green2)}
 #inicio .due-panel{border-left:5px solid var(--red)}
 #inicio .invoice-panel{border-left:5px solid var(--amber)}
 #inicio .cat-panel{border-left:5px solid var(--blue)}
@@ -45,6 +46,7 @@
 #inicio .card small{font-weight:700;color:#51635c}
 #inicio .bank-panel{background:linear-gradient(135deg,#f2faf6,#fff);border-left:7px solid #17795d}
 #inicio .app-panel{background:linear-gradient(135deg,#f0f7fe,#fff);border-left:7px solid #2867a8}
+#inicio .income-panel{background:linear-gradient(135deg,#f0faf5,#fff);border-left:7px solid #2f8f70}
 #inicio .due-panel{background:linear-gradient(135deg,#fff4f1,#fff);border-left:7px solid #c52b20}
 #inicio .invoice-panel{background:linear-gradient(135deg,#fff8e8,#fff);border-left:7px solid #c18420}
 #inicio .cat-panel{background:linear-gradient(135deg,#f2f8fe,#fff);border-left:7px solid #2867a8}
@@ -86,8 +88,7 @@
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
 </style>
 
-<header><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div><h1>Meu Controle Financeiro</h1><p>Seu dinheiro, organizado do seu jeito.</p></div><span id="appVersion" style="font-size:11px;opacity:.82;padding-top:3px;white-space:nowrap">v2026.10.01.02</span></div></header>
-<div id="exitScreen" class="hidden" style="max-width:760px;margin:0 auto;padding:30px 18px"><div class="panel" style="text-align:center;margin-top:30vh"><h2>Você saiu do aplicativo</h2><p class="muted">Se você acabou de receber uma versão nova do arquivo, feche esta aba e abra o novo arquivo para garantir que está usando a versão atualizada.</p><button type="button" class="btn primary" style="width:100%;margin-top:10px" onclick="reenterApp()">Entrar novamente</button></div></div>
+<header><div class="mcf-header-title"><h1>Meu Controle Financeiro</h1><span>v2026.10.01.04</span></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -98,9 +99,10 @@
 <div id="applicationsList"></div>
 </div>
 <div class="summary3" id="monthSummary"></div>
+<div class="panel dashboard-panel income-panel"><div class="section-title"><h2>🟢 Recebimentos previstos</h2><span class="tag green" id="incomeDueCount">0</span></div><div id="incomeDueList" class="muted">Nenhum recebimento previsto.</div></div>
 <div class="panel dashboard-panel due-panel"><div class="section-title"><h2>🔴 Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
 <div class="panel dashboard-panel invoice-panel"><div class="section-title"><h2>🟠 Faturas de cartão</h2><span class="tag amber">próximas</span></div><p class="muted">Estornos geram crédito no cartão e não são tratados como receita.</p><div id="invoiceList" class="muted"></div></div><div class="panel dashboard-panel cat-panel"><div class="section-title"><h2>🔵 Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
-<div class="panel dashboard-panel forecast-panel"><div class="section-title"><h2>🟣 Próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
+<div class="panel dashboard-panel forecast-panel"><div class="section-title"><h2>🟣 Saldo disponível — próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
 </section>
 <section id="lancamentos" class="hidden">
 <div class="panel"><h2>Novo lançamento</h2><div id="draftNotice" class="notice hidden"></div><form id="txForm">
@@ -201,7 +203,7 @@
 <p class="muted">Quando disponível, a autenticação biométrica do aparelho poderá ser usada futuramente como complemento. Nesta etapa, o PIN é o método de acesso implementado.</p>
 </div></section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON e pode ser guardado no Google Drive, iCloud, computador ou outro local seguro.</p><div id="backupInfo" class="notice"></div><button class="btn primary" style="width:100%" onclick="exportData()">📤 Fazer backup agora</button><button class="btn" style="width:100%;margin-top:8px" onclick="createLocalSnapshot()">💾 Criar cópia local de segurança</button><hr><label>Restaurar backup (.json)</label><input type="file" id="restoreFile" accept=".json,application/json"><p class="muted">A restauração substitui os dados atuais deste navegador. Antes dela, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
-<footer><div>Versão de teste • Um caixa por vez no dashboard e no histórico.</div><button type="button" class="btn" style="margin-top:8px" onclick="exitApp()">Sair do aplicativo</button><div class="muted" style="margin-top:6px">Versão instalada: v2026.10.01.02</div></footer>
+<footer>Versão de teste • Um caixa por vez no dashboard e no histórico. Não use dados bancários reais nesta etapa.</footer>
 </main>
 <script>
 const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';let data={boxes:['Meu Financeiro','Casa'],tx:[]};let editingId=null;
@@ -209,18 +211,9 @@ try{const s=localStorage.getItem(KEY)||localStorage.getItem('mcf_data_v1');if(s)
 let security={enabled:false,hash:''};let lockTimeout=Number(localStorage.getItem(LOCK)||15);let locked=false;let lastActivity=Date.now();
 try{const z=localStorage.getItem(SEC);if(z)security=JSON.parse(z)}catch(e){}
 const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);
-function exitApp(){
-  document.querySelector('header').classList.add('hidden');
-  document.querySelector('main').classList.add('hidden');
-  $('exitScreen').classList.remove('hidden');
-}
-function reenterApp(){
-  $('exitScreen').classList.add('hidden');
-  document.querySelector('header').classList.remove('hidden');
-  document.querySelector('main').classList.remove('hidden');
-  render();
-}
-
+const mcfBRDate=value=>{if(!value)return '';const m=String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:String(value)};
+const parseBRDate=value=>{const s=String(value||'').trim();const m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);if(!m)return '';const d=Number(m[1]),mo=Number(m[2]),y=Number(m[3]);const dt=new Date(y,mo-1,d);return dt.getFullYear()===y&&dt.getMonth()===mo-1&&dt.getDate()===d?`${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`:''};
+const todayBR=()=>mcfBRDate(today());
 
 const defaultAccounts=[
 {id:'acc_nubank',box:'Meu Financeiro',bank:'Nubank',name:'Nubank',balance:0,active:true},
@@ -240,8 +233,8 @@ function renderAccounts(){
   $('accountSelect').innerHTML='<option value="">Selecione a conta</option>'+list.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.bank)}</option>`).join('');
   $('accountBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
   $('accountBox').value=currentBox();
-  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button> <button type="button" class="btn" onclick="removeAccount('${esc(a.id)}')">Excluir</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
-  $('bankBalances').innerHTML=list.length?list.map(a=>`<div class="item"><span>${esc(a.name)} <span class="muted">(${esc(a.bank)})</span></span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta cadastrada.</p>';
+  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
+  $('bankBalances').innerHTML=list.length?list.map(a=>`<div class="item"><span>${esc(a.name)}</span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta cadastrada.</p>';
 }
 if(!Array.isArray(data.applications))data.applications=[];
 function activeApplications(b){return data.applications.filter(a=>a.box===b&&a.active!==false)}
@@ -270,6 +263,31 @@ const defaultCards=[
 {id:'card_livix',box:'Casa',name:'Livix Alimentação',dueDay:20,closeDay:'',active:true}
 ];
 if(!Array.isArray(data.cards))data.cards=defaultCards.map(c=>({...c}));
+
+// Dados fictícios de teste reconstruídos para esta versão.
+// Só entram quando o armazenamento atual está vazio, para não sobrescrever dados do usuário.
+function seedDadosDeTeste(){
+  const hasData = Array.isArray(data.tx)&&data.tx.length ||
+    (Array.isArray(data.accounts)&&data.accounts.some(a=>Number(a.balance||0)!==0)) ||
+    (Array.isArray(data.applications)&&data.applications.length) ||
+    (Array.isArray(data.invoices)&&data.invoices.length);
+  if(hasData)return;
+  data.accounts=defaultAccounts.map(a=>({...a}));
+  const saldoTeste={acc_nubank:-837.85,acc_bradesco:2300,acc_inter:200,acc_caixa:65,acc_btg:1500};
+  data.accounts.forEach(a=>{if(Object.prototype.hasOwnProperty.call(saldoTeste,a.id))a.balance=saldoTeste[a.id]});
+  data.applications=[{id:'app_teste_1',box:'Meu Financeiro',institution:'BTG',description:'Aplicações de teste',type:'Reserva',liquidity:'Imediata',balance:13025,active:true}];
+  data.tx=[
+    {id:'tx_teste_receita',type:'Receita',desc:'Teste',value:5000,date:'2026-10-01',box:'Meu Financeiro',status:'Previsto',category:'Outros',payment:'',accountId:'',cardId:'',installmentType:'À vista',installments:1,recurring:'Não',frequency:'Mensal',endDate:'',note:''},
+    {id:'tx_teste_despesa',type:'Despesa',desc:'Teste',value:3000,date:'2026-10-01',box:'Meu Financeiro',status:'Previsto',category:'Outros',payment:'Pix',accountId:'acc_nubank',cardId:'',installmentType:'À vista',installments:1,recurring:'Não',frequency:'Mensal',endDate:'',note:''}
+  ];
+  data.recurring=[];data.refunds=[];data.installments=[];
+  data.invoices=[
+    {id:'inv_card_nubank_2026-11',cardId:'card_nubank',month:'2026-11',officialValue:45,paidValue:0,paid:false},
+    {id:'inv_card_santander_2026-11',cardId:'card_santander',month:'2026-11',officialValue:45,paidValue:0,paid:false}
+  ];
+  localStorage.setItem(KEY,JSON.stringify(data));
+}
+seedDadosDeTeste();
 
 // Fechamentos confirmados/inferidos a partir das faturas enviadas.
 // Só preenche quando ainda não houver um fechamento salvo pelo usuário.
@@ -501,7 +519,7 @@ function renderInvoices(){
       const total=partTotal+directTotal;
       const inv=data.invoices.find(x=>x.cardId===c.id&&x.month===ym);
       const shown=inv&&inv.officialValue!==null?Number(inv.officialValue):total;
-      if(total||inv) rows.push(`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">${esc(monthLabel(ym))}${c.dueDay?' · vence dia '+c.dueDay:''}${inv&&inv.paid?' · paga':''}</div></div><div style="text-align:right"><strong>${money(shown)}</strong><br><button class="btn" onclick="adjustInvoice('${c.id}','${ym}')">Ajustar</button> <button class="btn" onclick="payInvoice('${c.id}','${ym}')">Pagar</button></div></div>`);
+      if(total||inv) rows.push(`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">${esc(monthLabel(ym))}${c.dueDay?' · vence dia '+c.dueDay:''}${inv&&inv.paid?' · paga em '+esc(mcfBRDate(inv.paidDate||'')):''}</div></div><div style="text-align:right"><strong>${money(shown)}</strong><br><button class="btn" onclick="adjustInvoice('${c.id}','${ym}')">Ajustar</button> <button class="btn" onclick="payInvoice('${c.id}','${ym}')">Lançar pagamento</button></div></div>`);
     }
   });
   $('invoiceList').innerHTML=rows.join('')||'Nenhuma fatura prevista.';
@@ -526,9 +544,9 @@ renderInvoices();
 renderRecurring();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0];$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('box').value=selected;$('historyBox').textContent=selected;
 let bal=boxBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value),0),ee=exp.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
-$('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div><span class="mini">Cadastre aplicações depois</span></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo projetado</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">mês atual</span></div>`;
+$('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo ao final do mês</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">projetado até o fim do mês</span></div>`;
 $('monthSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo</small><div class="amount">${money(rr-ee)}</div></div>`;
-let upcoming=tx.filter(t=>t.status==='Previsto').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.payment||'')}${t.cardId?' · 💳 '+esc((cardById(t.cardId)||{}).name||''):''}</div></div><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong></div>`).join('')||'Nenhuma conta próxima.';
+let upcomingReceipts=tx.filter(t=>t.status==='Previsto'&&t.type==='Receita').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('incomeDueCount').textContent=upcomingReceipts.length;$('incomeDueList').innerHTML=upcomingReceipts.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(mcfBRDate(t.date))}</div></div><div style="text-align:right"><strong class="positive">${money(Number(t.value||0))}</strong><br><button class="btn" onclick="launchReceipt('${t.id}')">Lançar recebimento</button></div></div>`).join('')||'Nenhum recebimento previsto.';let upcoming=tx.filter(t=>t.status==='Previsto'&&t.type==='Despesa'&&t.payment!=='Cartão de crédito').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(mcfBRDate(t.date))}${t.payment?' · '+esc(t.payment):''}</div></div><div style="text-align:right"><strong class="negative">${money(Number(t.value||0)*-1)}</strong><br><button class="btn" onclick="launchPayment('${t.id}')">Lançar pagamento</button></div></div>`).join('')||'Nenhuma conta próxima.';
 let cats={};exp.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
 let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
 let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';const activeBoxName=currentBox(); const activeBoxIndex=data.boxes.indexOf(activeBoxName);
@@ -617,20 +635,6 @@ function editAccount(id){
   }
   $('accountForm').scrollIntoView({behavior:'smooth',block:'center'});
 }
-function removeAccount(id){
-  const a=data.accounts.find(x=>x.id===id);
-  if(!a)return;
-  const linked=(data.tx||[]).some(t=>t.accountId===id);
-  if(linked){
-    alert('Esta conta possui lançamentos vinculados. Exclua ou edite esses lançamentos antes de excluir a conta.');
-    return;
-  }
-  if(!confirm(`Excluir a conta \"${a.name}\"?`))return;
-  data.accounts=data.accounts.filter(x=>x.id!==id);
-  if(editingAccountId===id)cancelAccountEdit();
-  persist();
-}
-
 function cancelAccountEdit(){
   editingAccountId=null;
   $('accountBank').value='';$('accountName').value='';$('accountBalance').value='';
@@ -672,14 +676,72 @@ function adjustInvoice(cardId,ym){
  persist();
 }
 function payInvoice(cardId,ym){
- const inv=invoiceFor(cardId,ym),v=prompt('Valor efetivamente pago:',inv.officialValue!==null?String(inv.officialValue).replace('.',','):'');
+ const inv=invoiceFor(cardId,ym), defaultValue=inv.officialValue!==null?Number(inv.officialValue):invoiceDisplayedTotal(cardId,ym);
+ const v=prompt('Valor efetivamente pago:',Number(defaultValue||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
  if(v===null)return;
- const amount=parseBR(v); if(!Number.isFinite(amount)||amount<0){alert('Valor inválido.');return}
+ const amount=parseBR(v); if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
+ const dateText=prompt('Data do pagamento (DD/MM/AAAA):',mcfBRDate(inv.paidDate)||todayBR());
+ if(dateText===null)return;
+ const date=parseBRDate(dateText); if(!date){alert('Data inválida. Use DD/MM/AAAA.');return}
  const accs=activeAccounts(currentBox()); if(!accs.length){alert('Cadastre uma conta para registrar o pagamento da fatura.');return}
- const choice=prompt('Digite o número da conta que será usada:\n'+accs.map((a,i)=>`${i+1} — ${a.name}`).join('\n'),'1'); const idx=Number(choice)-1; if(!Number.isInteger(idx)||!accs[idx])return;
- if(inv.paid && inv.paidValue) accs[idx].balance += Number(inv.paidValue);
- accs[idx].balance -= amount; inv.paidValue=amount;inv.paid=true;inv.paidAccountId=accs[idx].id;persist();
+ const choice=prompt('Digite o número da conta de onde saiu o dinheiro:\n'+accs.map((a,i)=>`${i+1} — ${a.name}`).join('\n'),'1');
+ const idx=Number(choice)-1; if(!Number.isInteger(idx)||!accs[idx])return;
+ const methods=['Pix','Débito','Dinheiro','Transferência','Outro'];
+ const methodChoice=prompt('Forma de pagamento:\n'+methods.map((m,i)=>`${i+1} — ${m}`).join('\n'),'1');
+ const method=methods[Number(methodChoice)-1]; if(!method)return;
+ if(inv.paid && inv.paidAccountId){
+   const oldAcc=data.accounts.find(a=>a.id===inv.paidAccountId);
+   if(oldAcc)oldAcc.balance += Number(inv.paidValue||0);
+ }
+ accs[idx].balance -= amount;
+ inv.paidValue=amount;inv.paid=true;inv.paidDate=date;inv.paidAccountId=accs[idx].id;inv.paidPayment=method;persist();
 }
+function invoiceDisplayedTotal(cardId,ym){
+ const parts=data.installments.filter(p=>p.cardId===cardId&&p.month===ym&&p.status==='Previsto');
+ const partTotal=parts.reduce((s,p)=>s+Number(p.value||0),0);
+ const tx=data.tx.filter(t=>t.box===currentBox()&&t.type==='Despesa'&&t.status==='Previsto'&&t.payment==='Cartão de crédito'&&t.cardId===cardId&&(!data.installments.some(p=>p.purchaseId===t.id)));
+ return partTotal+tx.reduce((s,t)=>s+Number(t.value||0),0);
+}
+function launchReceipt(id){
+ const t=data.tx.find(x=>x.id===id); if(!t||t.status!=='Previsto'||t.type!=='Receita')return;
+ const v=prompt('Valor efetivamente recebido:',Number(t.value||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
+ if(v===null)return;
+ const amount=parseBR(v); if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
+ const dateText=prompt('Data do recebimento (DD/MM/AAAA):',todayBR());
+ if(dateText===null)return;
+ const date=parseBRDate(dateText); if(!date){alert('Data inválida. Use DD/MM/AAAA.');return}
+ const accs=activeAccounts(t.box); if(!accs.length){alert('Cadastre uma conta bancária para registrar o recebimento.');return}
+ const choice=prompt('Digite o número da conta onde entrou o dinheiro:\n'+accs.map((a,i)=>`${i+1} — ${a.name}`).join('\n'),'1');
+ const idx=Number(choice)-1; if(!Number.isInteger(idx)||!accs[idx])return;
+ const methods=['Pix','Transferência','Dinheiro','Outro'];
+ const methodChoice=prompt('Forma de recebimento:\n'+methods.map((m,i)=>`${i+1} — ${m}`).join('\n'),'1');
+ const method=methods[Number(methodChoice)-1]; if(!method)return;
+ t.value=amount; t.date=date; t.status='Realizado'; t.accountId=accs[idx].id; t.payment=method;
+ if(affectsAccount(t))applyAccountDelta(t.accountId,amount);
+ persist();
+}
+
+function launchPayment(id){
+ const t=data.tx.find(x=>x.id===id); if(!t||t.status!=='Previsto'||t.type!=='Despesa')return;
+ const v=prompt('Valor efetivamente pago:',Number(t.value||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
+ if(v===null)return;
+ const amount=parseBR(v); if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
+ const dateText=prompt('Data do pagamento (DD/MM/AAAA):',todayBR());
+ if(dateText===null)return;
+ const date=parseBRDate(dateText); if(!date){alert('Data inválida. Use DD/MM/AAAA.');return}
+ const accs=activeAccounts(t.box); if(!accs.length){alert('Cadastre uma conta bancária para registrar o pagamento.');return}
+ const choice=prompt('Digite o número da conta de onde saiu o dinheiro:\n'+accs.map((a,i)=>`${i+1} — ${a.name}`).join('\n'),'1');
+ const idx=Number(choice)-1; if(!Number.isInteger(idx)||!accs[idx])return;
+ const methods=['Pix','Débito','Dinheiro','Transferência','Outro'];
+ const methodChoice=prompt('Forma de pagamento:\n'+methods.map((m,i)=>`${i+1} — ${m}`).join('\n'),'1');
+ const method=methods[Number(methodChoice)-1]; if(!method)return;
+ const oldValue=Number(t.value||0);
+ t.value=amount; t.date=date; t.status='Realizado'; t.accountId=accs[idx].id; t.payment=method;
+ if(t.cardId)t.cardId='';
+ if(affectsAccount(t))applyAccountDelta(t.accountId,-amount);
+ persist();
+}
+
 function backupPayload(){return {app:'Meu Controle Financeiro',version:3,exportedAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(data))}}
 function saveBackupBlob(payload,filename){let blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function exportData(){let payload=backupPayload();saveBackupBlob(payload,'Meu_Controle_Financeiro_backup_'+today()+'.json');localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'arquivo'}));renderBackupInfo();alert('Backup criado. Guarde o arquivo em um local seguro, como o Google Drive.')}
