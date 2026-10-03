@@ -88,9 +88,10 @@
 }
 .mcf-quick-grid button:hover{background:#eef7f3}
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}
+.month-tabs{display:flex;gap:6px;overflow:auto;margin:8px 0 10px;padding-bottom:2px}.month-tab{border:0;border-radius:999px;padding:8px 11px;background:#e7f2ed;color:var(--green);font-weight:800;white-space:nowrap}.month-tab.active{background:var(--green);color:#fff}.month-tab:disabled{opacity:.45}
 </style>
 
-<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 18</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 19</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -101,8 +102,8 @@
 <div id="dashboardApplicationsList"></div>
 </div>
 <div class="summary3" id="monthSummary"></div>
-<div class="panel dashboard-panel income-panel"><div class="section-title"><h2>🟢 Recebimentos previstos</h2><span class="tag green" id="incomeDueCount">0</span></div><div id="incomeDueList" class="muted">Nenhum recebimento previsto.</div></div>
-<div class="panel dashboard-panel due-panel"><div class="section-title"><h2>🔴 Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
+<div class="panel dashboard-panel income-panel"><div class="section-title"><h2>🟢 Recebimentos previstos</h2><span class="tag green" id="incomeDueCount">0</span></div><div id="incomeMonthTabs" class="month-tabs"></div><div id="incomeDueList" class="muted">Nenhum recebimento previsto.</div></div>
+<div class="panel dashboard-panel due-panel"><div class="section-title"><h2>🔴 Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueMonthTabs" class="month-tabs"></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
 <div class="panel dashboard-panel invoice-panel"><div class="section-title"><h2>🟠 Faturas de cartão</h2><span class="tag amber">próximas</span></div><div id="invoiceList" class="muted"></div></div><div class="panel dashboard-panel cat-panel"><div class="section-title"><h2>🔵 Despesas por categoria</h2><span class="tag blue">mês</span></div><div id="catList" class="muted">Nenhuma despesa realizada.</div></div>
 <div class="panel dashboard-panel forecast-panel"><div class="section-title"><h2>🟣 Saldo disponível nos próximos 6 meses</h2><span class="tag purple">projeção</span></div><div id="forecast" class="muted"></div></div>
 </section>
@@ -251,7 +252,7 @@ function renderApplications(){
   const totals=applicationTotals(currentBox());
   const html=apps.length?apps.map(applicationItemHTML).join(''):'<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
   $('applicationsList').innerHTML=html;
-  $('dashboardApplicationsList').innerHTML=apps.length?apps.map(a=>`<div class="item"><span>${esc(a.institution)} — ${esc(a.description)}</span><strong>${money(a.balance)}</strong></div>`).join(''):'';
+  $('dashboardApplicationsList').innerHTML=apps.length?apps.map(a=>`<div class="item"><span><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${a.liquidity==='Imediata'?'Liquidez imediata':'Sem liquidez imediata'}</div></span><strong>${money(a.balance)}</strong></div>`).join(''):'';
   $('appTotal').textContent=money(totals.total);
   $('appImmediate').textContent=money(totals.immediate);
 }
@@ -406,7 +407,12 @@ function logoutApp(){
    showLockScreen();
  }
 }
-function securityActivity(){if(locked)return;lastActivity=Date.now();localStorage.setItem('mcf_security_last_activity',String(lastActivity))}
+function securityActivity(){
+  if(locked||!security.enabled||lockTimeout<=0)return;
+  const now=Date.now();
+  if(now-lastActivity>=lockTimeout*60000){showLockScreen();return}
+  lastActivity=now;localStorage.setItem('mcf_security_last_activity',String(lastActivity));
+}
 function securityTick(){if(security.enabled&&lockTimeout>0&&!locked&&Date.now()-lastActivity>lockTimeout*60000)showLockScreen()}
 ['click','touchstart','keydown','input','change'].forEach(ev=>document.addEventListener(ev,securityActivity,{passive:true}));setInterval(securityTick,30000);
 function securityInit(){
@@ -520,7 +526,6 @@ const incomeCategories = [
   'Aposentadoria',
   'Pensão',
   'Honorários',
-  'Serviços realizados',
   'Freelance e serviços',
   'Pró-labore',
   'Comissões e bonificações',
@@ -557,6 +562,11 @@ if(!Array.isArray(data.categories)||!data.categories.length){
   const existing=new Set(data.categories.map(c=>c.name.toLowerCase()));
   expenseCategories.forEach(name=>{if(!existing.has(name.toLowerCase())){data.categories.push({name,type:'Despesa'});existing.add(name.toLowerCase())}});
   incomeCategories.forEach(name=>{if(!existing.has(name.toLowerCase())){data.categories.push({name,type:'Receita'});existing.add(name.toLowerCase())}});
+}
+// Remove a categoria de receita que foi descontinuada.
+if(Array.isArray(data.categories)){
+  data.categories=data.categories.filter(c=>String(c?.name||c||'').trim().toLowerCase()!=='serviços realizados');
+  if(!data.categories.some(c=>String(c?.name||'').toLowerCase()==='freelance e serviços')) data.categories.push({name:'Freelance e serviços',type:'Receita'});
 }
 if(!Array.isArray(data.recurring))data.recurring=[];
 if(!Array.isArray(data.refunds))data.refunds=[];
@@ -626,10 +636,32 @@ function renderRecurring(){
   const list=data.recurring.filter(r=>r.box===currentBox()&&r.active!==false);
   el.innerHTML=list.length?list.map(r=>`<div class="item"><div><strong>${esc(r.desc)}</strong><div class="muted">${r.type==='Receita'?'💰 Receita':'💸 Despesa'} · ${money(r.value)} · ${esc(r.frequency)} · ${esc(r.startDate)}${r.endDate?' até '+esc(r.endDate):''}</div></div><span class="pill">${esc(r.category||'Sem categoria')}</span></div>`).join(''):'<p class="muted">Nenhuma recorrência cadastrada neste caixa.</p>';
 }
+function recurringProjectedTx(box,start,end){
+  const out=[];
+  const list=(data.recurring||[]).filter(r=>r.box===box&&r.active!==false);
+  list.forEach(r=>{
+    const dates=recurringDates(r.startDate,end,r.frequency);
+    dates.forEach(d=>{
+      if(d===r.startDate)return;
+      if(start&&d<start)return;
+      if(end&&d>end)return;
+      out.push({id:'virtual_'+r.id+'_'+d,box:r.box,type:r.type,desc:r.desc,value:Number(r.value||0),date:d,status:'Previsto',category:r.category||'',payment:r.payment||'',accountId:r.accountId||'',cardId:r.cardId||'',recurring:'Sim',frequency:r.frequency,virtualRecurring:true});
+    });
+  });
+  return out;
+}
+function monthNameShort(ym){const [y,m]=ym.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'short'}).replace('.','').replace(/^./,c=>c.toUpperCase());}
+function monthKeysFromCurrent(count=6){const out=[];const now=new Date();for(let i=0;i<count;i++){const d=new Date(now.getFullYear(),now.getMonth()+i,1);out.push(d.toISOString().slice(0,7));}return out;}
+function monthlyDashboardItems(box,ym,type){
+  const actual=data.tx.filter(t=>t.box===box&&t.date?.startsWith(ym)&&t.status==='Previsto'&&t.type===type&&t.status!=='Cancelada');
+  const projected=recurringProjectedTx(box,ym+'-01',ym+'-31').filter(t=>t.type===type);
+  const merged=[...actual,...projected];
+  return merged.sort((a,b)=>a.date.localeCompare(b.date));
+}
 function reportOptions(){const b=$('reportBox').value||currentBox();const tx=data.tx.filter(t=>t.box===b);const fill=(id,values)=>{const el=$(id),old=el.value;el.innerHTML='<option>Todos</option>'+[...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old};fill('reportCategory',tx.map(t=>t.category));fill('reportAccount',tx.map(t=>accountName(t.accountId)||t.account));fill('reportCard',tx.map(t=>(cardById(t.cardId)||{}).name||t.card));fill('reportStore',tx.map(t=>t.store||t.loja));}
 function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||(t.store||t.loja||'')===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
 function reportBoxValue(){const el=$('reportBox');return el&&el.value?el.value:currentBox()}
-function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card neutral"><small>Resultado do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card blue"><small>Saldo atual em bancos</small><div class="amount">${money(boxBalance(reportBoxValue()))}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(m)}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
+function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card neutral"><small>Resultado do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card blue"><small>Saldo atual em bancos</small><div class="amount">${money(boxBalance(reportBoxValue()))}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(t=>t.store||t.loja).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCards').innerHTML=groups(t=>(cardById(t.cardId)||{}).name||t.card).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});const recurringStart=$('reportStart').value||today();const recurringEnd=$('reportEnd').value||addMonthsDate(today(),5);if($('reportStatus').value!=='Realizado'&&$('reportStatus').value!=='Cancelada'){recurringProjectedTx(reportBoxValue(),recurringStart,recurringEnd).filter(t=>$('reportType').value==='Todos'||t.type===$('reportType').value).forEach(t=>{const m=t.date.slice(0,7);if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});}$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(monthNameShort(m))}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
 function clearReportFilters(){['reportStart','reportEnd'].forEach(id=>$(id).value='');['reportType','reportStatus','reportCategory','reportAccount','reportCard','reportStore','reportPayment'].forEach(id=>$(id).value='Todos');$('reportBox').value=currentBox();reportOptions();renderReports();}
 function reportExportRows(){
   const tx=filteredReportTx().slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
@@ -666,10 +698,21 @@ renderCards();
 renderInvoices();
 renderRecurring();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0];$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;$('box').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('box').value=selected;$('historyBox').textContent=selected;
-let bal=boxBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let rec=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Receita');let exp=tx.filter(t=>t.date?.startsWith(month)&&t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value),0),ee=exp.reduce((s,t)=>s+Number(t.value),0);let proj=tx.filter(t=>t.status==='Previsto'&&t.date?.startsWith(month)).reduce((s,t)=>s+signed(t),0)+bal;
+let bal=boxBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let monthProjected=recurringProjectedTx(selected,month+'-01',month+'-31');let monthAll=[...tx.filter(t=>t.date?.startsWith(month)&&t.status!=='Cancelada'),...monthProjected];let rec=monthAll.filter(t=>t.type==='Receita');let exp=monthAll.filter(t=>t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value||0),0),ee=exp.reduce((s,t)=>s+Number(t.value||0),0);let proj=monthAll.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0)+bal;
 $('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo ao final do mês</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">projetado até o fim do mês</span></div>`;
-$('monthSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo</small><div class="amount">${money(rr-ee)}</div></div>`;
-let upcomingReceipts=tx.filter(t=>t.status==='Previsto'&&t.type==='Receita').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('incomeDueCount').textContent=upcomingReceipts.length;$('incomeDueList').innerHTML=upcomingReceipts.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(mcfBRDate(t.date))}</div></div><div style="text-align:right"><strong class="positive">${money(Number(t.value||0))}</strong><br><button class="btn" onclick="launchReceipt('${t.id}')">Lançar recebimento</button></div></div>`).join('')||'Nenhum recebimento previsto.';let upcoming=tx.filter(t=>t.status==='Previsto'&&t.type==='Despesa'&&t.payment!=='Cartão de crédito').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);$('dueCount').textContent=upcoming.length;$('dueList').innerHTML=upcoming.map(t=>`<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(mcfBRDate(t.date))}${t.payment?' · '+esc(t.payment):''}</div></div><div style="text-align:right"><strong class="negative">${money(Number(t.value||0)*-1)}</strong><br><button class="btn" onclick="launchPayment('${t.id}')">Lançar pagamento</button></div></div>`).join('')||'Nenhuma conta próxima.';
+$('monthSummary').innerHTML=`<div class="card green"><small>Receitas do mês</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas do mês</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo do mês</small><div class="amount">${money(rr-ee)}</div></div>`;
+const monthKeys=monthKeysFromCurrent(6);
+const buildMonthTabs=(id,active)=>$(id).innerHTML=monthKeys.map((m,i)=>`<button type="button" class="month-tab ${m===active?'active':''}" data-month="${m}">${esc(monthNameShort(m))}</button>`).join('');
+let selectedIncomeMonth=month;let selectedDueMonth=month;
+function dashboardMonthItem(t,kind){
+  const isIncome=kind==='Receita';
+  const action=t.virtualRecurring?'':`<br><button class="btn" onclick="${isIncome?'launchReceipt':'launchPayment'}('${t.id}')">${isIncome?'Lançar recebimento':'Lançar pagamento'}</button>`;
+  const meta=`${mcfBRDate(t.date)}${t.payment?' · '+esc(t.payment):''}${t.virtualRecurring?' · 🔄 Recorrente':''}`;
+  return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${meta}</div></div><div style="text-align:right"><strong class="${isIncome?'positive':'negative'}">${money(Number(t.value||0)*(isIncome?1:-1))}</strong>${action}</div></div>`;
+}
+function renderIncomeMonth(){const items=monthlyDashboardItems(selected,selectedIncomeMonth,'Receita');$('incomeDueCount').textContent=items.length;$('incomeDueList').innerHTML=items.map(t=>dashboardMonthItem(t,'Receita')).join('')||'Nenhum recebimento previsto neste mês.';}
+function renderDueMonth(){const items=monthlyDashboardItems(selected,selectedDueMonth,'Despesa').filter(t=>t.payment!=='Cartão de crédito');$('dueCount').textContent=items.length;$('dueList').innerHTML=items.map(t=>dashboardMonthItem(t,'Despesa')).join('')||'Nenhuma conta a vencer neste mês.';}
+buildMonthTabs('incomeMonthTabs',selectedIncomeMonth);buildMonthTabs('dueMonthTabs',selectedDueMonth);document.querySelectorAll('#incomeMonthTabs .month-tab').forEach(b=>b.onclick=()=>{selectedIncomeMonth=b.dataset.month;document.querySelectorAll('#incomeMonthTabs .month-tab').forEach(x=>x.classList.toggle('active',x===b));renderIncomeMonth()});document.querySelectorAll('#dueMonthTabs .month-tab').forEach(b=>b.onclick=()=>{selectedDueMonth=b.dataset.month;document.querySelectorAll('#dueMonthTabs .month-tab').forEach(x=>x.classList.toggle('active',x===b));renderDueMonth()});renderIncomeMonth();renderDueMonth();
 let cats={};exp.forEach(t=>cats[t.category||'Outros gastos']=(cats[t.category||'Outros gastos']||0)+Number(t.value));let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('catList').innerHTML=ce.map(([c,v])=>`<div class="item"><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')||'Nenhuma despesa realizada.';
 let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
 let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';const activeBoxName=currentBox(); const activeBoxIndex=data.boxes.indexOf(activeBoxName);
