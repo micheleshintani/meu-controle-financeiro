@@ -101,7 +101,7 @@
 .month-tabs{display:flex;gap:6px;overflow:auto;margin:8px 0 10px;padding-bottom:2px}.month-tab{border:0;border-radius:999px;padding:8px 11px;background:#e7f2ed;color:var(--green);font-weight:800;white-space:nowrap}.month-tab.active{background:var(--green);color:#fff}.month-tab:disabled{opacity:.45}
 </style>
 
-<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 21</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 22</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -209,7 +209,7 @@
 <p class="muted">Por segurança, o PIN não é incluído nos backups. Os backups guardam somente os dados financeiros.</p>
 </div></section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON. No iPhone, ao tocar em <b>Exportar backup</b>, você poderá escolher onde guardar o arquivo, inclusive em <b>Arquivos</b> e, se disponível no aparelho, no <b>Google Drive</b>.</p><div id="backupInfo" class="notice"></div><div class="backup-actions"><button class="backup-action export" type="button" onclick="exportData()">📤 Exportar backup</button><button class="backup-action file" type="button" onclick="$('restoreFile').click()">📂 Restaurar backup de um arquivo</button><button class="backup-action auto" type="button" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button></div><input class="backup-file-input" type="file" id="restoreFile" accept=".json,application/json"><p class="muted backup-help">Para restaurar um arquivo, toque em <b>Restaurar backup de um arquivo</b> e escolha o backup .json salvo anteriormente. Antes da restauração, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p></div></section>
-<footer>Versão 21 • Um caixa por vez no dashboard e no histórico.</footer>
+<footer>Versão 22 • Um caixa por vez no dashboard e no histórico.</footer>
 </main>
 <script>
 const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const AUTO='mcf_autobackup_v1';const SCHEMA=4;const DEFAULT_BOXES=['Pessoal','Casa'];let data={boxes:[...DEFAULT_BOXES],tx:[]};let editingId=null;let dataLoadWarning='';
@@ -242,7 +242,8 @@ function renderAccounts(){
   $('accountBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
   $('accountBox').value=currentBox();
   $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
-  $('bankBalances').innerHTML=list.length?list.map(a=>`<div class="item"><span>${esc(a.name)}</span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta cadastrada.</p>';
+  const sortedBanks=list.slice().sort((a,b)=>Number(b.balance||0)-Number(a.balance||0));
+  $('bankBalances').innerHTML=sortedBanks.length?sortedBanks.map(a=>`<div class="item"><span>${esc(a.name)}</span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta cadastrada.</p>';
 }
 if(!Array.isArray(data.applications))data.applications=[];
 function activeApplications(b){return data.applications.filter(a=>a.box===b&&a.active!==false)}
@@ -263,7 +264,8 @@ function renderApplications(){
   const totals=applicationTotals(currentBox());
   const html=apps.length?apps.map(applicationItemHTML).join(''):'<p class="muted">Nenhuma aplicação cadastrada neste caixa.</p>';
   $('applicationsList').innerHTML=html;
-  $('dashboardApplicationsList').innerHTML=apps.length?apps.map(a=>`<div class="item"><span><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${a.liquidity==='Imediata'?'Liquidez imediata':a.liquidity==='Parcial'?'Liquidez parcial':a.liquidity==='Sem liquidez imediata'?'Sem liquidez imediata':'Liquidez não informada'}</div></span><strong>${money(a.balance)}</strong></div>`).join(''):'';
+  const sortedApps=apps.slice().sort((a,b)=>Number(b.balance||0)-Number(a.balance||0));
+  $('dashboardApplicationsList').innerHTML=sortedApps.length?sortedApps.map(a=>`<div class="item"><span><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${a.liquidity==='Imediata'?'Liquidez imediata':a.liquidity==='Parcial'?'Liquidez parcial':a.liquidity==='Sem liquidez imediata'?'Sem liquidez imediata':'Liquidez não informada'}</div></span><strong>${money(a.balance)}</strong></div>`).join(''):'';
   $('appTotal').textContent=money(totals.total);
   $('appImmediate').textContent=money(totals.immediate);
 }
@@ -718,7 +720,7 @@ const buildMonthTabs=(id,active)=>$(id).innerHTML=monthKeys.map((m,i)=>`<button 
 let selectedIncomeMonth=month;let selectedDueMonth=month;
 function dashboardMonthItem(t,kind){
   const isIncome=kind==='Receita';
-  const action=t.virtualRecurring?'':`<br><button class="btn" onclick="${isIncome?'launchReceipt':'launchPayment'}('${t.id}')">${isIncome?'Lançar recebimento':'Lançar pagamento'}</button>`;
+  const action=`<br><button class="btn" onclick="${t.virtualRecurring?(isIncome?'launchProjectedReceipt':'launchProjectedPayment'):(isIncome?'launchReceipt':'launchPayment')}('${t.id}')">${isIncome?'Lançar recebimento':'Lançar pagamento'}</button>`;
   const meta=`${mcfBRDate(t.date)}${t.payment?' · '+esc(t.payment):''}${t.virtualRecurring?' · 🔄 Recorrente':''}`;
   return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${meta}</div></div><div style="text-align:right"><strong class="${isIncome?'positive':'negative'}">${money(Number(t.value||0)*(isIncome?1:-1))}</strong>${action}</div></div>`;
 }
@@ -886,6 +888,42 @@ function invoiceDisplayedTotal(cardId,ym){
  const tx=data.tx.filter(t=>t.box===currentBox()&&t.type==='Despesa'&&t.status==='Previsto'&&t.payment==='Cartão de crédito'&&t.cardId===cardId&&(!data.installments.some(p=>p.purchaseId===t.id)));
  return partTotal+tx.reduce((s,t)=>s+Number(t.value||0),0);
 }
+function projectedRecurringFromId(virtualId){
+ const raw=String(virtualId||'');
+ if(!raw.startsWith('virtual_'))return null;
+ const parts=raw.split('_');
+ const date=parts[parts.length-1];
+ const rid=parts.slice(1,-1).join('_');
+ const r=(data.recurring||[]).find(x=>x.id===rid);
+ if(!r||!date)return null;
+ return {id:raw,box:r.box,type:r.type,desc:r.desc,party:r.party||'',value:Number(r.value||0),date,status:'Previsto',category:r.category||'',payment:r.payment||'',accountId:r.accountId||'',cardId:r.cardId||'',recurring:'Sim',frequency:r.frequency,endDate:r.endDate||'',virtualRecurring:true};
+}
+function launchProjectedReceipt(virtualId){
+ const t=projectedRecurringFromId(virtualId); if(!t||t.type!=='Receita')return;
+ const v=prompt('Valor efetivamente recebido:',Number(t.value||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
+ if(v===null)return; const amount=parseBR(v); if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
+ const dateText=prompt('Data do recebimento (DD/MM/AAAA):',todayBR()); if(dateText===null)return;
+ const date=parseBRDate(dateText); if(!date){alert('Data inválida. Use DD/MM/AAAA.');return}
+ const accs=activeAccounts(t.box); if(!accs.length){alert('Cadastre uma conta bancária para registrar o recebimento.');return}
+ const choice=prompt('Digite o número da conta onde entrou o dinheiro:\n'+accs.map((a,i)=>`${i+1} — ${a.name}`).join('\n'),'1'); const idx=Number(choice)-1; if(!Number.isInteger(idx)||!accs[idx])return;
+ const methods=['Pix','Transferência','Dinheiro','Outro']; const methodChoice=prompt('Forma de recebimento:\n'+methods.map((m,i)=>`${i+1} — ${m}`).join('\n'),'1'); const method=methods[Number(methodChoice)-1]; if(!method)return;
+ const id=crypto.randomUUID?crypto.randomUUID():String(Date.now());
+ const rec={...t,id,date,value:amount,status:'Realizado',accountId:accs[idx].id,payment:method,virtualRecurring:false};
+ data.tx.push(rec); applyAccountDelta(rec.accountId,amount); persist();
+}
+function launchProjectedPayment(virtualId){
+ const t=projectedRecurringFromId(virtualId); if(!t||t.type!=='Despesa')return;
+ const v=prompt('Valor efetivamente pago:',Number(t.value||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
+ if(v===null)return; const amount=parseBR(v); if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
+ const dateText=prompt('Data do pagamento (DD/MM/AAAA):',todayBR()); if(dateText===null)return;
+ const date=parseBRDate(dateText); if(!date){alert('Data inválida. Use DD/MM/AAAA.');return}
+ const accs=activeAccounts(t.box); if(!accs.length){alert('Cadastre uma conta bancária para registrar o pagamento.');return}
+ const choice=prompt('Digite o número da conta de onde saiu o dinheiro:\n'+accs.map((a,i)=>`${i+1} — ${a.name}`).join('\n'),'1'); const idx=Number(choice)-1; if(!Number.isInteger(idx)||!accs[idx])return;
+ const methods=['Pix','Débito','Dinheiro','Transferência','Outro']; const methodChoice=prompt('Forma de pagamento:\n'+methods.map((m,i)=>`${i+1} — ${m}`).join('\n'),'1'); const method=methods[Number(methodChoice)-1]; if(!method)return;
+ const id=crypto.randomUUID?crypto.randomUUID():String(Date.now());
+ const rec={...t,id,date,value:amount,status:'Realizado',accountId:accs[idx].id,payment:method,virtualRecurring:false};
+ data.tx.push(rec); applyAccountDelta(rec.accountId,-amount); persist();
+}
 function launchReceipt(id){
  const t=data.tx.find(x=>x.id===id); if(!t||t.status!=='Previsto'||t.type!=='Receita')return;
  const v=prompt('Valor efetivamente recebido:',Number(t.value||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
@@ -946,7 +984,11 @@ async function saveBackupBlob(payload,filename){
 }
 async function exportData(){
  const payload=backupPayload();
- const filename='Meu_Controle_Financeiro_backup_'+today()+'.json';
+ const dateKey=today();
+ const seqKey='mcf_backup_seq_'+dateKey;
+ const seq=(Number(localStorage.getItem(seqKey)||0)+1);
+ localStorage.setItem(seqKey,String(seq));
+ const filename='Meu_Controle_Financeiro_backup_'+dateKey+'_'+String(seq).padStart(2,'0')+'.json';
  const result=await saveBackupBlob(payload,filename);
  if(result==='cancelado')return;
  localStorage.setItem('mcf_last_backup',JSON.stringify({at:new Date().toISOString(),type:'arquivo',filename}));
