@@ -103,7 +103,7 @@
 .month-tabs{display:flex;gap:6px;overflow:auto;margin:8px 0 10px;padding-bottom:2px}.month-tab{border:0;border-radius:999px;padding:8px 11px;background:#e7f2ed;color:var(--green);font-weight:800;white-space:nowrap}.month-tab.active{background:var(--green);color:#fff}.month-tab:disabled{opacity:.45}
 </style>
 
-<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 26</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 27</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -152,7 +152,7 @@
 </div>
 <div class="panel" id="caixasPanel"><h2>Caixas</h2><div id="boxesList"></div><form id="boxForm"><label>Novo caixa</label><input id="boxName" required placeholder="Ex.: Viagem"><button class="btn primary">Adicionar caixa</button></form></div>
 <div class="panel" id="contas"><h2>Contas bancárias</h2>
-<p class="muted">As contas são cadastradas no caixa em uso. O saldo é manual e pode ser alterado a qualquer momento, sem criar receita ou despesa.</p>
+<p class="muted">As contas são cadastradas no caixa em uso. O saldo é manual e pode ser atualizado no início de cada mês para conciliar pequenas taxas, juros ou ajustes do banco. Ao informar um novo saldo, ele passa a ser o novo ponto de partida; o histórico anterior permanece no histórico e nos relatórios, sem ser reaplicado ao saldo.</p>
 <div id="accountsList"></div>
 <form id="accountForm">
 <label>Caixa em uso</label><select id="accountBox"></select>
@@ -211,7 +211,7 @@
 <p class="muted">Por segurança, o PIN não é incluído nos backups. Os backups guardam somente os dados financeiros.</p>
 </div></section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON. No iPhone, ao tocar em <b>Exportar backup</b>, você poderá escolher onde guardar o arquivo, inclusive em <b>Arquivos</b> e, se disponível no aparelho, no <b>Google Drive</b>.</p><div id="backupInfo" class="notice"></div><div class="backup-actions"><button class="backup-action export" type="button" onclick="exportData()">📤 Exportar backup</button><button class="backup-action file" type="button" onclick="$('restoreFile').click()">📂 Restaurar backup de um arquivo</button><button class="backup-action auto" type="button" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button></div><input class="backup-file-input" type="file" id="restoreFile" accept=".json,application/json"><p class="muted backup-help">Para restaurar um arquivo, toque em <b>Restaurar backup de um arquivo</b> e escolha o backup .json salvo anteriormente. Antes da restauração, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p><div class="notice" style="margin-top:10px"><strong>📱 Atenção no iPhone:</strong> o acesso pelo ícone da Tela de Início e o acesso pelo Safari usam armazenamentos separados. Para levar os mesmos dados de um para o outro, use o backup.</div></div></section>
-<footer>Versão 26 • Um caixa por vez no dashboard e no histórico.</footer>
+<footer>Versão 27 • Um caixa por vez no dashboard e no histórico.</footer>
 </main>
 <script>
 const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const SECSESSION='mcf_security_session_lock';const AUTO='mcf_autobackup_v1';const SCHEMA=4;const DEFAULT_BOXES=['Pessoal','Casa'];let data={boxes:[...DEFAULT_BOXES],tx:[]};let editingId=null;let dataLoadWarning='';
@@ -783,9 +783,17 @@ function showSaveSuccess(message){
 $('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec;try{rec={type:$('type').value,desc:$('desc').value.trim(),party:$('party').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};const wanted=syn[n]||q;const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>String(c?.name||c).toLowerCase()===wanted.toLowerCase()&&c?.type===($('type').value));if(q&&!hit){throw new Error('CATEGORY_TYPE_MISMATCH')}return hit?hit.name:''})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};}catch(err){if(err&&err.message==='CATEGORY_TYPE_MISMATCH'){alert('Selecione uma categoria compatível com o tipo do lançamento.');return}throw err}
 if(editingId){
   const old=data.tx.find(t=>t.id===editingId);
+  if(!old){alert('Não foi possível localizar o lançamento para edição.');return}
   if(affectsAccount(old)) applyAccountDelta(old.accountId,-signed(old));
-  data.tx=data.tx.map(t=>t.id===editingId?{...t,...rec}:t);
-  if(affectsAccount(rec)) applyAccountDelta(rec.accountId,signed(rec));
+  data.installments=data.installments.filter(p=>p.purchaseId!==editingId);
+  data.tx=data.tx.map(t=>t.id===editingId?{...t,id:editingId}:t);
+  const edited=data.tx.find(t=>t.id===editingId);
+  Object.assign(edited,rec);
+  if(affectsAccount(edited)) applyAccountDelta(edited.accountId,signed(edited));
+  if(edited.type==='Despesa'&&edited.payment==='Cartão de crédito'&&edited.cardId){
+    const card=cardById(edited.cardId), n=edited.installmentType==='Parcelada'?Math.max(2,edited.installments||2):1, vals=splitCents(edited.value,n), first=invoiceMonth(card,edited.date);
+    vals.forEach((v,i)=>data.installments.push({id:'par_'+editingId+'_'+(i+1),purchaseId:editingId,cardId:edited.cardId,number:i+1,total:n,value:v,month:monthAdd(first,i),date:edited.date,status:'Previsto'}));
+  }
 }else{
   if(rec.recurring==='Sim'){data.recurring.push({id:'rr_'+Date.now(),box:rec.box,type:rec.type,desc:rec.desc,party:rec.party||'',value:rec.value,category:rec.category,payment:rec.payment,accountId:rec.accountId||'',cardId:rec.cardId||'',frequency:rec.frequency,startDate:rec.date,endDate:rec.endDate||'',active:true});}
   const id=crypto.randomUUID?crypto.randomUUID():String(Date.now());
@@ -883,7 +891,12 @@ function adjustInvoice(cardId,ym){
  persist();
 }
 function payInvoice(cardId,ym){
- const inv=invoiceFor(cardId,ym), defaultValue=inv.officialValue!==null?Number(inv.officialValue):invoiceDisplayedTotal(cardId,ym);
+ const inv=invoiceFor(cardId,ym);
+ if(inv.paid){
+   alert('Esta fatura já foi lançada como paga neste mês.');
+   return;
+ }
+ const defaultValue=inv.officialValue!==null?Number(inv.officialValue):invoiceDisplayedTotal(cardId,ym);
  const v=prompt('Valor efetivamente pago:',Number(defaultValue||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
  if(v===null)return;
  const amount=parseBR(v); if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
