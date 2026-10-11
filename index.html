@@ -104,7 +104,7 @@
 .month-tabs{display:flex;gap:6px;overflow:auto;margin:8px 0 10px;padding-bottom:2px}.month-tab{border:0;border-radius:999px;padding:8px 11px;background:#e7f2ed;color:var(--green);font-weight:800;white-space:nowrap}.month-tab.active{background:var(--green);color:#fff}.month-tab:disabled{opacity:.45}
 </style>
 
-<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 33</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 36</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
@@ -160,6 +160,7 @@
 <label>Banco</label><input id="accountBank" required placeholder="Ex.: Nubank">
 <label>Nome da conta</label><input id="accountName" required placeholder="Ex.: Nubank principal">
 <label>Saldo atual</label><input id="accountBalance" inputmode="decimal" placeholder="0">
+<div id="accountBalanceUpdatedAt" class="muted">Última atualização: —</div>
 <button class="btn primary" type="submit">Adicionar conta</button>
 </form>
 </div>
@@ -177,6 +178,7 @@
 <label>Descrição</label><input id="appDescription" required placeholder="Ex.: Total de CDBs">
 <label>Tipo (opcional)</label><input id="appType" placeholder="Ex.: CDB, ações, fundos">
 <label>Saldo atual</label><input id="appBalance" required inputmode="decimal" placeholder="0">
+<div id="appBalanceUpdatedAt" class="muted">Última atualização: —</div>
 <label>Liquidez (opcional)</label><select id="appLiquidity"><option value="">Não informar</option><option>Imediata</option><option>Parcial</option><option>Sem liquidez imediata</option></select>
 <button class="btn primary" type="submit">Adicionar aplicação</button>
 </form>
@@ -212,12 +214,12 @@
 <p class="muted">Por segurança, o PIN não é incluído nos backups. Os backups guardam somente os dados financeiros.</p>
 </div></section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON. No iPhone, ao tocar em <b>Exportar backup</b>, você poderá escolher onde guardar o arquivo, inclusive em <b>Arquivos</b> e, se disponível no aparelho, no <b>Google Drive</b>.</p><div id="backupInfo" class="notice"></div><div class="backup-actions"><button class="backup-action export" type="button" onclick="exportData()">📤 Exportar backup</button><button class="backup-action file" type="button" onclick="$('restoreFile').click()">📂 Restaurar backup de um arquivo</button><button class="backup-action auto" type="button" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button><button class="backup-action update" type="button" onclick="updateAppVersion()">🔄 Atualizar versão do aplicativo</button></div><input class="backup-file-input" type="file" id="restoreFile" accept=".json,application/json"><p class="muted backup-help">Para restaurar um arquivo, toque em <b>Restaurar backup de um arquivo</b> e escolha o backup .json salvo anteriormente. Antes da restauração, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p><div class="notice" style="margin-top:10px"><strong>🔄 Atualização:</strong> ao tocar em Atualizar versão, o aplicativo cria uma cópia automática dos dados deste navegador e recarrega a página tentando buscar o arquivo mais recente publicado. Para maior segurança, exporte também um backup em arquivo antes de atualizar. O botão não permite manter versões antigas instaladas; ele recarrega a versão que estiver publicada no site.</div><div class="notice" style="margin-top:10px"><strong>🔐 Migração segura:</strong> versões futuras podem migrar os dados em etapas. Antes de uma migração de estrutura, o aplicativo cria uma cópia automática dos dados atuais.</div><div class="notice" style="margin-top:10px"><strong>📱 Atenção no iPhone:</strong> o acesso pelo ícone da Tela de Início e o acesso pelo Safari usam armazenamentos separados. Para levar os mesmos dados de um para o outro, use o backup.</div></div></section>
-<footer>Versão 33 • Caixa selecionado no dashboard e mantido nas demais telas.</footer>
+<footer>Versão 36 • Projeções calculadas a partir da data de atualização dos saldos.</footer>
 </main>
 <script>
-const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const SECSESSION='mcf_security_session_lock';const AUTO='mcf_autobackup_v1';const APP_VERSION=33;const SCHEMA=5;const DEFAULT_BOXES=[];let data={boxes:[],tx:[]};let editingId=null;let dataLoadWarning='';
+const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const SECSESSION='mcf_security_session_lock';const AUTO='mcf_autobackup_v1';const APP_VERSION=36;const SCHEMA=7;const DEFAULT_BOXES=[];let data={boxes:[],tx:[]};let editingId=null;let dataLoadWarning='';
 function cloneData(v){return JSON.parse(JSON.stringify(v))}
-function normalizeData(raw){const d=raw&&typeof raw==='object'?raw:{};if(!Array.isArray(d.boxes))d.boxes=[];d.boxes=d.boxes.map(b=>String(b??'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b);DEFAULT_BOXES.forEach(b=>{if(!d.boxes.includes(b))d.boxes.push(b)});d.boxes=[...new Set(d.boxes)];if(!Array.isArray(d.tx))d.tx=[];d.tx=d.tx.map(t=>({...t,party:String(t?.party||t?.store||t?.loja||'')}));if(!Array.isArray(d.accounts))d.accounts=[];if(!Array.isArray(d.cards))d.cards=[];if(!Array.isArray(d.categories))d.categories=[];if(!Array.isArray(d.applications))d.applications=[];if(!Array.isArray(d.installments))d.installments=[];if(!Array.isArray(d.invoices))d.invoices=[];if(!Array.isArray(d.recurring))d.recurring=[];if(!Array.isArray(d.refunds))d.refunds=[];d._schemaVersion=SCHEMA;return d}
+function normalizeData(raw){const d=raw&&typeof raw==='object'?raw:{};if(!Array.isArray(d.boxes))d.boxes=[];d.boxes=d.boxes.map(b=>String(b??'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b);DEFAULT_BOXES.forEach(b=>{if(!d.boxes.includes(b))d.boxes.push(b)});d.boxes=[...new Set(d.boxes)];if(!Array.isArray(d.tx))d.tx=[];d.tx=d.tx.map(t=>({...t,party:String(t?.party||t?.store||t?.loja||'')}));if(!Array.isArray(d.accounts))d.accounts=[];d.accounts=d.accounts.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100,balanceUpdatedAt:a.balanceUpdatedAt||new Date().toISOString().slice(0,10)}));if(!Array.isArray(d.cards))d.cards=[];if(!Array.isArray(d.categories))d.categories=[];if(!Array.isArray(d.applications))d.applications=[];d.applications=d.applications.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100,balanceUpdatedAt:a.balanceUpdatedAt||new Date().toISOString().slice(0,10)}));if(!Array.isArray(d.installments))d.installments=[];if(!Array.isArray(d.invoices))d.invoices=[];if(!Array.isArray(d.recurring))d.recurring=[];if(!Array.isArray(d.refunds))d.refunds=[];d._schemaVersion=SCHEMA;return d}
 
 function migrateData(raw){
   let d=cloneData(raw&&typeof raw==='object'?raw:{});
@@ -228,6 +230,7 @@ function migrateData(raw){
   if(!Array.isArray(d.installments))d.installments=[]; if(!Array.isArray(d.invoices))d.invoices=[];
   if(!Array.isArray(d.recurring))d.recurring=[]; if(!Array.isArray(d.refunds))d.refunds=[];
   if(from<5){d.tx=d.tx.map(t=>({...t,party:String(t?.party||t?.store||t?.loja||'')}));d.installments=d.installments.map(p=>({...p,status:'Previsto'}));}
+  if(from<6){const stamp=new Date().toISOString().slice(0,10);d.accounts=d.accounts.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100,balanceUpdatedAt:a.balanceUpdatedAt||stamp}));}
   d.boxes=[...new Set(d.boxes.map(b=>String(b||'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b))];
   d._schemaVersion=SCHEMA; return d;
 }
@@ -264,7 +267,8 @@ function renderAccounts(){
   $('accountSelect').innerHTML='<option value="">Selecione a conta</option>'+list.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.bank)}</option>`).join('');
   $('accountBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
   $('accountBox').value=currentBox();
-  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
+  $('accountBalanceUpdatedAt').textContent=editingAccountId?('Última atualização: '+mcfBRDate((data.accounts.find(a=>a.id===editingAccountId)||{}).balanceUpdatedAt||today())):'Última atualização: será registrada ao adicionar a conta';
+  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)} · Atualizado em ${mcfBRDate(a.balanceUpdatedAt||today())}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
   const sortedBanks=list.slice().filter(a=>Math.abs(Number(a.balance||0))>0.000001).sort((a,b)=>Number(b.balance||0)-Number(a.balance||0));
   $('bankBalances').innerHTML=sortedBanks.length?sortedBanks.map(a=>`<div class="item"><span>${esc(a.name)}</span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta com saldo.</p>';
 }
@@ -274,11 +278,11 @@ function applicationTotals(b){
   const apps=activeApplications(b);
   const total=apps.reduce((s,a)=>s+Number(a.balance||0),0);
   const immediate=apps.filter(a=>a.liquidity==='Imediata').reduce((s,a)=>s+Number(a.balance||0),0);
-  return {total,immediate};
+  return {total:Math.round(total*100)/100,immediate:Math.round(immediate*100)/100};
 }
 let editingApplicationId=null;
 function applicationItemHTML(a){
-  return `<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}</div></div><div style="text-align:right"><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button> <button type="button" class="btn" onclick="removeApplication('${esc(a.id)}')">Excluir</button></div></div>`;
+  return `<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''} · Atualizado em ${mcfBRDate(a.balanceUpdatedAt||today())}</div></div><div style="text-align:right"><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button> <button type="button" class="btn" onclick="removeApplication('${esc(a.id)}')">Excluir</button></div></div>`;
 }
 function renderApplications(){
   $('appBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
@@ -289,6 +293,7 @@ function renderApplications(){
   $('applicationsList').innerHTML=html;
   const sortedApps=apps.slice().filter(a=>Math.abs(Number(a.balance||0))>0.000001).sort((a,b)=>Number(b.balance||0)-Number(a.balance||0));
   $('dashboardApplicationsList').innerHTML=sortedApps.length?sortedApps.map(a=>`<div class="item"><span><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${a.liquidity==='Imediata'?'Liquidez imediata':a.liquidity==='Parcial'?'Liquidez parcial':a.liquidity==='Sem liquidez imediata'?'Sem liquidez imediata':'Liquidez não informada'}</div></span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma aplicação com saldo.</p>';
+  $('appBalanceUpdatedAt').textContent=editingApplicationId?('Última atualização: '+mcfBRDate((data.applications.find(a=>a.id===editingApplicationId)||{}).balanceUpdatedAt||today())):'Última atualização: será registrada ao adicionar a aplicação';
   $('appTotal').textContent=money(totals.total);
   $('appImmediate').textContent=money(totals.immediate);
   const immediateRow=$('appImmediate')?.closest('.item');
@@ -303,6 +308,7 @@ function editApplication(id){
   $('appDescription').value=a.description||'';
   $('appType').value=a.type||'';
   $('appBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  $('appBalanceUpdatedAt').textContent='Última atualização: '+mcfBRDate(a.balanceUpdatedAt||today());
   $('appLiquidity').value=a.liquidity||'';
   const btn=$('applicationForm').querySelector('button[type="submit"]');
   btn.textContent='Salvar alterações';
@@ -313,7 +319,7 @@ function editApplication(id){
 }
 function cancelApplicationEdit(){
   editingApplicationId=null;
-  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
+  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';$('appBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a aplicação';
   $('applicationForm').querySelector('button[type="submit"]').textContent='Adicionar aplicação';
   const c=$('cancelApplicationEdit');if(c)c.remove();
 }
@@ -532,9 +538,11 @@ function parseBR(v){let s=String(v??'').trim().replace(/\s/g,'').replace(/R\$/i,
 function formatInput(){let n=parseBR($('value').value);if(Number.isFinite(n))$('value').value=n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function signed(t){return t.type==='Despesa'?-Number(t.value):Number(t.value)}
 function currentBox(){if(!Array.isArray(data.boxes))data.boxes=[];const el=$('dashBox');const value=el&&el.value;if(value&&data.boxes.includes(value))return value;const last=localStorage.getItem(LAST);if(last&&data.boxes.includes(last))return last;return data.boxes[0]||''}
-function boxBalance(b){return activeAccounts(b).reduce((s,a)=>s+Number(a.balance||0),0)}
-function boxAvailableBalance(b){const bank=boxBalance(b);const unassigned=data.tx.filter(t=>t.box===b&&t.status==='Realizado'&&!t.accountId&&t.payment!=='Cartão de crédito'&&t.payment!=='Dinheiro').reduce((s,t)=>s+signed(t),0);return bank+unassigned}
-function applyAccountDelta(accountId,delta){if(!accountId)return;const a=data.accounts.find(x=>x.id===accountId);if(a)a.balance=Number(a.balance||0)+Number(delta||0)}
+function boxBalance(b){return Math.round(activeAccounts(b).reduce((s,a)=>s+Number(a.balance||0),0)*100)/100}
+function boxProjectionStart(b){const dates=activeAccounts(b).map(a=>a.balanceUpdatedAt).filter(Boolean).sort();return dates.length?dates[dates.length-1]:today()}
+function projectionEligible(t,b=t?.box){if(!t||!t.date)return false;let cutoff=boxProjectionStart(b);if(t.accountId){const a=data.accounts.find(x=>x.id===t.accountId);if(a&&a.balanceUpdatedAt)cutoff=a.balanceUpdatedAt;}return t.date>=cutoff}
+function boxAvailableBalance(b){const bank=boxBalance(b);const unassigned=data.tx.filter(t=>t.box===b&&t.status==='Realizado'&&!t.accountId&&t.payment!=='Cartão de crédito'&&t.payment!=='Dinheiro'&&projectionEligible(t,b)).reduce((s,t)=>s+signed(t),0);return Math.round((bank+unassigned)*100)/100}
+function applyAccountDelta(accountId,delta){if(!accountId)return;const a=data.accounts.find(x=>x.id===accountId);if(a)a.balance=Math.round((Number(a.balance||0)+Number(delta||0))*100)/100}
 function affectsAccount(t){return t && t.status==='Realizado' && t.accountId && t.payment!=='Cartão de crédito' && t.payment!=='Dinheiro'}
 
 const expenseCategories = [
@@ -675,14 +683,12 @@ function renderInvoices(){
   const ym=window.selectedInvoiceMonth;
   const rows=[];
   cards.forEach(c=>{
-    const parts=data.installments.filter(p=>p.cardId===c.id&&p.month===ym&&p.status==='Previsto');
-    const partTotal=parts.reduce((s,p)=>s+Number(p.value||0),0);
-    const tx=data.tx.filter(t=>t.box===currentBox()&&t.type==='Despesa'&&t.status==='Previsto'&&t.payment==='Cartão de crédito'&&t.cardId===c.id&&(!data.installments.some(p=>p.purchaseId===t.id)));
-    const directTotal=tx.reduce((s,t)=>s+Number(t.value||0),0);
-    const total=partTotal+directTotal;
     const inv=data.invoices.find(x=>x.cardId===c.id&&x.month===ym);
+    // Fatura já paga não deve continuar no dashboard.
+    if(inv&&inv.paid)return;
+    const total=invoiceDisplayedTotal(c.id,ym);
     const shown=inv&&inv.officialValue!==null?Number(inv.officialValue):total;
-    if(total||inv) rows.push(`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">${esc(monthLabel(ym))}${c.dueDay?' · vence dia '+c.dueDay:''}${inv&&inv.paid?' · paga em '+esc(mcfBRDate(inv.paidDate||'')):''}</div></div><div style="text-align:right"><strong>${money(shown)}</strong><br><button class="btn" onclick="adjustInvoice('${c.id}','${ym}')">Ajustar</button> <button class="btn" onclick="payInvoice('${c.id}','${ym}')">Lançar pagamento</button></div></div>`);
+    if(shown>0.004||total>0.004) rows.push(`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">${esc(monthLabel(ym))}${c.dueDay?' · vence dia '+c.dueDay:''}</div></div><div style="text-align:right"><strong>${money(shown)}</strong><br><button class="btn" onclick="adjustInvoice('${c.id}','${ym}')">Ajustar</button> <button class="btn" onclick="payInvoice('${c.id}','${ym}')">Lançar pagamento</button></div></div>`);
   });
   $('invoiceList').innerHTML=rows.join('')||'Nenhuma fatura prevista neste mês.';
 }
@@ -702,6 +708,8 @@ function recurringProjectedTx(box,start,end){
       if(d===r.startDate)return;
       if(start&&d<start)return;
       if(end&&d>end)return;
+      const alreadyRecorded=data.tx.some(t=>t.box===r.box&&t.type===r.type&&t.date===d&&String(t.desc||'').trim().toLocaleLowerCase()===String(r.desc||'').trim().toLocaleLowerCase()&&t.status!=='Cancelada');
+      if(alreadyRecorded)return;
       out.push({id:'virtual_'+r.id+'_'+d,box:r.box,type:r.type,desc:r.desc,value:Number(r.value||0),date:d,status:'Previsto',category:r.category||'',payment:r.payment||'',accountId:r.accountId||'',cardId:r.cardId||'',recurring:'Sim',frequency:r.frequency,party:r.party||r.store||r.loja||'',virtualRecurring:true});
     });
   });
@@ -710,8 +718,8 @@ function recurringProjectedTx(box,start,end){
 function monthNameShort(ym){const [y,m]=ym.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'short'}).replace('.','').replace(/^./,c=>c.toUpperCase());}
 function monthKeysFromCurrent(count=6){const out=[];const now=new Date();for(let i=0;i<count;i++){const d=new Date(now.getFullYear(),now.getMonth()+i,1);out.push(d.toISOString().slice(0,7));}return out;}
 function monthlyDashboardItems(box,ym,type){
-  const actual=data.tx.filter(t=>t.box===box&&t.date?.startsWith(ym)&&t.status==='Previsto'&&t.type===type&&t.status!=='Cancelada');
-  const projected=recurringProjectedTx(box,ym+'-01',ym+'-31').filter(t=>t.type===type);
+  const actual=data.tx.filter(t=>t.box===box&&t.date?.startsWith(ym)&&t.status==='Previsto'&&t.type===type&&t.status!=='Cancelada'&&projectionEligible(t,box));
+  const projected=recurringProjectedTx(box,ym+'-01',ym+'-31').filter(t=>t.type===type&&projectionEligible(t,box));
   const merged=[...actual,...projected];
   return merged.sort((a,b)=>a.date.localeCompare(b.date));
 }
@@ -757,7 +765,7 @@ renderCards();
 renderInvoices();
 renderRecurring();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0]||'';$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;syncSelectedBoxControls();$('historyBox').textContent=selected||'Nenhum caixa';
-let bal=boxAvailableBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let monthProjected=recurringProjectedTx(selected,month+'-01',month+'-31');let monthAll=[...tx.filter(t=>t.date?.startsWith(month)&&t.status!=='Cancelada'),...monthProjected];let rec=monthAll.filter(t=>t.type==='Receita');let exp=monthAll.filter(t=>t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value||0),0),ee=exp.reduce((s,t)=>s+Number(t.value||0),0);let proj=monthAll.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0)+bal;
+let bal=boxAvailableBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let monthProjected=recurringProjectedTx(selected,month+'-01',month+'-31');let monthAll=[...tx.filter(t=>t.date?.startsWith(month)&&t.status!=='Cancelada'),...monthProjected];let rec=monthAll.filter(t=>t.type==='Receita');let exp=monthAll.filter(t=>t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value||0),0),ee=exp.reduce((s,t)=>s+Number(t.value||0),0);const cashForecast=monthAll.filter(t=>t.status==='Previsto'&&t.payment!=='Cartão de crédito'&&projectionEligible(t,selected)).reduce((s,t)=>s+signed(t),0);const cardForecast=unpaidInvoiceTotal(selected,month);let proj=Math.round((bal+cashForecast-cardForecast)*100)/100;
 $('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo ao final do mês</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">projetado até o fim do mês</span></div>`;
 $('monthSummary').innerHTML=`<div class="card green"><small>Receitas do mês</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas do mês</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo do mês</small><div class="amount">${money(rr-ee)}</div></div>`;
 const monthKeys=monthKeysFromCurrent(6);
@@ -773,7 +781,7 @@ function renderIncomeMonth(){const items=monthlyDashboardItems(selected,selected
 function renderDueMonth(){const items=monthlyDashboardItems(selected,selectedDueMonth,'Despesa').filter(t=>t.payment!=='Cartão de crédito');$('dueCount').textContent=items.length;$('dueList').innerHTML=items.map(t=>dashboardMonthItem(t,'Despesa')).join('')||'Nenhuma conta a vencer neste mês.';}
 buildMonthTabs('incomeMonthTabs',selectedIncomeMonth);buildMonthTabs('dueMonthTabs',selectedDueMonth);document.querySelectorAll('#incomeMonthTabs .month-tab').forEach(b=>b.onclick=()=>{selectedIncomeMonth=b.dataset.month;document.querySelectorAll('#incomeMonthTabs .month-tab').forEach(x=>x.classList.toggle('active',x===b));renderIncomeMonth()});document.querySelectorAll('#dueMonthTabs .month-tab').forEach(b=>b.onclick=()=>{selectedDueMonth=b.dataset.month;document.querySelectorAll('#dueMonthTabs .month-tab').forEach(x=>x.classList.toggle('active',x===b));renderDueMonth()});renderIncomeMonth();renderDueMonth();
 let categoryMode=window.categoryMode||'realizadas';let categoryMonth=window.categoryMonth||month;const catMonths=monthKeysFromCurrent(6);if(!catMonths.includes(categoryMonth))categoryMonth=catMonths[0];window.categoryMonth=categoryMonth;const catTabs=$('catMonthTabs');if(catTabs){catTabs.innerHTML=catMonths.map(m=>`<button type="button" class="month-tab ${m===categoryMonth?'active':''}" data-month="${m}">${esc(monthNameShort(m))}</button>`).join('');catTabs.querySelectorAll('.month-tab').forEach(b=>b.onclick=()=>{window.categoryMonth=b.dataset.month;render()})}document.querySelectorAll('.cat-mode').forEach(b=>{b.classList.toggle('active',b.dataset.mode===categoryMode);b.onclick=()=>{window.categoryMode=b.dataset.mode;render()}});const catBase=categoryMode==='realizadas'?data.tx.filter(t=>t.box===selected&&t.date?.startsWith(categoryMonth)&&t.type==='Despesa'&&t.status==='Realizado'):monthlyDashboardItems(selected,categoryMonth,'Despesa').filter(t=>t.type==='Despesa');let cats={};catBase.forEach(t=>{const k=t.category||'Outros gastos';cats[k]=(cats[k]||0)+Number(t.value||0)});let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);const totalCat=ce.reduce((a,x)=>a+x[1],0);const palette=['#176b55','#2867a8','#b7791f','#7057a8','#b42318','#2f8f70','#d97706','#64748b','#9333ea','#0f766e'];let stops=[];let acc=0;ce.forEach(([c,v],i)=>{const a=acc/totalCat*100;acc+=v;stops.push(`${palette[i%palette.length]} ${a}% ${acc/totalCat*100}%`)});$('catChart').innerHTML=ce.length?`<div class="category-chart" style="background:conic-gradient(${stops.join(',')})"><div class="category-total">${money(totalCat)}<small>${categoryMode==='realizadas'?'realizadas':'previstas'}</small></div></div><div class="category-legend">${ce.map(([c,v],i)=>`<div class="category-legend-row"><span class="category-dot" style="background:${palette[i%palette.length]}"></span><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')}</div>`:`<div class="category-empty muted">Nenhuma despesa ${categoryMode==='realizadas'?'realizada':'prevista'} neste mês.</div>`;
-let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)).reduce((s,t)=>s+signed(t),0);futureNet+=recurringProjectedTx(selected,key+'-01',key+'-31').reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
+let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)&&projectionEligible(t,selected)).reduce((s,t)=>s+signed(t),0);futureNet+=recurringProjectedTx(selected,key+'-01',key+'-31').filter(t=>projectionEligible(t,selected)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
 let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';const activeBoxName=currentBox(); const activeBoxIndex=data.boxes.indexOf(activeBoxName);
 $('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span><strong>${esc(b)}</strong><div class="muted">${b===activeBoxName?'Caixa em uso':'Caixa disponível'}</div></span><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="btn" onclick="renameBox(${i})">Renomear</button><button class="btn danger" onclick="deleteBox(${i})">Excluir</button></div></div>`).join('')+`<p class="muted" style="margin-top:8px">Selecione o caixa no dashboard para consultar contas, cartões e aplicações daquele caixa.</p>`;
 }
@@ -935,18 +943,18 @@ function deleteBox(i){
 
 $('accountForm').onsubmit=e=>{
 e.preventDefault();
-const box=currentBox(),bank=$('accountBank').value.trim(),name=$('accountName').value.trim(),balance=parseBR($('accountBalance').value);
+const box=currentBox(),bank=$('accountBank').value.trim(),name=$('accountName').value.trim(),parsedBalance=parseBR($('accountBalance').value),balance=Number.isFinite(parsedBalance)?Math.round(parsedBalance*100)/100:NaN;
 if(!box||!bank||!name||!Number.isFinite(balance)){alert('Preencha banco, nome da conta e saldo válido.');return}
 if(editingAccountId){
   const a=data.accounts.find(x=>x.id===editingAccountId);
-  if(a){a.box=box;a.bank=bank;a.name=name;a.balance=balance;}
+  if(a){const balanceChanged=Math.round(Number(a.balance||0)*100)!==Math.round(balance*100);a.box=box;a.bank=bank;a.name=name;a.balance=balance;if(balanceChanged||!a.balanceUpdatedAt)a.balanceUpdatedAt=today();}
   editingAccountId=null;
   $('accountForm').querySelector('button[type="submit"]').textContent='Adicionar conta';
   const cancel=$('cancelAccountEdit'); if(cancel) cancel.remove();
 }else{
-  data.accounts.push({id:'acc_'+Date.now(),box,bank,name,balance,active:true});
+  data.accounts.push({id:'acc_'+Date.now(),box,bank,name,balance,balanceUpdatedAt:today(),active:true});
 }
-$('accountBank').value='';$('accountName').value='';$('accountBalance').value='';
+$('accountBank').value='';$('accountName').value='';$('accountBalance').value='';$('accountBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a conta';
 persist();
 };
 
@@ -956,7 +964,8 @@ function editAccount(id){
   editingAccountId=id;
   $('accountBank').value=a.bank||'';
   $('accountName').value=a.name||'';
-  $('accountBalance').value=String(Number(a.balance||0)).replace('.',',');
+  $('accountBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  $('accountBalanceUpdatedAt').textContent='Última atualização: '+mcfBRDate(a.balanceUpdatedAt||today());
   $('accountBox').value=currentBox();
   const btn=$('accountForm').querySelector('button[type="submit"]');
   btn.textContent='Salvar alterações';
@@ -970,7 +979,7 @@ function editAccount(id){
 }
 function cancelAccountEdit(){
   editingAccountId=null;
-  $('accountBank').value='';$('accountName').value='';$('accountBalance').value='';
+  $('accountBank').value='';$('accountName').value='';$('accountBalance').value='';$('accountBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a conta';
   $('accountForm').querySelector('button[type="submit"]').textContent='Adicionar conta';
   const c=$('cancelAccountEdit'); if(c) c.remove();
 }
@@ -981,11 +990,11 @@ const box=$('appBox').value,institution=$('appInstitution').value.trim(),descrip
 if(!box||!institution||!description||!Number.isFinite(balance)||balance<0){alert('Preencha instituição, descrição e saldo válido.');return}
 if(editingApplicationId){
   const a=data.applications.find(x=>x.id===editingApplicationId);
-  if(a){a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=balance;a.liquidity=liquidity;a.active=true;}
+  if(a){const balanceChanged=Math.round(Number(a.balance||0)*100)!==Math.round(balance*100);a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=Math.round(balance*100)/100;a.liquidity=liquidity;a.active=true;if(balanceChanged||!a.balanceUpdatedAt)a.balanceUpdatedAt=today();}
   cancelApplicationEdit();
 }else{
-  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance,liquidity,active:true});
-  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';
+  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance:Math.round(balance*100)/100,balanceUpdatedAt:today(),liquidity,active:true});
+  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';$('appBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a aplicação';
 }
 persist();
 };
@@ -1041,10 +1050,26 @@ function payInvoice(cardId,ym){
  inv.paidValue=amount;inv.paid=true;inv.paidDate=date;inv.paidAccountId=accs[idx].id;inv.paidPayment=method;persist();
 }
 function invoiceDisplayedTotal(cardId,ym){
- const parts=data.installments.filter(p=>p.cardId===cardId&&p.month===ym&&p.status==='Previsto');
+ const card=cardById(cardId);
+ const parts=data.installments.filter(p=>{
+   if(p.cardId!==cardId||p.month!==ym||p.status==='Cancelada')return false;
+   const purchase=data.tx.find(t=>t.id===p.purchaseId);
+   return !purchase||(purchase.box===currentBox()&&purchase.status!=='Cancelada');
+ });
  const partTotal=parts.reduce((s,p)=>s+Number(p.value||0),0);
- const tx=data.tx.filter(t=>t.box===currentBox()&&t.type==='Despesa'&&t.status==='Previsto'&&t.payment==='Cartão de crédito'&&t.cardId===cardId&&(!data.installments.some(p=>p.purchaseId===t.id)));
- return partTotal+tx.reduce((s,t)=>s+Number(t.value||0),0);
+ const tx=data.tx.filter(t=>t.box===currentBox()&&t.type==='Despesa'&&t.status!=='Cancelada'&&t.payment==='Cartão de crédito'&&(t.cardId===cardId||(!t.cardId&&t.card===card?.name))&&t.date&&invoiceMonth(card,t.date)===ym&&!data.installments.some(p=>p.purchaseId===t.id));
+ return Math.round((partTotal+tx.reduce((s,t)=>s+Number(t.value||0),0))*100)/100;
+}
+function unpaidInvoiceTotal(box,ym){
+ let total=0;
+ activeCards(box).forEach(c=>{
+   const inv=data.invoices.find(x=>x.cardId===c.id&&x.month===ym);
+   if(inv&&inv.paid)return;
+   const calculated=invoiceDisplayedTotal(c.id,ym);
+   const amount=inv&&inv.officialValue!==null?Number(inv.officialValue):calculated;
+   if(amount>0)total+=amount;
+ });
+ return Math.round(total*100)/100;
 }
 function projectedRecurringFromId(virtualId){
  const raw=String(virtualId||'');
