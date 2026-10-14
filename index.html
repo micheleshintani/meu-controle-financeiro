@@ -5,9 +5,11 @@
 <meta name="theme-color" content="#176b55"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Meu Controle Financeiro"><link rel="apple-touch-icon" href="app-icon.png"><link rel="icon" type="image/png" href="app-icon.png"><title>Meu Controle Financeiro</title>
 <style>
 :root{--green:#176b55;--green2:#2f8f70;--mint:#e9f5ef;--blue:#2867a8;--bluebg:#edf5fc;--amber:#b7791f;--amberbg:#fff6e5;--red:#b42318;--redbg:#fff0ee;--purple:#7057a8;--purplebg:#f3effb;--ink:#20312b;--muted:#66756e;--line:#dce6e0;--bg:#f5f8f6;--white:#fff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:linear-gradient(135deg,var(--green),#248266);color:#fff;padding:20px 16px 18px;border-radius:0 0 22px 22px}header h1{font-size:21px;margin:0 0 4px}.mcf-header-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.mcf-header-title>span{font-size:11px;opacity:.9;white-space:nowrap}header p{margin:0;font-size:13px;opacity:.9}main{max-width:760px;margin:auto;padding:14px 13px 40px}nav{display:flex;gap:7px;overflow:auto;margin-bottom:12px}nav button,.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;background:#e5eee9;color:var(--green);white-space:nowrap}nav button.active,.btn.primary{background:var(--green);color:#fff}.btn.danger{background:var(--redbg);color:var(--red);border:1px solid #efc2bc}.filter{background:#fff;border:1px solid var(--line);padding:12px;border-radius:15px;margin-bottom:12px}.filter label{margin:0 0 5px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 7px rgba(30,50,42,.05)}.card.green{border:2px solid #42a889;background:linear-gradient(135deg,#e4f5ed,#f8fcfa)}.card.blue{border:2px solid #4b91d1;background:linear-gradient(135deg,#e8f2ff,#fbfdff)}.card.red{border:2px solid #d94a3a;background:linear-gradient(135deg,#fff0ee,#fffafa)}.card.purple{border:2px solid #8460c7;background:linear-gradient(135deg,#f3edff,#fdfbff)}.card.amber{border:2px solid #d18a1b;background:linear-gradient(135deg,#fff5df,#fffdf8)}.card.neutral{border:2px solid #aebbb5;background:linear-gradient(135deg,#eef2f0,#fafcfb)}.card small,.muted{color:var(--muted)}.amount{font-size:21px;font-weight:800;margin:7px 0}.mini{font-size:12px;color:var(--muted)}.summary3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.summary3 .card{padding:11px}.summary3 .amount{font-size:17px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}.panel h2{font-size:17px;margin:2px 0 10px}h3{font-size:14px;margin:0 0 8px}label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;font:inherit;color:var(--ink)}input:focus,select:focus{outline:2px solid #b8dfd0;border-color:var(--green)}select:disabled{opacity:1;color:var(--ink);background:#fff;cursor:default}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.hidden{display:none!important}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.actions button{padding:14px 8px;border:1px solid var(--line);border-radius:13px;background:#fff;font-weight:700;color:var(--ink)}.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.positive{color:var(--green)}.negative{color:var(--red)}.pill{display:inline-block;font-size:11px;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green)}.notice{padding:10px;border-radius:11px;background:var(--amberbg);color:#805b19;font-size:13px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;padding:4px 7px;border-radius:99px}.tag.red{background:var(--redbg);color:var(--red)}.tag.blue{background:var(--bluebg);color:var(--blue)}.tag.purple{background:var(--purplebg);color:var(--purple)}form .btn{margin-top:12px;width:100%}.dashboard-panel.green-panel{border:2px solid #42a889;background:#f3fbf7}.dashboard-panel.blue-panel{border:2px solid #4b91d1;background:#f3f8ff}.dashboard-panel.red-panel{border:2px solid #d94a3a;background:#fff6f4}.dashboard-panel.amber-panel{border:2px solid #d18a1b;background:#fff9ed}.dashboard-panel.purple-panel{border:2px solid #8460c7;background:#f8f4ff}.mcf-cat-wrap{position:relative}.mcf-cat-arrow{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:#e7f2ed;color:var(--green);font-size:20px;font-weight:800;border-radius:9px;width:38px;height:38px;z-index:2}.mcf-cat-wrap input{padding-right:55px}.mcf-cat-dropdown{position:absolute;left:0;right:0;top:100%;z-index:30;background:#fff;border:1px solid #cfe0d8;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.12);overflow:hidden}.mcf-cat-dropdown button{display:block;width:100%;padding:12px 13px;border:0;border-bottom:1px solid #edf2ef;background:#fff;text-align:left;font:inherit;color:#20312b}.mcf-cat-dropdown button:last-child{border-bottom:0}.mcf-cat-dropdown button:active,.mcf-cat-dropdown button:hover{background:#edf8f3}.amount.green-amount{color:#13775c}.amount.blue-amount{color:#246fb2}.amount.red-amount{color:#c52e22}.amount.purple-amount{color:#6d4ab0}.amount.amber-amount{color:#b46e08}footer{font-size:12px;color:var(--muted);line-height:1.5;padding:8px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}@media(max-width:430px){.row,.row3{grid-template-columns:1fr}.summary3{grid-template-columns:1fr 1fr 1fr}.summary3 .amount{font-size:15px}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:linear-gradient(135deg,var(--green),#248266);color:#fff;padding:20px 16px 18px;border-radius:0 0 22px 22px}header h1{font-size:21px;margin:0 0 4px}.mcf-header-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.mcf-header-title>span{font-size:11px;opacity:.9;white-space:nowrap}header p{margin:0;font-size:13px;opacity:.9}main{max-width:760px;margin:auto;padding:14px 13px 40px}nav{display:flex;gap:7px;overflow:auto;margin-bottom:12px}nav button,.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;background:#e5eee9;color:var(--green);white-space:nowrap}nav button.active,.btn.primary{background:var(--green);color:#fff}.btn.danger{background:var(--redbg);color:var(--red);border:1px solid #efc2bc}.filter{background:#fff;border:1px solid var(--line);padding:12px;border-radius:15px;margin-bottom:12px}.filter label{margin:0 0 5px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 7px rgba(30,50,42,.05)}.card.green{border:2px solid #42a889;background:linear-gradient(135deg,#e4f5ed,#f8fcfa)}.card.blue{border:2px solid #4b91d1;background:linear-gradient(135deg,#e8f2ff,#fbfdff)}.card.red{border:2px solid #d94a3a;background:linear-gradient(135deg,#fff0ee,#fffafa)}.card.purple{border:2px solid #8460c7;background:linear-gradient(135deg,#f3edff,#fdfbff)}.card.amber{border:2px solid #d18a1b;background:linear-gradient(135deg,#fff5df,#fffdf8)}.card.neutral{border:2px solid #aebbb5;background:linear-gradient(135deg,#eef2f0,#fafcfb)}.card small,.muted{color:var(--muted)}.amount{font-size:21px;font-weight:800;margin:7px 0}.mini{font-size:12px;color:var(--muted)}.summary3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.summary3 .card{padding:11px}.summary3 .amount{font-size:17px}.summary3 .card.clickable{cursor:pointer;user-select:none}.summary3 .card.clickable:focus{outline:3px solid #b8dfd0;outline-offset:2px}.summary-detail-row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.summary-detail-row:last-child{border-bottom:0}.summary-detail-meta{font-size:12px;color:var(--muted);margin-top:3px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}.panel h2{font-size:17px;margin:2px 0 10px}h3{font-size:14px;margin:0 0 8px}label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;font:inherit;color:var(--ink)}input:focus,select:focus{outline:2px solid #b8dfd0;border-color:var(--green)}select:disabled{opacity:1;color:var(--ink);background:#fff;cursor:default}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.hidden{display:none!important}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.actions button{padding:14px 8px;border:1px solid var(--line);border-radius:13px;background:#fff;font-weight:700;color:var(--ink)}.item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.app-immediate-row{font-size:12px;color:var(--muted);padding:7px 0 10px;border-bottom:1px solid var(--line);margin-bottom:2px}.app-immediate-row strong{font-size:12px;font-weight:600;color:var(--muted)}.item:last-child{border-bottom:0}.positive{color:var(--green)}.negative{color:var(--red)}.pill{display:inline-block;font-size:11px;padding:4px 7px;border-radius:99px;background:var(--mint);color:var(--green)}.notice{padding:10px;border-radius:11px;background:var(--amberbg);color:#805b19;font-size:13px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;padding:4px 7px;border-radius:99px}.tag.red{background:var(--redbg);color:var(--red)}.tag.blue{background:var(--bluebg);color:var(--blue)}.tag.purple{background:var(--purplebg);color:var(--purple)}form .btn{margin-top:12px;width:100%}.dashboard-panel.green-panel{border:2px solid #42a889;background:#f3fbf7}.dashboard-panel.blue-panel{border:2px solid #4b91d1;background:#f3f8ff}.dashboard-panel.red-panel{border:2px solid #d94a3a;background:#fff6f4}.dashboard-panel.amber-panel{border:2px solid #d18a1b;background:#fff9ed}.dashboard-panel.purple-panel{border:2px solid #8460c7;background:#f8f4ff}.mcf-cat-wrap{position:relative}.mcf-cat-arrow{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:#e7f2ed;color:var(--green);font-size:20px;font-weight:800;border-radius:9px;width:38px;height:38px;z-index:2}.mcf-cat-wrap input{padding-right:55px}.mcf-cat-dropdown{position:absolute;left:0;right:0;top:100%;z-index:30;background:#fff;border:1px solid #cfe0d8;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.12);overflow:hidden}.mcf-cat-dropdown button{display:block;width:100%;padding:12px 13px;border:0;border-bottom:1px solid #edf2ef;background:#fff;text-align:left;font:inherit;color:#20312b}.mcf-cat-dropdown button:last-child{border-bottom:0}.mcf-cat-dropdown button:active,.mcf-cat-dropdown button:hover{background:#edf8f3}.amount.green-amount{color:#13775c}.amount.blue-amount{color:#246fb2}.amount.red-amount{color:#c52e22}.amount.purple-amount{color:#6d4ab0}.amount.amber-amount{color:#b46e08}footer{font-size:12px;color:var(--muted);line-height:1.5;padding:8px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}@media(max-width:430px){.row,.row3{grid-template-columns:1fr}.summary3{grid-template-columns:1fr 1fr 1fr}.summary3 .amount{font-size:15px}}
 
 .cat-mode-toggle{display:flex;gap:4px;background:#edf5fc;border-radius:999px;padding:3px}.cat-mode{border:0;border-radius:999px;padding:7px 10px;background:transparent;color:var(--blue);font-weight:800;font-size:12px}.cat-mode.active{background:var(--blue);color:#fff}.category-chart-wrap{min-height:170px}.category-chart{width:170px;height:170px;border-radius:50%;margin:10px auto 14px;position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}.category-chart:after{content:"";position:absolute;inset:42px;border-radius:50%;background:#fff}.category-total{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:2;font-weight:900;color:var(--ink);font-size:16px}.category-total small{font-size:11px;color:var(--muted);font-weight:700}.category-legend{display:grid;gap:7px}.category-legend-row{display:grid;grid-template-columns:12px 1fr auto;gap:8px;align-items:center}.category-dot{width:11px;height:11px;border-radius:50%}.category-empty{text-align:center;padding:12px 0}.
+
+.history-filter{margin:8px 0 4px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#f8fbf9}.history-filter summary{font-weight:800;color:var(--green);cursor:pointer;list-style:none}.history-filter summary::-webkit-details-marker{display:none}.history-filter summary:after{content:'＋';float:right}.history-filter[open] summary:after{content:'−'}.history-filter-body{padding-top:8px}.tx-entry{padding:12px 0;border-bottom:1px solid var(--line)}.tx-entry:last-child{border-bottom:0}.tx-entry-main{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}.tx-entry-info{min-width:0;overflow-wrap:anywhere}.tx-entry-info>strong{display:block;margin-bottom:3px}.tx-entry-meta{line-height:1.35;font-size:13px}.tx-entry-amount{white-space:nowrap;text-align:right;font-size:16px}.tx-entry-actions{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin-top:14px}.tx-entry-actions .btn{flex:1 1 180px;width:auto;min-width:0;min-height:44px;padding:11px 14px;text-align:center;white-space:normal;line-height:1.25;overflow-wrap:anywhere}.tx-entry-actions .btn:only-child{flex-basis:100%}.tx-entry[style*="border:1px dashed"] .tx-entry-actions .btn{flex:1 1 190px}@media(max-width:430px){.tx-entry-main{gap:7px}.tx-entry-amount{font-size:15px}.tx-entry-meta{font-size:12px}.tx-entry-actions{gap:10px;margin-top:14px}.tx-entry-actions .btn{flex:1 1 100%;font-size:14px;padding:12px 14px;min-height:46px}}
 </style>
 <style>
 /* Backup actions and update control */
@@ -102,19 +104,20 @@
 .mcf-quick-grid button:hover{background:#eef7f3}
 .mcf-quick-note{font-size:12px;color:#66756f;margin-top:9px}.restore-btn{background:#e8f2ff;color:#246fb2}
 .month-tabs{display:flex;gap:6px;overflow:auto;margin:8px 0 10px;padding-bottom:2px}.month-tab{border:0;border-radius:999px;padding:8px 11px;background:#e7f2ed;color:var(--green);font-weight:800;white-space:nowrap}.month-tab.active{background:var(--green);color:#fff}.month-tab:disabled{opacity:.45}
+.app-history{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.app-history-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px}.app-history-tabs{display:flex;gap:4px;background:#edf5fc;border-radius:999px;padding:3px}.app-history-tabs button{border:0;border-radius:999px;padding:6px 10px;background:transparent;color:var(--blue);font-size:11px;font-weight:800}.app-history-tabs button.active{background:var(--blue);color:white}.app-history-chart{min-height:96px;padding-top:7px}.app-history-chart svg{display:block;width:100%;height:auto;max-height:145px}.app-history-note{font-size:11px;color:var(--muted);margin:3px 0 0}
 </style>
 
-<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 36</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
+<header><div class="mcf-header-title"><div><h1>Meu Controle Financeiro</h1><span>Versão 62</span></div><button class="header-lock" type="button" onclick="logoutApp()" aria-label="Bloquear aplicativo">🔒 Bloquear</button></div><p>Seu dinheiro, organizado do seu jeito.</p></header>
 <main>
 <nav><button class="active" data-tab="inicio">Visão geral</button><button data-tab="lancamentos">Lançamentos</button><button data-tab="cadastros">Cadastros</button><button data-tab="relatorios">Relatórios</button><button data-tab="backup">Backup</button><button data-tab="seguranca">Segurança</button></nav>
 <section id="inicio">
 <div class="filter"><label>Caixa em uso</label><select id="dashBox"></select></div>
 <div class="cards" id="dashboardCards"></div><div class="panel dashboard-panel bank-panel"><h2>🏦 Saldo por banco</h2><div id="bankBalances"></div></div>
 <div class="panel dashboard-panel app-panel"><div class="section-title"><h2>📈 Aplicações</h2><span class="tag blue" id="appTotal">R$ 0,00</span></div>
-<div class="item"><span>Disponibilidade imediata</span><strong id="appImmediate">R$ 0,00</strong></div>
-<div id="dashboardApplicationsList"></div>
+<div class="item app-immediate-row"><span>Disponibilidade imediata · informativo</span><strong id="appImmediate">R$ 0,00</strong></div>
+<div id="dashboardApplicationsList"></div><div class="app-history"><div class="app-history-head"><strong>Histórico do total aplicado</strong><div class="app-history-tabs"><button type="button" class="active" data-app-history="month" onclick="setApplicationHistoryMode('month')">Mensal</button><button type="button" data-app-history="year" onclick="setApplicationHistoryMode('year')">Anual</button></div></div><div id="applicationHistoryChart" class="app-history-chart"></div></div>
 </div>
-<div class="summary3" id="monthSummary"></div>
+<div class="summary3" id="monthSummary"></div><div class="panel hidden" id="monthSummaryDetails" aria-live="polite"></div>
 <div class="panel dashboard-panel income-panel"><div class="section-title"><h2>🟢 Recebimentos previstos</h2><span class="tag green" id="incomeDueCount">0</span></div><div id="incomeMonthTabs" class="month-tabs"></div><div id="incomeDueList" class="muted">Nenhum recebimento previsto.</div></div>
 <div class="panel dashboard-panel due-panel"><div class="section-title"><h2>🔴 Contas a vencer</h2><span class="tag red" id="dueCount">0</span></div><div id="dueMonthTabs" class="month-tabs"></div><div id="dueList" class="muted">Nenhuma conta próxima.</div></div>
 <div class="panel dashboard-panel invoice-panel"><div class="section-title"><h2>🟠 Faturas de cartão</h2><span class="tag amber">próximas</span></div><div id="invoiceMonthTabs" class="month-tabs"></div><div id="invoiceList" class="muted"></div></div><div class="panel dashboard-panel cat-panel"><div class="section-title"><h2>🔵 Despesas por categoria</h2><div class="cat-mode-toggle"><button type="button" class="cat-mode active" data-mode="realizadas">Realizadas</button><button type="button" class="cat-mode" data-mode="previstas">Previstas</button></div></div><div id="catMonthTabs" class="month-tabs"></div><div id="catChart" class="category-chart-wrap"></div></div>
@@ -129,7 +132,7 @@
 <div class="row"><div><label>Caixa selecionado</label><select id="box" disabled></select></div><div><label>Situação</label><select id="status"><option selected>Realizado</option><option>Previsto</option></select></div></div>
 <label>Categoria (opcional)</label>
 <div class="mcf-cat-wrap"><input id="category" autocomplete="off" placeholder="Digite ou escolha uma categoria"><button type="button" id="mcfCategoryArrow" class="mcf-cat-arrow" aria-label="Mostrar categorias">⌄</button><div id="mcfCategorySuggestions" class="mcf-cat-dropdown hidden"></div></div>
-<div id="paymentWrap"><label id="paymentLabel">Forma de pagamento</label><select id="payment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div>
+<div id="paymentWrap"><label id="paymentLabel">Forma de pagamento</label><select id="payment"><option value="">Selecione a forma de pagamento</option><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Cartão de crédito</option><option>Outro</option></select></div>
 <div id="accountWrap"><label id="accountLabel">Conta utilizada</label><select id="accountSelect"><option value="">Selecione a conta</option></select></div>
 <div id="cardWrap" class="hidden"><label>Cartão de crédito</label><select id="cardSelect"><option value="">Selecione o cartão</option></select>
 <label>Compra</label><select id="installmentType"><option>À vista</option><option>Parcelada</option></select><div id="installmentWrap" class="hidden"><label>Número de parcelas</label><input id="installments" type="number" min="2" step="1" inputmode="numeric" placeholder="6"><div id="parcelPreview" class="muted"></div></div><div id="invoicePreview" class="muted"></div></div>
@@ -138,7 +141,7 @@
 <label>Observação (opcional)</label><input id="note">
 <button class="btn primary" type="submit" id="saveTxBtn">Salvar lançamento</button><button class="btn hidden" type="button" id="cancelEditBtn">Cancelar edição</button><button class="btn hidden" type="button" id="clearDraftBtn">Descartar rascunho</button>
 </form></div>
-<div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><div id="history"></div></div>
+<div class="panel"><div class="section-title"><h2>Histórico — caixa selecionado</h2><span class="pill" id="historyBox"></span></div><details class="history-filter"><summary>🔎 Filtrar lançamentos</summary><div class="history-filter-body"><div class="row"><div><label>Data inicial</label><input id="historyStart" type="date"></div><div><label>Data final</label><input id="historyEnd" type="date"></div></div><div class="row"><div><label>Tipo</label><select id="historyType"><option value="Todos">Receitas e despesas</option><option value="Receita">Receitas</option><option value="Despesa">Despesas</option></select></div><div><label>Recorrência</label><select id="historyRecurring"><option value="Todos">Todas</option><option value="Sim">Recorrentes</option><option value="Não">Não recorrentes</option></select></div></div><div class="row"><div><label>Categoria</label><select id="historyCategory"><option value="Todos">Todas as categorias</option></select></div><div><label>Empresa / Pessoa</label><select id="historyParty"><option value="Todos">Todas</option></select></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><button class="btn primary" type="button" onclick="renderHistory()">Aplicar filtros</button><button class="btn" type="button" onclick="clearHistoryFilters()">Limpar filtros</button></div></div></details><div id="historyCount" class="muted" style="margin:10px 0 5px"></div><div id="history"></div></div>
 </section>
 <section id="cadastros" class="hidden">
 <div class="mcf-quick-cadastros" id="mcfQuickCadastros">
@@ -214,12 +217,16 @@
 <p class="muted">Por segurança, o PIN não é incluído nos backups. Os backups guardam somente os dados financeiros.</p>
 </div></section>
 <section id="backup" class="hidden"><div class="panel"><h2>Backup e recuperação</h2><p>Faça um backup completo dos dados deste aparelho. O arquivo é salvo em formato JSON. No iPhone, ao tocar em <b>Exportar backup</b>, você poderá escolher onde guardar o arquivo, inclusive em <b>Arquivos</b> e, se disponível no aparelho, no <b>Google Drive</b>.</p><div id="backupInfo" class="notice"></div><div class="backup-actions"><button class="backup-action export" type="button" onclick="exportData()">📤 Exportar backup</button><button class="backup-action file" type="button" onclick="$('restoreFile').click()">📂 Restaurar backup de um arquivo</button><button class="backup-action auto" type="button" onclick="restoreAutoBackup()">♻️ Restaurar última cópia automática</button><button class="backup-action update" type="button" onclick="updateAppVersion()">🔄 Atualizar versão do aplicativo</button></div><input class="backup-file-input" type="file" id="restoreFile" accept=".json,application/json"><p class="muted backup-help">Para restaurar um arquivo, toque em <b>Restaurar backup de um arquivo</b> e escolha o backup .json salvo anteriormente. Antes da restauração, o aplicativo cria automaticamente uma cópia de segurança local dos dados atuais.</p><div class="notice" style="margin-top:10px"><strong>🔄 Atualização:</strong> ao tocar em Atualizar versão, o aplicativo cria uma cópia automática dos dados deste navegador e recarrega a página tentando buscar o arquivo mais recente publicado. Para maior segurança, exporte também um backup em arquivo antes de atualizar. O botão não permite manter versões antigas instaladas; ele recarrega a versão que estiver publicada no site.</div><div class="notice" style="margin-top:10px"><strong>🔐 Migração segura:</strong> versões futuras podem migrar os dados em etapas. Antes de uma migração de estrutura, o aplicativo cria uma cópia automática dos dados atuais.</div><div class="notice" style="margin-top:10px"><strong>📱 Atenção no iPhone:</strong> o acesso pelo ícone da Tela de Início e o acesso pelo Safari usam armazenamentos separados. Para levar os mesmos dados de um para o outro, use o backup.</div></div></section>
-<footer>Versão 36 • Projeções calculadas a partir da data de atualização dos saldos.</footer>
+<footer>Versão 62</footer>
 </main>
 <script>
-const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const SECSESSION='mcf_security_session_lock';const AUTO='mcf_autobackup_v1';const APP_VERSION=36;const SCHEMA=7;const DEFAULT_BOXES=[];let data={boxes:[],tx:[]};let editingId=null;let dataLoadWarning='';
+const KEY='mcf_data_v2';const LAST='mcf_last_box';const DRAFT='mcf_tx_draft_v1';const SEC='mcf_security_v1';const LOCK='mcf_lock_timeout';const SECSESSION='mcf_security_session_lock';const AUTO='mcf_autobackup_v1';const APP_VERSION=62;const SCHEMA=10;const DEFAULT_BOXES=[];let data={boxes:[],tx:[]};let editingId=null;let dataLoadWarning='';
 function cloneData(v){return JSON.parse(JSON.stringify(v))}
-function normalizeData(raw){const d=raw&&typeof raw==='object'?raw:{};if(!Array.isArray(d.boxes))d.boxes=[];d.boxes=d.boxes.map(b=>String(b??'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b);DEFAULT_BOXES.forEach(b=>{if(!d.boxes.includes(b))d.boxes.push(b)});d.boxes=[...new Set(d.boxes)];if(!Array.isArray(d.tx))d.tx=[];d.tx=d.tx.map(t=>({...t,party:String(t?.party||t?.store||t?.loja||'')}));if(!Array.isArray(d.accounts))d.accounts=[];d.accounts=d.accounts.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100,balanceUpdatedAt:a.balanceUpdatedAt||new Date().toISOString().slice(0,10)}));if(!Array.isArray(d.cards))d.cards=[];if(!Array.isArray(d.categories))d.categories=[];if(!Array.isArray(d.applications))d.applications=[];d.applications=d.applications.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100,balanceUpdatedAt:a.balanceUpdatedAt||new Date().toISOString().slice(0,10)}));if(!Array.isArray(d.installments))d.installments=[];if(!Array.isArray(d.invoices))d.invoices=[];if(!Array.isArray(d.recurring))d.recurring=[];if(!Array.isArray(d.refunds))d.refunds=[];d._schemaVersion=SCHEMA;return d}
+// Compara nomes ignorando acentos, maiúsculas/minúsculas e espaços repetidos, sem alterar o texto salvo.
+function compareKey(value){return String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').replace(/\s+/g,' ').trim()}
+function sameText(a,b){return compareKey(a)===compareKey(b)}
+function uniqueTextValues(values){const seen=new Set();return values.filter(v=>String(v??'').trim()).map(v=>String(v)).filter(v=>{const k=compareKey(v);if(seen.has(k))return false;seen.add(k);return true})}
+function normalizeData(raw){const d=raw&&typeof raw==='object'?raw:{};if(!Array.isArray(d.boxes))d.boxes=[];d.boxes=d.boxes.map(b=>String(b??'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b);DEFAULT_BOXES.forEach(b=>{if(!d.boxes.includes(b))d.boxes.push(b)});d.boxes=[...new Set(d.boxes)];if(!Array.isArray(d.tx))d.tx=[];d.tx=d.tx.map(t=>({...t,party:String(t?.party||t?.store||t?.loja||'')}));if(!Array.isArray(d.accounts))d.accounts=[];d.accounts=d.accounts.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100}));if(!Array.isArray(d.cards))d.cards=[];if(!Array.isArray(d.categories))d.categories=[];if(!Array.isArray(d.applications))d.applications=[];d.applications=d.applications.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100}));if(!Array.isArray(d.installments))d.installments=[];if(!Array.isArray(d.invoices))d.invoices=[];if(!Array.isArray(d.recurring))d.recurring=[];if(!Array.isArray(d.refunds))d.refunds=[];d._schemaVersion=SCHEMA;return d}
 
 function migrateData(raw){
   let d=cloneData(raw&&typeof raw==='object'?raw:{});
@@ -230,7 +237,8 @@ function migrateData(raw){
   if(!Array.isArray(d.installments))d.installments=[]; if(!Array.isArray(d.invoices))d.invoices=[];
   if(!Array.isArray(d.recurring))d.recurring=[]; if(!Array.isArray(d.refunds))d.refunds=[];
   if(from<5){d.tx=d.tx.map(t=>({...t,party:String(t?.party||t?.store||t?.loja||'')}));d.installments=d.installments.map(p=>({...p,status:'Previsto'}));}
-  if(from<6){const stamp=new Date().toISOString().slice(0,10);d.accounts=d.accounts.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100,balanceUpdatedAt:a.balanceUpdatedAt||stamp}));}
+  if(from<6){d.accounts=d.accounts.map(a=>({...a,balance:Math.round((Number(a.balance)||0)*100)/100}));}
+  if(from<9){d.accounts=d.accounts.map(a=>{const x={...a};delete x.balanceUpdatedAt;return x});d.applications=d.applications.map(a=>{const x={...a};delete x.balanceUpdatedAt;return x});}
   d.boxes=[...new Set(d.boxes.map(b=>String(b||'').trim()).filter(Boolean).map(b=>b==='Meu Financeiro'?'Pessoal':b))];
   d._schemaVersion=SCHEMA; return d;
 }
@@ -267,12 +275,17 @@ function renderAccounts(){
   $('accountSelect').innerHTML='<option value="">Selecione a conta</option>'+list.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.bank)}</option>`).join('');
   $('accountBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
   $('accountBox').value=currentBox();
-  $('accountBalanceUpdatedAt').textContent=editingAccountId?('Última atualização: '+mcfBRDate((data.accounts.find(a=>a.id===editingAccountId)||{}).balanceUpdatedAt||today())):'Última atualização: será registrada ao adicionar a conta';
-  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)} · Atualizado em ${mcfBRDate(a.balanceUpdatedAt||today())}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
+  $('accountBalanceUpdatedAt').textContent=editingAccountId?((data.accounts.find(a=>a.id===editingAccountId)||{}).balanceUpdatedAt?('Última atualização manual: '+mcfBRDate(data.accounts.find(a=>a.id===editingAccountId).balanceUpdatedAt)):'Nenhuma atualização manual registrada ainda'):'A data será registrada ao informar o saldo inicial';
+  $('accountsList').innerHTML=list.length?list.map(a=>`<div class="item"><div><strong>${esc(a.name)}</strong><div class="muted">${esc(a.bank)} · Saldo: ${money(a.balance)}${a.balanceUpdatedAt?' · Atualizado em '+mcfBRDate(a.balanceUpdatedAt):''}</div></div><div><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editAccount('${esc(a.id)}')">Editar</button></div></div>`).join(''):'<p class="muted">Nenhuma conta ativa neste caixa.</p>';
   const sortedBanks=list.slice().filter(a=>Math.abs(Number(a.balance||0))>0.000001).sort((a,b)=>Number(b.balance||0)-Number(a.balance||0));
   $('bankBalances').innerHTML=sortedBanks.length?sortedBanks.map(a=>`<div class="item"><span>${esc(a.name)}</span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma conta com saldo.</p>';
 }
-if(!Array.isArray(data.applications))data.applications=[];
+if(!Array.isArray(data.applications))data.applications=[];if(!Array.isArray(data.applicationHistory))data.applicationHistory=[];
+let applicationHistoryMode='month';
+function setApplicationHistoryMode(mode){applicationHistoryMode=mode;document.querySelectorAll('[data-app-history]').forEach(b=>b.classList.toggle('active',b.dataset.appHistory===mode));renderApplicationHistory()}
+function recordApplicationHistory(box){if(!Array.isArray(data.applicationHistory))data.applicationHistory=[];const apps=activeApplications(box);data.applicationHistory.push({date:today(),box,total:Math.round(apps.reduce((sum,a)=>sum+Number(a.balance||0),0)*100)/100});}
+function renderApplicationHistory(){const el=$('applicationHistoryChart');if(!el)return;const box=currentBox();const raw=(data.applicationHistory||[]).filter(h=>h.box===box&&h.date&&Number.isFinite(Number(h.total)));const grouped=new Map();raw.forEach(h=>{const key=applicationHistoryMode==='month'?h.date.slice(0,7):h.date.slice(0,4);const old=grouped.get(key);if(!old||h.date>old.date)grouped.set(key,h)});const points=[...grouped.entries()].sort((a,b)=>a[0].localeCompare(b[0])).slice(applicationHistoryMode==='month'?-8:-6);if(!points.length){el.innerHTML='<p class="app-history-note">O histórico começa a ser registrado a partir de agora, ao cadastrar ou atualizar o saldo de uma aplicação. Os saldos antigos não podem ser reconstruídos automaticamente.</p>';return}const vals=points.map(p=>Number(p[1].total));const min=Math.min(...vals),max=Math.max(...vals),range=max-min||Math.max(1,max*.05);const W=320,H=112,T=10,B=25;const coords=vals.map((v,i)=>({x:8+(points.length===1?152:i*304/(points.length-1)),y:T+(max-v)/range*(H-T-B)}));const poly=coords.map(p=>p.x+','+p.y).join(' ');const labels=points.map((p,i)=>`<text x="${coords[i].x}" y="${H-7}" text-anchor="middle" font-size="9" fill="#66756e">${esc(applicationHistoryMode==='month'?p[0].slice(5,7)+'/'+p[0].slice(2,4):p[0])}</text>`).join('');const dots=coords.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#2867a8"><title>${esc(points[i][0])}: ${money(vals[i])}</title></circle>`).join('');el.innerHTML=`<div style="font-size:14px;font-weight:800;color:var(--blue)">${money(vals[vals.length-1])}</div><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolução do total aplicado"><line x1="8" y1="${H-B}" x2="312" y2="${H-B}" stroke="#dce6e0"/><polyline points="${poly}" fill="none" stroke="#2867a8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${dots}${labels}</svg>`;}
+
 function activeApplications(b){return data.applications.filter(a=>a.box===b&&a.active!==false)}
 function applicationTotals(b){
   const apps=activeApplications(b);
@@ -282,7 +295,7 @@ function applicationTotals(b){
 }
 let editingApplicationId=null;
 function applicationItemHTML(a){
-  return `<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''} · Atualizado em ${mcfBRDate(a.balanceUpdatedAt||today())}</div></div><div style="text-align:right"><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button> <button type="button" class="btn" onclick="removeApplication('${esc(a.id)}')">Excluir</button></div></div>`;
+  return `<div class="item"><div><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${esc(a.type||'')} ${a.liquidity?'· Liquidez: '+esc(a.liquidity):''}${a.balanceUpdatedAt?' · Atualizado em '+mcfBRDate(a.balanceUpdatedAt):''}</div></div><div style="text-align:right"><strong>${money(a.balance)}</strong><br><button type="button" class="btn" onclick="editApplication('${esc(a.id)}')">Editar</button> <button type="button" class="btn" onclick="removeApplication('${esc(a.id)}')">Excluir</button></div></div>`;
 }
 function renderApplications(){
   $('appBox').innerHTML=`<option value="${esc(currentBox())}">${esc(currentBox())}</option>`;
@@ -293,8 +306,8 @@ function renderApplications(){
   $('applicationsList').innerHTML=html;
   const sortedApps=apps.slice().filter(a=>Math.abs(Number(a.balance||0))>0.000001).sort((a,b)=>Number(b.balance||0)-Number(a.balance||0));
   $('dashboardApplicationsList').innerHTML=sortedApps.length?sortedApps.map(a=>`<div class="item"><span><strong>${esc(a.institution)} — ${esc(a.description)}</strong><div class="muted">${a.liquidity==='Imediata'?'Liquidez imediata':a.liquidity==='Parcial'?'Liquidez parcial':a.liquidity==='Sem liquidez imediata'?'Sem liquidez imediata':'Liquidez não informada'}</div></span><strong>${money(a.balance)}</strong></div>`).join(''):'<p class="muted">Nenhuma aplicação com saldo.</p>';
-  $('appBalanceUpdatedAt').textContent=editingApplicationId?('Última atualização: '+mcfBRDate((data.applications.find(a=>a.id===editingApplicationId)||{}).balanceUpdatedAt||today())):'Última atualização: será registrada ao adicionar a aplicação';
-  $('appTotal').textContent=money(totals.total);
+  $('appBalanceUpdatedAt').textContent=editingApplicationId?((data.applications.find(a=>a.id===editingApplicationId)||{}).balanceUpdatedAt?('Última atualização manual: '+mcfBRDate(data.applications.find(a=>a.id===editingApplicationId).balanceUpdatedAt)):'Nenhuma atualização manual registrada ainda'):'A data será registrada ao informar o saldo inicial';
+  $('appTotal').textContent=money(totals.total);renderApplicationHistory();
   $('appImmediate').textContent=money(totals.immediate);
   const immediateRow=$('appImmediate')?.closest('.item');
   if(immediateRow)immediateRow.classList.toggle('hidden',Math.abs(totals.immediate)<=0.000001);
@@ -307,8 +320,8 @@ function editApplication(id){
   $('appInstitution').value=a.institution||'';
   $('appDescription').value=a.description||'';
   $('appType').value=a.type||'';
-  $('appBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-  $('appBalanceUpdatedAt').textContent='Última atualização: '+mcfBRDate(a.balanceUpdatedAt||today());
+  $('appBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});applicationBalanceTouched=false;
+  $('appBalanceUpdatedAt').textContent=a.balanceUpdatedAt?('Última atualização manual: '+mcfBRDate(a.balanceUpdatedAt)):'Nenhuma atualização manual registrada ainda';
   $('appLiquidity').value=a.liquidity||'';
   const btn=$('applicationForm').querySelector('button[type="submit"]');
   btn.textContent='Salvar alterações';
@@ -319,7 +332,7 @@ function editApplication(id){
 }
 function cancelApplicationEdit(){
   editingApplicationId=null;
-  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';$('appBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a aplicação';
+  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';$('appBalanceUpdatedAt').textContent='A data será registrada ao informar o saldo inicial';
   $('applicationForm').querySelector('button[type="submit"]').textContent='Adicionar aplicação';
   const c=$('cancelApplicationEdit');if(c)c.remove();
 }
@@ -382,6 +395,23 @@ function invoiceFor(cardId,ym){
   if(!inv){const c=cardById(cardId);inv={id:'inv_'+cardId+'_'+ym,cardId,month:ym,officialValue:null,paidValue:0,paid:false};data.invoices.push(inv)}
   return inv;
 }
+function invalidateInvoiceOverridesForTx(t){
+  // Um valor oficial informado manualmente é uma base de conciliação, não um valor
+  // descartável. A fatura passa a acompanhar as novas compras pela diferença do total
+  // calculado desde o momento em que o usuário fez o ajuste.
+  // Mantida a função por compatibilidade com os fluxos de edição/exclusão antigos.
+  return;
+}
+function invoiceEffectiveTotal(cardId,ym){
+  const inv=data.invoices.find(x=>x.cardId===cardId&&x.month===ym);
+  const calculated=invoiceDisplayedTotal(cardId,ym);
+  if(!inv||inv.officialValue===null||inv.officialValue===undefined)return calculated;
+  const official=Number(inv.officialValue)||0;
+  if(Number.isFinite(Number(inv.officialBaseCalculated)))
+    return Math.round((official+calculated-Number(inv.officialBaseCalculated))*100)/100;
+  return official;
+}
+
 function previewInstallments(){
   const p=$('payment').value;
   if(p!=='Cartão de crédito'){ $('parcelPreview').textContent=''; $('invoicePreview').textContent=''; return; }
@@ -486,7 +516,7 @@ window.addEventListener('pagehide',()=>{
 
 const draftFields=['type','desc','party','value','date','box','status','category','payment','accountSelect','cardSelect','installmentType','installments','recurring','frequency','endDate','note'];
 function draftHasMeaningfulContent(d){
-  const defaults={type:'Despesa',desc:'',party:'',value:'',date:today(),box:currentBox(),status:'Realizado',category:'',payment:'Pix',accountSelect:'',cardSelect:'',installmentType:'À vista',installments:'',recurring:'Não',frequency:'Mensal',endDate:'',note:''};
+  const defaults={type:'Despesa',desc:'',party:'',value:'',date:today(),box:currentBox(),status:'Realizado',category:'',payment:'',accountSelect:'',cardSelect:'',installmentType:'À vista',installments:'',recurring:'Não',frequency:'Mensal',endDate:'',note:''};
   return draftFields.some(id=>String(d[id]??'')!==String(defaults[id]??''));
 }
 function saveDraft(){
@@ -532,6 +562,15 @@ function restoreDraft(){
  }catch(e){}
 }
 function persist(){try{const previous=localStorage.getItem(KEY);if(previous){try{localStorage.setItem(AUTO,JSON.stringify({app:'Meu Controle Financeiro',version:SCHEMA,reason:'cópia automática anterior à gravação',createdAt:new Date().toISOString(),data:JSON.parse(previous)}))}catch(e){}}data=normalizeData(data);localStorage.setItem(KEY,JSON.stringify(data));render()}catch(e){alert('Não foi possível salvar os dados. Seus dados anteriores foram preservados. Verifique o espaço disponível e o Backup.')}}
+function persistTransaction(){
+  data=normalizeData(data);
+  const serialized=JSON.stringify(data);
+  const previous=localStorage.getItem(KEY);
+  if(previous){try{localStorage.setItem(AUTO,JSON.stringify({app:'Meu Controle Financeiro',version:APP_VERSION,reason:'backup automático antes de salvar lançamento',createdAt:new Date().toISOString(),data:JSON.parse(previous)}))}catch(e){}}
+  // Primeiro persiste os dados; a renderização só ocorre depois de encerrar o modo de edição.
+  localStorage.setItem(KEY,serialized);
+  return {saved:true,rendered:false};
+}
 function money(n){return Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function parseBR(v){let s=String(v??'').trim().replace(/\s/g,'').replace(/R\$/i,'');if(!s)return NaN;if(s.includes(',')){s=s.replace(/\./g,'').replace(',','.')}else{s=s.replace(/\.(?=\d{3}(?:\.|$))/g,'')}return Number(s)}
@@ -540,8 +579,8 @@ function signed(t){return t.type==='Despesa'?-Number(t.value):Number(t.value)}
 function currentBox(){if(!Array.isArray(data.boxes))data.boxes=[];const el=$('dashBox');const value=el&&el.value;if(value&&data.boxes.includes(value))return value;const last=localStorage.getItem(LAST);if(last&&data.boxes.includes(last))return last;return data.boxes[0]||''}
 function boxBalance(b){return Math.round(activeAccounts(b).reduce((s,a)=>s+Number(a.balance||0),0)*100)/100}
 function boxProjectionStart(b){const dates=activeAccounts(b).map(a=>a.balanceUpdatedAt).filter(Boolean).sort();return dates.length?dates[dates.length-1]:today()}
-function projectionEligible(t,b=t?.box){if(!t||!t.date)return false;let cutoff=boxProjectionStart(b);if(t.accountId){const a=data.accounts.find(x=>x.id===t.accountId);if(a&&a.balanceUpdatedAt)cutoff=a.balanceUpdatedAt;}return t.date>=cutoff}
-function boxAvailableBalance(b){const bank=boxBalance(b);const unassigned=data.tx.filter(t=>t.box===b&&t.status==='Realizado'&&!t.accountId&&t.payment!=='Cartão de crédito'&&t.payment!=='Dinheiro'&&projectionEligible(t,b)).reduce((s,t)=>s+signed(t),0);return Math.round((bank+unassigned)*100)/100}
+function projectionEligible(t,b=t?.box){if(!t||!t.date)return false;/* Uma previsão ainda não baixada continua pendente, mesmo que sua data já tenha passado ou o saldo bancário tenha sido atualizado depois dela. */if(t.status==='Previsto')return true;let cutoff=boxProjectionStart(b);if(t.accountId){const a=data.accounts.find(x=>x.id===t.accountId);if(a&&a.balanceUpdatedAt)cutoff=a.balanceUpdatedAt;}return t.date>=cutoff}
+function boxAvailableBalance(b){return Math.round(boxBalance(b)*100)/100}
 function applyAccountDelta(accountId,delta){if(!accountId)return;const a=data.accounts.find(x=>x.id===accountId);if(a)a.balance=Math.round((Number(a.balance||0)+Number(delta||0))*100)/100}
 function affectsAccount(t){return t && t.status==='Realizado' && t.accountId && t.payment!=='Cartão de crédito' && t.payment!=='Dinheiro'}
 
@@ -616,7 +655,7 @@ if(!Array.isArray(data.categories)||!data.categories.length){
   data.categories=data.categories.map(c=>{
     const name=String(typeof c==='string'?c:(c&&c.name)||'').trim();
     const explicitType=c&&typeof c==='object'&&(c.type==='Receita'||c.type==='Despesa')?c.type:null;
-    const inferred=incomeCategories.some(x=>x.toLowerCase()===name.toLowerCase())?'Receita':'Despesa';
+    const inferred=incomeCategories.some(x=>sameText(x,name))?'Receita':'Despesa';
     return {name,type:explicitType||inferred};
   }).filter(c=>c.name);
   const existing=new Set(data.categories.map(c=>c.name.toLowerCase()));
@@ -625,8 +664,8 @@ if(!Array.isArray(data.categories)||!data.categories.length){
 }
 // Remove a categoria de receita que foi descontinuada.
 if(Array.isArray(data.categories)){
-  data.categories=data.categories.filter(c=>String(c?.name||c||'').trim().toLowerCase()!=='serviços realizados');
-  if(!data.categories.some(c=>String(c?.name||'').toLowerCase()==='freelance e serviços')) data.categories.push({name:'Freelance e serviços',type:'Receita'});
+  data.categories=data.categories.filter(c=>!sameText(String(c?.name||c||'').trim(),'serviços realizados'));
+  if(!data.categories.some(c=>sameText(String(c?.name||''),'freelance e serviços'))) data.categories.push({name:'Freelance e serviços',type:'Receita'});
 }
 if(!Array.isArray(data.recurring))data.recurring=[];
 if(!Array.isArray(data.refunds))data.refunds=[];
@@ -638,19 +677,22 @@ function addMonthsDate(date,n){
   return dt.toISOString().slice(0,10);
 }
 function recurringDates(start,end,frequency){
-  const out=[];let d=start;
+  const out=[];if(!start)return out;
   const limit=end||addMonthsDate(start,12);
+  const [sy,sm,sd]=String(start).split('-').map(Number);
+  const anchoredMonth=(offset)=>{const first=new Date(sy,sm-1+offset,1);const last=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();return `${first.getFullYear()}-${String(first.getMonth()+1).padStart(2,'0')}-${String(Math.min(sd,last)).padStart(2,'0')}`};
+  let i=0,d=start;
   while(d<=limit){
-    out.push(d);
-    if(frequency==='Mensal')d=addMonthsDate(d,1);
-    else if(frequency==='Bimestral')d=addMonthsDate(d,2);
-    else if(frequency==='Trimestral')d=addMonthsDate(d,3);
-    else if(frequency==='Semestral')d=addMonthsDate(d,6);
-    else if(frequency==='Anual')d=addMonthsDate(d,12);
-    else if(frequency==='Quinzenal'){const x=new Date(d+'T12:00:00');x.setDate(x.getDate()+15);d=x.toISOString().slice(0,10)}
-    else if(frequency==='Semanal'){const x=new Date(d+'T12:00:00');x.setDate(x.getDate()+7);d=x.toISOString().slice(0,10)}
+    out.push(d);i++;
+    if(frequency==='Mensal')d=anchoredMonth(i);
+    else if(frequency==='Bimestral')d=anchoredMonth(i*2);
+    else if(frequency==='Trimestral')d=anchoredMonth(i*3);
+    else if(frequency==='Semestral')d=anchoredMonth(i*6);
+    else if(frequency==='Anual')d=anchoredMonth(i*12);
+    else if(frequency==='Quinzenal'){const x=new Date(start+'T12:00:00');x.setDate(x.getDate()+i*15);d=x.toISOString().slice(0,10)}
+    else if(frequency==='Semanal'){const x=new Date(start+'T12:00:00');x.setDate(x.getDate()+i*7);d=x.toISOString().slice(0,10)}
     else break;
-    if(out.length>240)break;
+    if(i>240)break;
   }
   return out;
 }
@@ -674,8 +716,35 @@ function cancelTx(id){
     t.status='Cancelada';persist();
   }
 }
+// Recuperação pontual de um registro confirmado pela usuária como pagamento não realizado.
+// O saldo da conta não é alterado: ele foi atualizado manualmente em 11/10/2026, depois da data
+// gravada no registro indevido, portanto não é seguro somar R$ 300 automaticamente.
+function repairKnownFalseItaInvoicePayment(){
+  const inv=(data.invoices||[]).find(x=>x.id==='inv_card_itau_2026-10'&&x.cardId==='card_itau'&&x.month==='2026-10');
+  if(!inv||inv.paid!==true||Number(inv.paidValue)!==300||inv.paidDate!=='2026-10-03'||inv.paidAccountId!=='acc_itau'||inv.paidPayment!=='Pix')return false;
+  const before=cloneData(data);
+  inv.paid=false;
+  inv.paidValue=0;
+  delete inv.paidDate;
+  delete inv.paidAccountId;
+  delete inv.paidPayment;
+  try{
+    localStorage.setItem('mcf_invoice_repair_backup_v57',JSON.stringify({app:'Meu Controle Financeiro',version:APP_VERSION,reason:'Cópia anterior à correção do pagamento Itaú de R$ 300 que a usuária confirmou não ter realizado',createdAt:new Date().toISOString(),data:before}));
+    localStorage.setItem(KEY,JSON.stringify(normalizeData(data)));
+  }catch(e){/* A correção permanece na memória desta sessão; os dados originais não são apagados. */}
+  return true;
+}
 function renderInvoices(){
-  const cards=activeCards(currentBox());
+  repairKnownFalseItaInvoicePayment();
+  const box=currentBox();
+  const cards=[...activeCards(box)];
+  // Inclui cartões referenciados por lançamentos deste caixa, mesmo que o cadastro antigo
+  // esteja associado a outro caixa ou use o nome do cartão em vez do ID.
+  data.tx.filter(t=>t.box===box&&t.type==='Despesa'&&t.payment==='Cartão de crédito'&&t.status!=='Cancelada').forEach(t=>{
+    let c=cardById(t.cardId);
+    if(!c){const name=t.card||t.cardName||t.cardLabel;c=data.cards.find(x=>name&&sameText(x.name,name));}
+    if(c&&!cards.some(x=>x.id===c.id))cards.push(c);
+  });
   const months=monthKeysFromCurrent(6);
   if(!window.selectedInvoiceMonth||!months.includes(window.selectedInvoiceMonth))window.selectedInvoiceMonth=months[0];
   const tabs=$('invoiceMonthTabs');
@@ -687,8 +756,8 @@ function renderInvoices(){
     // Fatura já paga não deve continuar no dashboard.
     if(inv&&inv.paid)return;
     const total=invoiceDisplayedTotal(c.id,ym);
-    const shown=inv&&inv.officialValue!==null?Number(inv.officialValue):total;
-    if(shown>0.004||total>0.004) rows.push(`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">${esc(monthLabel(ym))}${c.dueDay?' · vence dia '+c.dueDay:''}</div></div><div style="text-align:right"><strong>${money(shown)}</strong><br><button class="btn" onclick="adjustInvoice('${c.id}','${ym}')">Ajustar</button> <button class="btn" onclick="payInvoice('${c.id}','${ym}')">Lançar pagamento</button></div></div>`);
+    const shown=invoiceEffectiveTotal(c.id,ym);
+    if(shown>0.004||total>0.004) rows.push(`<div class="item"><div><strong>${esc(c.name)}</strong><div class="muted">${esc(monthLabel(ym))}${c.dueDay?' · vence dia '+c.dueDay:''}</div></div><div style="text-align:right"><strong class="negative">−${money(Math.abs(shown))}</strong><br><button class="btn" onclick="adjustInvoice('${c.id}','${ym}')">Ajustar</button> <button class="btn" onclick="payInvoice('${c.id}','${ym}')">Lançar pagamento</button></div></div>`);
   });
   $('invoiceList').innerHTML=rows.join('')||'Nenhuma fatura prevista neste mês.';
 }
@@ -706,6 +775,7 @@ function recurringProjectedTx(box,start,end){
     const dates=recurringDates(r.startDate,end,r.frequency);
     dates.forEach(d=>{
       if(d===r.startDate)return;
+      if(Array.isArray(r.skippedDates)&&r.skippedDates.includes(d))return;
       if(start&&d<start)return;
       if(end&&d>end)return;
       const alreadyRecorded=data.tx.some(t=>t.box===r.box&&t.type===r.type&&t.date===d&&String(t.desc||'').trim().toLocaleLowerCase()===String(r.desc||'').trim().toLocaleLowerCase()&&t.status!=='Cancelada');
@@ -718,16 +788,54 @@ function recurringProjectedTx(box,start,end){
 function monthNameShort(ym){const [y,m]=ym.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'short'}).replace('.','').replace(/^./,c=>c.toUpperCase());}
 function monthKeysFromCurrent(count=6){const out=[];const now=new Date();for(let i=0;i<count;i++){const d=new Date(now.getFullYear(),now.getMonth()+i,1);out.push(d.toISOString().slice(0,7));}return out;}
 function monthlyDashboardItems(box,ym,type){
-  const actual=data.tx.filter(t=>t.box===box&&t.date?.startsWith(ym)&&t.status==='Previsto'&&t.type===type&&t.status!=='Cancelada'&&projectionEligible(t,box));
-  const projected=recurringProjectedTx(box,ym+'-01',ym+'-31').filter(t=>t.type===type&&projectionEligible(t,box));
+  const monthEnd=ym+'-31';
+  const currentMonth=today().slice(0,7);
+  const actual=data.tx.filter(t=>{
+    if(t.box!==box||t.status!=='Previsto'||t.type!==type||t.status==='Cancelada')return false;
+    const inSelectedMonth=String(t.date||'').startsWith(ym);
+    // Despesas vencidas permanecem visíveis na lista do mês atual, mesmo se a data de referência do saldo já passou.
+    const overdueExpense=type==='Despesa'&&ym===currentMonth&&String(t.date||'')<today();
+    if(!inSelectedMonth&&!overdueExpense)return false;
+    return overdueExpense||projectionEligible(t,box);
+  });
+  const projected=recurringProjectedTx(box,ym+'-01',monthEnd).filter(t=>t.type===type&&projectionEligible(t,box));
   const merged=[...actual,...projected];
   return merged.sort((a,b)=>a.date.localeCompare(b.date));
 }
 function partyName(t){return String(t?.party||t?.store||t?.loja||'').trim()}
-function reportOptions(){const b=$('reportBox').value||currentBox();const tx=data.tx.filter(t=>t.box===b);const fill=(id,values)=>{const el=$(id),old=el.value;el.innerHTML='<option>Todos</option>'+[...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old};fill('reportCategory',tx.map(t=>t.category));fill('reportAccount',tx.map(t=>accountName(t.accountId)||t.account));fill('reportCard',tx.map(t=>(cardById(t.cardId)||{}).name||t.card));fill('reportStore',tx.map(partyName));}
-function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||(t.category||'')===cat).filter(t=>acc==='Todos'||(accountName(t.accountId)||t.account||'')===acc).filter(t=>card==='Todos'||((cardById(t.cardId)||{}).name||t.card||'')===card).filter(t=>store==='Todos'||partyName(t)===store).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
+function reportOptions(){const b=$('reportBox').value||currentBox();const tx=data.tx.filter(t=>t.box===b);const fill=(id,values)=>{const el=$(id),old=el.value;el.innerHTML='<option value="Todos">Todos</option>'+uniqueTextValues(values).sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>sameText(o.value,old)))el.value=[...el.options].find(o=>sameText(o.value,old))?.value||'Todos'};fill('reportCategory',tx.map(t=>t.category));fill('reportAccount',tx.map(t=>accountName(t.accountId)||t.account));fill('reportCard',tx.map(t=>(cardById(t.cardId)||{}).name||t.card));fill('reportStore',tx.map(partyName));}
+function filteredReportTx(){const b=$('reportBox').value||currentBox(),start=$('reportStart').value,end=$('reportEnd').value,type=$('reportType').value,status=$('reportStatus').value,cat=$('reportCategory').value,acc=$('reportAccount').value,card=$('reportCard').value,store=$('reportStore').value,pay=$('reportPayment').value;return data.tx.filter(t=>t.box===b).filter(t=>!start||t.date>=start).filter(t=>!end||t.date<=end).filter(t=>type==='Todos'||t.type===type).filter(t=>status==='Todos'||t.status===status).filter(t=>cat==='Todos'||sameText(t.category||'',cat)).filter(t=>acc==='Todos'||sameText(accountName(t.accountId)||t.account||'',acc)).filter(t=>card==='Todos'||sameText((cardById(t.cardId)||{}).name||t.card||'',card)).filter(t=>store==='Todos'||sameText(partyName(t),store)).filter(t=>pay==='Todos'||(t.payment||'')===pay);}
 function reportBoxValue(){const el=$('reportBox');return el&&el.value?el.value:currentBox()}
-function renderReports(){reportOptions();const tx=filteredReportTx();const rec=tx.filter(t=>t.type==='Receita'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),exp=tx.filter(t=>t.type==='Despesa'&&t.status!=='Cancelada').reduce((s,t)=>s+Number(t.value||0),0),prev=tx.filter(t=>t.status==='Previsto').reduce((s,t)=>s+signed(t),0),real=tx.filter(t=>t.status==='Realizado').reduce((s,t)=>s+signed(t),0);$('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount">${money(exp)}</div></div><div class="card neutral"><small>Resultado do período</small><div class="amount">${money(rec-exp)}</div></div><div class="card blue"><small>Saldo atual em bancos</small><div class="amount">${money(boxBalance(reportBoxValue()))}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount">${money(real)}</div></div>`;const groups=key=>{const o={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const k=key(t)||'Não informado';o[k]=(o[k]||0)+Number(t.value||0)});return Object.entries(o).sort((a,b)=>b[1]-a[1])};$('reportCategories').innerHTML=groups(t=>t.category).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportStores').innerHTML=groups(partyName).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';const cardTx=tx.filter(t=>t.payment==='Cartão de crédito'&&(t.cardId||t.card));const cardGroups={};cardTx.forEach(t=>{const k=(cardById(t.cardId)||{}).name||t.card||'Não informado';cardGroups[k]=(cardGroups[k]||0)+Number(t.value||0)});$('reportCards').innerHTML=Object.entries(cardGroups).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong>${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhuma despesa em cartão de crédito no período.</p>';const months={};tx.filter(t=>t.status!=='Cancelada').forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});const recurringStart=$('reportStart').value||today();const recurringEnd=$('reportEnd').value||addMonthsDate(today(),5);if($('reportStatus').value!=='Realizado'&&$('reportStatus').value!=='Cancelada'){recurringProjectedTx(reportBoxValue(),recurringStart,recurringEnd).filter(t=>$('reportType').value==='Todos'||t.type===$('reportType').value).forEach(t=>{const m=t.date.slice(0,7);if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else months[m].e+=Number(t.value||0)});}$('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>`<div class="item"><span>${esc(monthNameShort(m))}</span><span>Receitas ${money(v.r)} · Despesas ${money(v.e)}</span><strong>${money(v.r-v.e)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';$('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');$('reportList').innerHTML=tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';}
+function renderReports(){
+ reportOptions();
+ const tx=filteredReportTx();
+ const valid=tx.filter(t=>t.status!=='Cancelada');
+ const sum=(arr,fn)=>arr.reduce((s,t)=>s+fn(t),0);
+ const rec=sum(valid.filter(t=>t.type==='Receita'),t=>Number(t.value||0));
+ const exp=sum(valid.filter(t=>t.type==='Despesa'),t=>Number(t.value||0));
+ const prev=sum(valid.filter(t=>t.status==='Previsto'),signed);
+ const real=sum(valid.filter(t=>t.status==='Realizado'),signed);
+ $('reportSummary').innerHTML=`<div class="card green"><small>Receitas</small><div class="amount positive">${money(rec)}</div></div><div class="card red"><small>Despesas</small><div class="amount negative">−${money(exp)}</div></div><div class="card neutral"><small>Resultado do período</small><div class="amount ${rec-exp>=0?'positive':'negative'}">${money(rec-exp)}</div></div><div class="card blue"><small>Saldo atual em bancos</small><div class="amount">${money(boxBalance(reportBoxValue()))}</div></div><div class="card purple"><small>Fluxo previsto</small><div class="amount ${prev>=0?'positive':'negative'}">${money(prev)}</div></div><div class="card blue"><small>Fluxo realizado</small><div class="amount ${real>=0?'positive':'negative'}">${money(real)}</div></div>`;
+ const renderGrouped=(keyFn)=>{
+   const groups={};
+   valid.forEach(t=>{const key=keyFn(t)||'Não informado';const type=t.type==='Receita'?'Receita':'Despesa';const id=type+'||'+key;if(!groups[id])groups[id]={key,type,value:0};groups[id].value+=Number(t.value||0)});
+   return Object.values(groups).sort((a,b)=>(a.type==='Receita'?0:1)-(b.type==='Receita'?0:1)||b.value-a.value).map(g=>`<div class="item"><span>${g.type==='Receita'?'🟢':'🔴'} ${esc(g.key)} <small class="${g.type==='Receita'?'positive':'negative'}">· ${g.type}</small></span><strong class="${g.type==='Receita'?'positive':'negative'}">${g.type==='Despesa'?'−':''}${money(g.value)}</strong></div>`).join('')||'<p class="muted">Nenhum resultado.</p>';
+ };
+ $('reportCategories').innerHTML=renderGrouped(t=>t.category);
+ $('reportStores').innerHTML=renderGrouped(partyName);
+ const cardTx=valid.filter(t=>t.type==='Despesa'&&t.payment==='Cartão de crédito'&&(t.cardId||t.card));
+ const cardGroups={};cardTx.forEach(t=>{const k=(cardById(t.cardId)||{}).name||t.card||'Não informado';cardGroups[k]=(cardGroups[k]||0)+Number(t.value||0)});
+ $('reportCards').innerHTML=Object.entries(cardGroups).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="item"><span>${esc(k)}</span><strong class="negative">−${money(v)}</strong></div>`).join('')||'<p class="muted">Nenhuma despesa em cartão de crédito no período.</p>';
+ const months={};
+ valid.forEach(t=>{const m=(t.date||'').slice(0,7);if(!m)return;if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else if(t.type==='Despesa')months[m].e+=Number(t.value||0)});
+ const recurringStart=$('reportStart').value||today(),recurringEnd=$('reportEnd').value||addMonthsDate(today(),5);
+ if($('reportStatus').value!=='Realizado'&&$('reportStatus').value!=='Cancelada'){
+  recurringProjectedTx(reportBoxValue(),recurringStart,recurringEnd).filter(t=>($('reportType').value==='Todos'||t.type===$('reportType').value)&&t.status!=='Cancelada').forEach(t=>{const m=t.date.slice(0,7);if(!months[m])months[m]={r:0,e:0};if(t.type==='Receita')months[m].r+=Number(t.value||0);else if(t.type==='Despesa')months[m].e+=Number(t.value||0)});
+ }
+ $('reportMonths').innerHTML=Object.entries(months).sort().map(([m,v])=>{const net=v.r-v.e;return `<div class="item"><span>${esc(monthNameShort(m))}<div class="muted">Receitas <span class="positive">${money(v.r)}</span> · Despesas <span class="negative">−${money(v.e)}</span></div></span><strong class="${net>=0?'positive':'negative'}">${net<0?'−':''}${money(Math.abs(net))}</strong></div>`}).join('')||'<p class="muted">Nenhum resultado.</p>';
+ $('reportCount').textContent=tx.length+' lançamento'+(tx.length===1?'':'s');
+ $('reportList').innerHTML=tx.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(txHTML).join('')||'<p class="muted">Nenhum lançamento encontrado.</p>';
+}
 function clearReportFilters(){['reportStart','reportEnd'].forEach(id=>$(id).value='');['reportType','reportStatus','reportCategory','reportAccount','reportCard','reportStore','reportPayment'].forEach(id=>$(id).value='Todos');$('reportBox').value=currentBox();reportOptions();renderReports();}
 function reportExportRows(){
   const tx=filteredReportTx().slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
@@ -755,6 +863,16 @@ function exportReportPDF(){
   popup.document.close();
 }
 function syncSelectedBoxControls(){const b=currentBox();['box','accountBox','appBox','cardBox','reportBox'].forEach(id=>{const el=$(id);if(!el)return;el.innerHTML=`<option value="${esc(b)}">${esc(b)}</option>`;el.value=b;el.disabled=true})}
+function showMonthBreakdown(type){
+ const panel=$('monthSummaryDetails'),state=window.mcfMonthSummaryData;
+ if(!panel||!state)return;
+ const isIncome=type==='Receita';
+ const rows=state.items.filter(t=>t.type===type&&t.status!=='Cancelada').slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+ const total=rows.reduce((sum,t)=>sum+Number(t.value||0),0);
+ panel.innerHTML=`<div class="section-title"><h2>${isIncome?'Receitas':'Despesas'} de ${esc(new Date(Number(state.month.slice(0,4)),Number(state.month.slice(5,7))-1,1).toLocaleDateString('pt-BR',{month:'long'}))}</h2><button class="btn" type="button" onclick="$('monthSummaryDetails').classList.add('hidden')">Fechar</button></div><p class="muted">Caixa: ${esc(state.box)} · ${rows.length} lançamento(s)</p>${rows.map(t=>`<div class="summary-detail-row"><div><strong>${esc(t.desc||'Sem descrição')}</strong><div class="summary-detail-meta">${mcfBRDate(t.date)} · ${esc(t.status||'Previsto')}${t.category?' · '+esc(t.category):''}${t.payment==='Cartão de crédito'?' · Cartão de crédito '+esc((cardById(t.cardId)||{}).name||t.card||'não informado'):t.payment?' · '+esc(t.payment):''}${t.virtualRecurring?' · Recorrência projetada':''}</div></div><strong class="${isIncome?'positive':'negative'}">${money(Number(t.value||0))}</strong></div>`).join('')||'<p class="muted">Nenhum lançamento para este total.</p>'}<div class="item"><strong>Total</strong><strong>${money(total)}</strong></div>`;
+ panel.classList.remove('hidden');
+ panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
 function render(){
 renderCategorySuggestions();
 if($('reportBox')){const sel=currentBox();$('reportBox').innerHTML=`<option value="${esc(sel)}">${esc(sel)}</option>`;$('reportBox').value=sel;$('reportBox').disabled=true;reportOptions();renderReports();}
@@ -765,27 +883,89 @@ renderCards();
 renderInvoices();
 renderRecurring();
 let selected=localStorage.getItem(LAST);if(!data.boxes.includes(selected))selected=data.boxes[0]||'';$('dashBox').innerHTML=data.boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');$('dashBox').value=selected;syncSelectedBoxControls();$('historyBox').textContent=selected||'Nenhum caixa';
-let bal=boxAvailableBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let monthProjected=recurringProjectedTx(selected,month+'-01',month+'-31');let monthAll=[...tx.filter(t=>t.date?.startsWith(month)&&t.status!=='Cancelada'),...monthProjected];let rec=monthAll.filter(t=>t.type==='Receita');let exp=monthAll.filter(t=>t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value||0),0),ee=exp.reduce((s,t)=>s+Number(t.value||0),0);const cashForecast=monthAll.filter(t=>t.status==='Previsto'&&t.payment!=='Cartão de crédito'&&projectionEligible(t,selected)).reduce((s,t)=>s+signed(t),0);const cardForecast=unpaidInvoiceTotal(selected,month);let proj=Math.round((bal+cashForecast-cardForecast)*100)/100;
-$('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div><div class="card amber"><small>Saldo ao final do mês</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">projetado até o fim do mês</span></div>`;
-$('monthSummary').innerHTML=`<div class="card green"><small>Receitas do mês</small><div class="amount">${money(rr)}</div></div><div class="card red"><small>Despesas do mês</small><div class="amount">${money(ee)}</div></div><div class="card"><small>Saldo do mês</small><div class="amount">${money(rr-ee)}</div></div>`;
+let bal=boxAvailableBalance(selected),app=applicationTotals(selected).total;let tx=data.tx.filter(t=>t.box===selected);let month=today().slice(0,7);let monthProjected=recurringProjectedTx(selected,month+'-01',month+'-31');let monthAll=[...tx.filter(t=>t.date?.startsWith(month)&&t.status!=='Cancelada'),...monthProjected];let rec=monthAll.filter(t=>t.type==='Receita');let exp=monthAll.filter(t=>t.type==='Despesa');let rr=rec.reduce((s,t)=>s+Number(t.value||0),0),ee=exp.reduce((s,t)=>s+Number(t.value||0),0);const currentMonthPending=[...monthlyDashboardItems(selected,month,'Receita'),...monthlyDashboardItems(selected,month,'Despesa')];const cashForecast=currentMonthPending.filter(t=>t.payment!=='Cartão de crédito').reduce((s,t)=>s+signed(t),0);const virtualCardForecast=monthProjected.filter(t=>t.type==='Despesa'&&t.payment==='Cartão de crédito').reduce((sum,t)=>{const card=cardById(t.cardId)||activeCards(selected).find(c=>c.name===t.card);return sum+(card&&invoiceMonth(card,t.date)===month?Number(t.value||0):0)},0);const cardForecast=unpaidInvoiceTotal(selected,month)+virtualCardForecast;let proj=Math.round((bal+cashForecast-cardForecast)*100)/100;
+$('dashboardCards').innerHTML=`<div class="card green"><small>Saldo disponível hoje</small><div class="amount green-amount">${money(bal)}</div><span class="pill">${esc(selected)}</span></div><div class="card amber"><small>Saldo ao final do mês</small><div class="amount amber-amount">${money(proj)}</div><span class="mini">projetado até o fim do mês</span></div><div class="card blue"><small>Aplicações</small><div class="amount blue-amount">${money(app)}</div></div><div class="card purple"><small>Total financeiro</small><div class="amount purple-amount">${money(bal+app)}</div><span class="mini">Disponível + aplicações</span></div>`;
+window.mcfMonthSummaryData={box:selected,month,items:monthAll,receitas:rr,despesas:ee};
+$('monthSummary').innerHTML=`<div class="card green clickable" role="button" tabindex="0" onclick="showMonthBreakdown('Receita')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMonthBreakdown('Receita')}"><small>Receitas do mês</small><div class="amount">${money(rr)}</div><span class="mini">Toque para ver os lançamentos</span></div><div class="card red clickable" role="button" tabindex="0" onclick="showMonthBreakdown('Despesa')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMonthBreakdown('Despesa')}"><small>Despesas do mês</small><div class="amount">${money(ee)}</div><span class="mini">Toque para ver os lançamentos</span></div><div class="card"><small>Saldo do mês</small><div class="amount">${money(rr-ee)}</div></div>`;
+$('monthSummaryDetails').classList.add('hidden');$('monthSummaryDetails').innerHTML='';
 const monthKeys=monthKeysFromCurrent(6);
 const buildMonthTabs=(id,active)=>$(id).innerHTML=monthKeys.map((m,i)=>`<button type="button" class="month-tab ${m===active?'active':''}" data-month="${m}">${esc(monthNameShort(m))}</button>`).join('');
 let selectedIncomeMonth=month;let selectedDueMonth=month;
 function dashboardMonthItem(t,kind){
   const isIncome=kind==='Receita';
+  const overdue=!isIncome&&!t.virtualRecurring&&t.status==='Previsto'&&String(t.date||'')<today();
   const action=`<br><button class="btn" onclick="${t.virtualRecurring?(isIncome?'launchProjectedReceipt':'launchProjectedPayment'):(isIncome?'launchReceipt':'launchPayment')}('${t.id}')">${isIncome?'Lançar recebimento':'Lançar pagamento'}</button>`;
-  const meta=`${mcfBRDate(t.date)}${t.payment?' · '+esc(t.payment):''}${(t.virtualRecurring||t.recurring==='Sim')?' · 🔄 Recorrente':''}`;
-  return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${meta}</div></div><div style="text-align:right"><strong class="${isIncome?'positive':'negative'}">${money(Number(t.value||0)*(isIncome?1:-1))}</strong>${action}</div></div>`;
+  const meta=`${mcfBRDate(t.date)}${overdue?' · ⚠️ EM ATRASO':''}${t.payment?' · '+esc(t.payment):''}${(t.virtualRecurring||t.recurring==='Sim')?' · 🔄 Recorrente':''}`;
+  const overdueStyle=overdue?'background:#fff0ef;border-left:5px solid #b42318;padding-left:10px;border-radius:8px;':'';
+  return `<div class="item" style="${overdueStyle}"><div><strong>${esc(t.desc)}</strong><div class="muted" style="${overdue?'color:#b42318;font-weight:700;':''}">${meta}</div></div><div style="text-align:right"><strong class="${isIncome?'positive':'negative'}">${money(Number(t.value||0)*(isIncome?1:-1))}</strong>${action}</div></div>`;
 }
 function renderIncomeMonth(){const items=monthlyDashboardItems(selected,selectedIncomeMonth,'Receita');$('incomeDueCount').textContent=items.length;$('incomeDueList').innerHTML=items.map(t=>dashboardMonthItem(t,'Receita')).join('')||'Nenhum recebimento previsto neste mês.';}
 function renderDueMonth(){const items=monthlyDashboardItems(selected,selectedDueMonth,'Despesa').filter(t=>t.payment!=='Cartão de crédito');$('dueCount').textContent=items.length;$('dueList').innerHTML=items.map(t=>dashboardMonthItem(t,'Despesa')).join('')||'Nenhuma conta a vencer neste mês.';}
 buildMonthTabs('incomeMonthTabs',selectedIncomeMonth);buildMonthTabs('dueMonthTabs',selectedDueMonth);document.querySelectorAll('#incomeMonthTabs .month-tab').forEach(b=>b.onclick=()=>{selectedIncomeMonth=b.dataset.month;document.querySelectorAll('#incomeMonthTabs .month-tab').forEach(x=>x.classList.toggle('active',x===b));renderIncomeMonth()});document.querySelectorAll('#dueMonthTabs .month-tab').forEach(b=>b.onclick=()=>{selectedDueMonth=b.dataset.month;document.querySelectorAll('#dueMonthTabs .month-tab').forEach(x=>x.classList.toggle('active',x===b));renderDueMonth()});renderIncomeMonth();renderDueMonth();
-let categoryMode=window.categoryMode||'realizadas';let categoryMonth=window.categoryMonth||month;const catMonths=monthKeysFromCurrent(6);if(!catMonths.includes(categoryMonth))categoryMonth=catMonths[0];window.categoryMonth=categoryMonth;const catTabs=$('catMonthTabs');if(catTabs){catTabs.innerHTML=catMonths.map(m=>`<button type="button" class="month-tab ${m===categoryMonth?'active':''}" data-month="${m}">${esc(monthNameShort(m))}</button>`).join('');catTabs.querySelectorAll('.month-tab').forEach(b=>b.onclick=()=>{window.categoryMonth=b.dataset.month;render()})}document.querySelectorAll('.cat-mode').forEach(b=>{b.classList.toggle('active',b.dataset.mode===categoryMode);b.onclick=()=>{window.categoryMode=b.dataset.mode;render()}});const catBase=categoryMode==='realizadas'?data.tx.filter(t=>t.box===selected&&t.date?.startsWith(categoryMonth)&&t.type==='Despesa'&&t.status==='Realizado'):monthlyDashboardItems(selected,categoryMonth,'Despesa').filter(t=>t.type==='Despesa');let cats={};catBase.forEach(t=>{const k=t.category||'Outros gastos';cats[k]=(cats[k]||0)+Number(t.value||0)});let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);const totalCat=ce.reduce((a,x)=>a+x[1],0);const palette=['#176b55','#2867a8','#b7791f','#7057a8','#b42318','#2f8f70','#d97706','#64748b','#9333ea','#0f766e'];let stops=[];let acc=0;ce.forEach(([c,v],i)=>{const a=acc/totalCat*100;acc+=v;stops.push(`${palette[i%palette.length]} ${a}% ${acc/totalCat*100}%`)});$('catChart').innerHTML=ce.length?`<div class="category-chart" style="background:conic-gradient(${stops.join(',')})"><div class="category-total">${money(totalCat)}<small>${categoryMode==='realizadas'?'realizadas':'previstas'}</small></div></div><div class="category-legend">${ce.map(([c,v],i)=>`<div class="category-legend-row"><span class="category-dot" style="background:${palette[i%palette.length]}"></span><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')}</div>`:`<div class="category-empty muted">Nenhuma despesa ${categoryMode==='realizadas'?'realizada':'prevista'} neste mês.</div>`;
-let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.toISOString().slice(0,7);let name=dt.toLocaleDateString('pt-BR',{month:'short'});let futureNet=tx.filter(t=>t.box===selected&&t.status==='Previsto'&&t.date?.startsWith(key)&&projectionEligible(t,selected)).reduce((s,t)=>s+signed(t),0);futureNet+=recurringProjectedTx(selected,key+'-01',key+'-31').filter(t=>projectionEligible(t,selected)).reduce((s,t)=>s+signed(t),0);running+=futureNet;months.push(`<div class="item"><span>${name}</span><strong>${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
-let sorted=tx.slice().sort((a,b)=>b.date.localeCompare(a.date));$('history').innerHTML=sorted.map(t=>txHTML(t)).join('')||'<p class="muted">Nenhum lançamento neste caixa.</p>';const activeBoxName=currentBox(); const activeBoxIndex=data.boxes.indexOf(activeBoxName);
+let categoryMode=window.categoryMode||'realizadas';let categoryMonth=window.categoryMonth||month;const catMonths=monthKeysFromCurrent(6);if(!catMonths.includes(categoryMonth))categoryMonth=catMonths[0];window.categoryMonth=categoryMonth;const catTabs=$('catMonthTabs');if(catTabs){catTabs.innerHTML=catMonths.map(m=>`<button type="button" class="month-tab ${m===categoryMonth?'active':''}" data-month="${m}">${esc(monthNameShort(m))}</button>`).join('');catTabs.querySelectorAll('.month-tab').forEach(b=>b.onclick=()=>{window.categoryMonth=b.dataset.month;render()})}document.querySelectorAll('.cat-mode').forEach(b=>{b.classList.toggle('active',b.dataset.mode===categoryMode);b.onclick=()=>{window.categoryMode=b.dataset.mode;render()}});let catBase=[];
+if(categoryMode==='realizadas'){
+ catBase=data.tx.filter(t=>t.box===selected&&t.date?.startsWith(categoryMonth)&&t.type==='Despesa'&&t.status==='Realizado'&&t.payment!=='Cartão de crédito');
+ // Compras de cartão realizadas são distribuídas pela fatura, não pelo mês da compra.
+ const realizedCardPurchases=data.tx.filter(t=>t.box===selected&&t.type==='Despesa'&&t.status==='Realizado'&&t.payment==='Cartão de crédito');
+ realizedCardPurchases.forEach(t=>{
+  const parts=(data.installments||[]).filter(p=>p.purchaseId===t.id&&p.month===categoryMonth&&p.status!=='Cancelada');
+  if(parts.length)parts.forEach(p=>catBase.push({...t,id:'catpart_'+p.id,value:Number(p.value||0),date:p.date||t.date,category:t.category||'Outros gastos'}));
+  else {const card=cardById(t.cardId);if(card&&invoiceMonth(card,t.date)===categoryMonth)catBase.push(t);}
+ });
+}else{
+ catBase=monthlyDashboardItems(selected,categoryMonth,'Despesa').filter(t=>t.type==='Despesa'&&t.payment!=='Cartão de crédito');
+ // Cada parcela entra no mês da fatura correspondente e herda a categoria da compra original.
+ (data.installments||[]).filter(p=>p.month===categoryMonth&&p.status!=='Cancelada'&&p.status!=='Pago').forEach(p=>{
+  const purchase=data.tx.find(t=>t.id===p.purchaseId);
+  if(!purchase||purchase.box!==selected||purchase.type!=='Despesa'||purchase.status==='Cancelada'||purchase.payment!=='Cartão de crédito')return;
+  catBase.push({...purchase,id:'catpart_'+p.id,value:Number(p.value||0),date:p.date||purchase.date,status:'Previsto',category:purchase.category||'Outros gastos',payment:'Cartão de crédito'});
+ });
+ // Recorrências de cartão ainda não possuem parcelas persistidas; respeita o mês da fatura.
+ monthlyDashboardItems(selected,categoryMonth,'Despesa').filter(t=>t.type==='Despesa'&&t.payment==='Cartão de crédito'&&t.virtualRecurring).forEach(t=>{
+  const card=cardById(t.cardId)||activeCards(selected).find(c=>sameText(c.name,t.card));
+  if(card&&invoiceMonth(card,t.date)===categoryMonth)catBase.push(t);
+ });
+ // Compatibilidade com lançamentos antigos de cartão que não tenham registro de parcela.
+ monthlyDashboardItems(selected,categoryMonth,'Despesa').filter(t=>t.type==='Despesa'&&t.payment==='Cartão de crédito'&&!t.virtualRecurring&&!((data.installments||[]).some(p=>{
+  if(p.purchaseId!==t.id||p.month!==categoryMonth||p.status==='Cancelada')return false;
+  const partCard=cardById(p.cardId), card=cardById(t.cardId)||activeCards(selected).find(c=>sameText(c.name,t.card));
+  return !!card&&(p.cardId===card.id||sameText(partCard?.name||p.cardId,card.name));
+ }))).forEach(t=>{
+  const card=cardById(t.cardId)||activeCards(selected).find(c=>sameText(c.name,t.card));
+  if(card&&invoiceMonth(card,t.date)===categoryMonth)catBase.push(t);
+ });
+}
+let cats={};catBase.forEach(t=>{const k=t.category||'Outros gastos';cats[k]=(cats[k]||0)+Number(t.value||0)});let ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]);const totalCat=ce.reduce((a,x)=>a+x[1],0);const palette=['#176b55','#2867a8','#b7791f','#7057a8','#b42318','#2f8f70','#d97706','#64748b','#9333ea','#0f766e'];let stops=[];let acc=0;ce.forEach(([c,v],i)=>{const a=acc/totalCat*100;acc+=v;stops.push(`${palette[i%palette.length]} ${a}% ${acc/totalCat*100}%`)});$('catChart').innerHTML=ce.length?`<div class="category-chart" style="background:conic-gradient(${stops.join(',')})"><div class="category-total">${money(totalCat)}<small>${categoryMode==='realizadas'?'realizadas':'previstas'}</small></div></div><div class="category-legend">${ce.map(([c,v],i)=>`<div class="category-legend-row"><span class="category-dot" style="background:${palette[i%palette.length]}"></span><span>${esc(c)}</span><strong class="negative">${money(v)}</strong></div>`).join('')}</div>`:`<div class="category-empty muted">Nenhuma despesa ${categoryMode==='realizadas'?'realizada':'prevista'} neste mês.</div>`;
+let months=[];let d=new Date();let running=bal;for(let i=0;i<6;i++){let dt=new Date(d.getFullYear(),d.getMonth()+i,1);let key=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0');let name=dt.toLocaleDateString('pt-BR',{month:'short'});const pending=[...monthlyDashboardItems(selected,key,'Receita'),...monthlyDashboardItems(selected,key,'Despesa')];const cashNet=pending.filter(t=>t.payment!=='Cartão de crédito').reduce((sum,t)=>sum+signed(t),0);const virtuals=recurringProjectedTx(selected,key+'-01',key+'-31').filter(t=>projectionEligible(t,selected));const cardObligation=unpaidInvoiceTotal(selected,key);running=Math.round((running+cashNet-cardObligation)*100)/100;months.push(`<div class="item"><span>${name}</span><strong class="${running>0?'positive':running<0?'negative':''}" style="color:${running>0?'var(--green)':running<0?'var(--red)':'var(--muted)'}">${money(running)}</strong></div>`)}$('forecast').innerHTML=months.join('');
+historyOptions();renderHistory();const activeBoxName=currentBox(); const activeBoxIndex=data.boxes.indexOf(activeBoxName);
 $('boxesList').innerHTML=data.boxes.map((b,i)=>`<div class="item"><span><strong>${esc(b)}</strong><div class="muted">${b===activeBoxName?'Caixa em uso':'Caixa disponível'}</div></span><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="btn" onclick="renameBox(${i})">Renomear</button><button class="btn danger" onclick="deleteBox(${i})">Excluir</button></div></div>`).join('')+`<p class="muted" style="margin-top:8px">Selecione o caixa no dashboard para consultar contas, cartões e aplicações daquele caixa.</p>`;
 }
-function txHTML(t){return `<div class="item"><div><strong>${esc(t.desc)}</strong><div class="muted">${esc(t.date)} · ${esc(t.status)} · ${esc(t.payment||'')}${partyName(t)?' · '+esc(partyName(t)):''}${t.category?' · '+esc(t.category):''}${t.status==='Cancelada'?' · 🚫 Cancelada':''}${refundTotal(t.id)>0?' · ↩ Estorno '+money(refundTotal(t.id)):''}${(t.accountId||t.account)?' · 🏦 '+esc(accountName(t.accountId)||t.account):''}${t.recurring==='Sim'?' · 🔄 Recorrente':''}${t.payment==='Cartão de crédito'&&(t.cardId||t.card)?' · 💳 '+esc((cardById(t.cardId)||{}).name||t.card||''):''}</div></div><div style="text-align:right"><strong class="${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong><br><button class="btn" onclick="editTx('${t.id}')">Editar</button> ${t.status==='Realizado'&&t.type==='Despesa'?`<button class="btn" onclick="registerRefund('${t.id}')">Estorno</button>`:''} <button class="btn" onclick="removeTx('${t.id}')">Excluir</button></div></div>`}
+function historyOptions(){
+ const box=currentBox(),tx=data.tx.filter(t=>t.box===box);
+ const fill=(id,values,allLabel)=>{const el=$(id);if(!el)return;const old=el.value||'Todos';el.innerHTML=`<option value="Todos">${allLabel}</option>`+uniqueTextValues(values).sort((a,b)=>a.localeCompare(b,'pt-BR')).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...el.options].some(o=>sameText(o.value,old)))el.value=[...el.options].find(o=>sameText(o.value,old))?.value||'Todos';};
+ fill('historyCategory',tx.map(t=>t.category),'Todas as categorias');fill('historyParty',tx.map(partyName),'Todas');
+}
+function renderHistory(){
+ historyOptions();const box=currentBox(),start=$('historyStart')?.value||'',end=$('historyEnd')?.value||'',type=$('historyType')?.value||'Todos',recurring=$('historyRecurring')?.value||'Todos',cat=$('historyCategory')?.value||'Todos',party=$('historyParty')?.value||'Todos';
+ const matches=t=>(type==='Todos'||t.type===type)&&(cat==='Todos'||sameText(t.category||'',cat))&&(party==='Todos'||sameText(partyName(t),party));
+ const actual=data.tx.filter(t=>t.box===box).filter(t=>!start||String(t.date||'')>=start).filter(t=>!end||String(t.date||'')<=end).filter(t=>recurring==='Todos'||(recurring==='Sim'?t.recurring==='Sim':t.recurring!=='Sim')).filter(matches);
+ let projected=[];
+ // Quando o usuário escolhe “Recorrentes”, mostra também as próximas ocorrências
+ // previstas, sem confundi-las com lançamentos já realizados.
+ if(recurring==='Sim'||recurring==='Todos'){
+   const todayKey=today();
+   const projectionStart=start&&start>todayKey?start:todayKey;
+   const projectionEnd=end||addMonthsDate(todayKey,6);
+   if(projectionStart<=projectionEnd){
+     projected=recurringProjectedTx(box,projectionStart,projectionEnd).filter(t=>matches(t)&&(!start||t.date>=start)&&(!end||t.date<=end));
+   }
+ }
+ const rows=[...actual,...projected].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+ $('historyCount').textContent=recurring==='Sim'?`${actual.length} lançamento${actual.length===1?'':'s'} do histórico e ${projected.length} próxima${projected.length===1?'':'s'} ocorrência${projected.length===1?'':'s'} prevista${projected.length===1?'':'s'}.`:`${rows.length} lançamento${rows.length===1?'':'s'} encontrado${rows.length===1?'':'s'}`;
+ $('history').innerHTML=rows.map(txHTML).join('')||'<p class="muted">Nenhum lançamento ou previsão encontrado com esses filtros.</p>';
+}
+function clearHistoryFilters(){['historyStart','historyEnd'].forEach(id=>$(id).value='');['historyType','historyRecurring','historyCategory','historyParty'].forEach(id=>$(id).value='Todos');historyOptions();renderHistory();}
+function txHTML(t){if(t.virtualRecurring){const rid=String(t.id).startsWith('virtual_')?String(t.id).slice(8).replace(new RegExp('_'+t.date+'$'),''):'';return `<div class="tx-entry" style="border:1px dashed #9ac9b8;background:#f5fbf8"><div class="tx-entry-main"><div class="tx-entry-info"><strong>${esc(t.desc)}</strong><div class="muted tx-entry-meta">${mcfBRDate(t.date)} · Previsto · 🔄 Recorrência futura${t.payment?' · '+esc(t.payment):''}${partyName(t)?' · '+esc(partyName(t)):''}${t.category?' · '+esc(t.category):''}${(t.accountId||t.account)?' · 🏦 '+esc(accountName(t.accountId)||t.account):''}</div></div><strong class="tx-entry-amount ${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong></div><p class="muted" style="margin:8px 0 0">Esta é uma ocorrência prevista, ainda não efetivada. Você pode editar a regra, excluir somente esta data ou encerrar esta e as próximas ocorrências.</p><div class="tx-entry-actions"><button class="btn" onclick="editRecurringRule('${t.id}')">Editar recorrência</button><button class="btn" onclick="stopRecurringRule('${t.id}')">Excluir recorrência</button></div></div>`}return `<div class="tx-entry"><div class="tx-entry-main"><div class="tx-entry-info"><strong>${esc(t.desc)}</strong><div class="muted tx-entry-meta">${mcfBRDate(t.date)} · ${esc(t.status)}${t.payment?' · '+esc(t.payment):''}${partyName(t)?' · '+esc(partyName(t)):''}${t.category?' · '+esc(t.category):''}${t.status==='Cancelada'?' · 🚫 Cancelada':''}${refundTotal(t.id)>0?' · ↩ Estorno '+money(refundTotal(t.id)):''}${(t.accountId||t.account)?' · 🏦 '+esc(accountName(t.accountId)||t.account):''}${t.recurring==='Sim'?' · 🔄 Recorrente':''}${t.payment==='Cartão de crédito'&&(t.cardId||t.card)?' · 💳 '+esc((cardById(t.cardId)||{}).name||t.card||''):''}</div></div><strong class="tx-entry-amount ${signed(t)>=0?'positive':'negative'}">${money(signed(t))}</strong></div><div class="tx-entry-actions"><button class="btn" onclick="editTx('${t.id}')">Editar</button>${t.status==='Realizado'&&t.type==='Despesa'?`<button class="btn" onclick="registerRefund('${t.id}')">Estorno</button>`:''}<button class="btn" onclick="removeTx('${t.id}')">Excluir</button></div></div>`}
 function showTab(tab){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));$(tab).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render()}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
 function updateTypeUI(){
@@ -818,39 +998,26 @@ function showSaveSuccess(message){
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(()=>{if(el){el.classList.add('hidden');el.style.background='';el.style.color='';el.style.border='';}},3500);
 }
-$('txForm').onsubmit=e=>{e.preventDefault();let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';let rec;try{rec={type:$('type').value,desc:$('desc').value.trim(),party:$('party').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};const wanted=syn[n]||q;const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>String(c?.name||c).toLowerCase()===wanted.toLowerCase()&&c?.type===($('type').value));if(q&&!hit){throw new Error('CATEGORY_TYPE_MISMATCH')}return hit?hit.name:''})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};}catch(err){if(err&&err.message==='CATEGORY_TYPE_MISMATCH'){alert('Selecione uma categoria compatível com o tipo do lançamento.');return}throw err}
+$('txForm').onsubmit=e=>{e.preventDefault();try{let v=parseBR($('value').value);if(!Number.isFinite(v)||v<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');return}let income=$('type').value==='Receita';if(!income&&!$('payment').value){alert('Selecione a forma de pagamento antes de salvar.');$('payment').focus();return}let rec;try{rec={type:$('type').value,desc:$('desc').value.trim(),party:$('party').value.trim(),value:v,date:$('date').value,box:$('box').value,status:$('status').value,category:(function(){const q=$('category').value.trim();if(!q)return '';const n=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const syn={'tv':'Assinaturas e streaming','streaming':'Assinaturas e streaming','netflix':'Assinaturas e streaming','mercado':'Supermercado','gasolina':'Combustível','farmacia':'Farmácia','restaurante':'Restaurantes e refeições','internet':'Telefone e internet'};const wanted=syn[n]||q;const a=Array.isArray(data.categories)?data.categories:[];const hit=a.find(c=>sameText(c?.name||c,wanted)&&c?.type===($('type').value));if(q&&!hit){throw new Error('CATEGORY_TYPE_MISMATCH')}return hit?hit.name:''})(),payment:income?'':$('payment').value,accountId:$('accountSelect').value||'',cardId:income?'':$('cardSelect').value||'',installmentType:income?'À vista':$('installmentType').value,installments:income?1:parseInt($('installments').value||1),recurring:$('recurring').value,frequency:$('frequency').value,endDate:$('endDate').value,note:$('note').value.trim()};}catch(err){if(err&&err.message==='CATEGORY_TYPE_MISMATCH'){alert('Selecione uma categoria compatível com o tipo do lançamento.');return}throw err}
 if(editingId){
   const old=data.tx.find(t=>t.id===editingId);
   if(!old){alert('Não foi possível localizar o lançamento para edição.');return}
 
   let recurrenceRecord=null;
-  let recurrenceChoice=null;
+  let recurrenceChoice='1';
   if(old.recurring==='Sim'){
-    recurrenceRecord=(data.recurring||[]).find(r=>
-      r.box===old.box &&
-      r.type===old.type &&
-      r.desc===old.desc &&
-      r.startDate===old.date
-    );
+    recurrenceRecord=(data.recurring||[]).find(r=>r.active!==false&&r.box===old.box&&r.type===old.type&&sameText(r.desc,old.desc)&&sameText(r.party||'',partyName(old)||''))
+      ||(data.recurring||[]).find(r=>r.active!==false&&r.box===old.box&&r.type===old.type&&sameText(r.desc,old.desc));
     if(recurrenceRecord){
-      recurrenceChoice=confirm('Este lançamento faz parte de uma recorrência.\n\nToque em OK para alterar este lançamento e os próximos da recorrência.\nToque em Cancelar para alterar somente este lançamento.');
-      recurrenceChoice=recurrenceChoice?'2':'1';
+      recurrenceChoice=confirm('Este lançamento está ligado a uma recorrência.\n\nOK: atualizar somente as próximas ocorrências, preservando o histórico já realizado.\nCancelar: alterar somente este lançamento, sem mudar a recorrência futura.')?'2':'1';
     }
-
   }
 
-  if(affectsAccount(old)) applyAccountDelta(old.accountId,-signed(old));
-  data.installments=data.installments.filter(p=>p.purchaseId!==editingId);
-
-  const edited=data.tx.find(t=>t.id===editingId);
-  if(!edited){alert('Não foi possível localizar o lançamento para salvar as alterações.');return}
-  Object.assign(edited,rec);
-
-  if(recurrenceRecord&&recurrenceChoice==='1'){
-    edited.recurring='Não';
-  }else if(recurrenceRecord&&recurrenceChoice==='2'){
+  const updateFutureOnly=!!(recurrenceRecord&&recurrenceChoice==='2'&&old.status==='Realizado');
+  if(updateFutureOnly){
+    // Atualiza a regra da recorrência, sem tocar no lançamento realizado que serviu de referência.
     Object.assign(recurrenceRecord,{
-      box:rec.box,
+      box:old.box,
       type:rec.type,
       desc:rec.desc,
       party:rec.party||'',
@@ -860,17 +1027,34 @@ if(editingId){
       accountId:rec.accountId||'',
       cardId:rec.cardId||'',
       frequency:rec.frequency,
-      startDate:rec.date,
       endDate:rec.endDate||'',
       active:true
     });
-    edited.recurring='Sim';
-  }
-
-  if(affectsAccount(edited)) applyAccountDelta(edited.accountId,signed(edited));
-  if(edited.type==='Despesa'&&edited.payment==='Cartão de crédito'&&edited.cardId){
-    const card=cardById(edited.cardId), n=edited.installmentType==='Parcelada'?Math.max(2,edited.installments||2):1, vals=splitCents(edited.value,n), first=invoiceMonth(card,edited.date);
-    vals.forEach((v,i)=>data.installments.push({id:'par_'+editingId+'_'+(i+1),purchaseId:editingId,cardId:edited.cardId,number:i+1,total:n,value:v,month:monthAdd(first,i),date:edited.date,status:'Previsto'}));
+  }else{
+    invalidateInvoiceOverridesForTx(old);
+    if(affectsAccount(old)) applyAccountDelta(old.accountId,-signed(old));
+    data.installments=data.installments.filter(p=>p.purchaseId!==editingId);
+    const edited=data.tx.find(t=>t.id===editingId);
+    if(!edited){alert('Não foi possível localizar o lançamento para salvar as alterações.');return}
+    Object.assign(edited,rec);
+    if(recurrenceRecord&&recurrenceChoice==='1'){
+      // A edição pontual não altera a regra futura; preserva o indicador de recorrência no histórico.
+      edited.recurring=old.recurring||'Não';
+    }else if(recurrenceRecord&&recurrenceChoice==='2'){
+      Object.assign(recurrenceRecord,{
+        box:rec.box,type:rec.type,desc:rec.desc,party:rec.party||'',value:rec.value,
+        category:rec.category,payment:rec.payment,accountId:rec.accountId||'',cardId:rec.cardId||'',
+        frequency:rec.frequency,endDate:rec.endDate||'',active:true
+      });
+      // Mantém a âncora original da recorrência e atualiza esta ocorrência prevista.
+      edited.recurring='Sim';
+    }
+    if(affectsAccount(edited)) applyAccountDelta(edited.accountId,signed(edited));
+    if(edited.type==='Despesa'&&edited.payment==='Cartão de crédito'&&edited.cardId){
+      const card=cardById(edited.cardId), n=edited.installmentType==='Parcelada'?Math.max(2,edited.installments||2):1, vals=splitCents(edited.value,n), first=invoiceMonth(card,edited.date);
+      vals.forEach((v,i)=>data.installments.push({id:'par_'+editingId+'_'+(i+1),purchaseId:editingId,cardId:edited.cardId,number:i+1,total:n,value:v,month:monthAdd(first,i),date:edited.date,status:'Previsto'}));
+    }
+    invalidateInvoiceOverridesForTx(edited);
   }
 }else{
   if(rec.recurring==='Sim'){data.recurring.push({id:'rr_'+Date.now(),box:rec.box,type:rec.type,desc:rec.desc,party:rec.party||'',value:rec.value,category:rec.category,payment:rec.payment,accountId:rec.accountId||'',cardId:rec.cardId||'',frequency:rec.frequency,startDate:rec.date,endDate:rec.endDate||'',active:true});}
@@ -881,18 +1065,29 @@ if(editingId){
     const card=cardById(rec.cardId), n=rec.installmentType==='Parcelada'?Math.max(2,rec.installments||2):1, vals=splitCents(rec.value,n), first=invoiceMonth(card,rec.date);
     vals.forEach((v,i)=>data.installments.push({id:'par_'+id+'_'+(i+1),purchaseId:id,cardId:rec.cardId,number:i+1,total:n,value:v,month:monthAdd(first,i),date:rec.date,status:'Previsto'}));
   }
+  invalidateInvoiceOverridesForTx(data.tx.find(t=>t.id===id));
 }
-const wasEditing=!!editingId;clearDraft();localStorage.setItem(LAST,rec.box);cancelEdit(false);persist();e.target.reset();$('date').value=today();$('type').value='Despesa';$('status').value='Realizado';updateTypeUI();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden');showSaveSuccess(wasEditing?'Alterações salvas com sucesso.':'Lançamento registrado com sucesso.');};
-function editTx(id){let t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;showTab('lancamentos');$('type').value=t.type;$('desc').value=t.desc;$('party').value=partyName(t);$('value').value=Number(t.value).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('payment').value=t.payment||'Pix';$('accountSelect').value=t.accountId||'';$('cardSelect').value=t.cardId||'';$('installmentType').value=t.installmentType||'À vista';$('installments').value=t.installments||'';$('recurring').value=t.recurring||'Não';$('frequency').value=t.frequency||'Mensal';$('endDate').value=t.endDate||'';$('note').value=t.note||'';updateTypeUI();$('payment').dispatchEvent(new Event('change'));$('installmentType').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
+const wasEditing=!!editingId;clearDraft();localStorage.setItem(LAST,rec.box);persistTransaction();cancelEdit(false);e.target.reset();$('date').value=today();$('type').value='Despesa';$('status').value='Realizado';updateTypeUI();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden');let renderOk=true;try{render()}catch(renderErr){renderOk=false;console.error('Lançamento salvo, mas a tela não pôde ser atualizada:',renderErr)}showSaveSuccess(wasEditing?'Alterações salvas com sucesso.':'Lançamento registrado com sucesso.');if(!renderOk){const notice=$('draftNotice');notice.textContent='✅ O lançamento foi salvo com sucesso, mas a tela teve um erro ao atualizar. Recarregue a página para conferir.';notice.classList.remove('hidden');notice.style.background='#fff4df';notice.style.color='#7a4b00';}}catch(err){console.error('Erro ao salvar lançamento:',err);alert('Não foi possível salvar o lançamento. Seus dados não foram confirmados. Detalhe: '+(err&&err.message?err.message:'erro inesperado')+'. Confira os campos e tente novamente.');}};
+// No iOS/Safari, use um acionamento explícito para que o botão nunca pareça ignorar o toque.
+$('saveTxBtn').type='button';
+$('saveTxBtn').onclick=()=>{
+  const form=$('txForm');
+  if(!$('desc').value.trim()){alert('Informe a descrição do lançamento.');$('desc').focus();return}
+  if(!$('date').value){alert('Informe a data do lançamento.');$('date').focus();return}
+  const amount=parseBR($('value').value);
+  if(!Number.isFinite(amount)||amount<=0){alert('Digite um valor válido, por exemplo 230 ou 230,30.');$('value').focus();return}
+  form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
+};
+function editTx(id){let t=data.tx.find(x=>x.id===id);if(!t)return;editingId=id;showTab('lancamentos');$('type').value=t.type;$('desc').value=t.desc;$('party').value=partyName(t);$('value').value=Number(t.value).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=t.date;$('box').value=t.box;$('status').value=t.status;$('category').value=t.category||'';$('payment').value=t.payment||'';$('accountSelect').value=t.accountId||'';$('cardSelect').value=t.cardId||'';$('installmentType').value=t.installmentType||'À vista';$('installments').value=t.installments||'';$('recurring').value=t.recurring||'Não';$('frequency').value=t.frequency||'Mensal';$('endDate').value=t.endDate||'';$('note').value=t.note||'';updateTypeUI();$('payment').dispatchEvent(new Event('change'));$('installmentType').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));$('saveTxBtn').textContent='Salvar alterações';$('cancelEditBtn').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
 function cancelEdit(reset=true){editingId=null;$('saveTxBtn').textContent='Salvar lançamento';$('cancelEditBtn').classList.add('hidden');if(reset){$('txForm').reset();$('date').value=today();$('cardWrap').classList.add('hidden');$('installmentWrap').classList.add('hidden');$('recurringWrap').classList.add('hidden')}}$('cancelEditBtn').onclick=()=>cancelEdit();
-function removeTx(id){if(confirm('Excluir este lançamento?')){const old=data.tx.find(t=>t.id===id);if(affectsAccount(old))applyAccountDelta(old.accountId,-signed(old));if(old&&old.recurring==='Sim'){data.recurring=data.recurring.filter(r=>!(r.box===old.box&&r.type===old.type&&r.desc===old.desc&&r.startDate===old.date));}data.tx=data.tx.filter(t=>t.id!==id);data.installments=data.installments.filter(p=>p.purchaseId!==id);persist()}}$('boxForm').onsubmit=e=>{e.preventDefault();const input=$('boxName');const n=input.value.trim();if(!n)return;if(data.boxes.some(b=>String(b).toLowerCase()===n.toLowerCase())){alert('Esse caixa já existe.');return}data.boxes.push(n);localStorage.setItem(LAST,n);input.value='';persist();alert('Caixa adicionado com sucesso.');};function renameBox(i){
+function removeTx(id){if(confirm('Excluir este lançamento?')){const old=data.tx.find(t=>t.id===id);invalidateInvoiceOverridesForTx(old);if(affectsAccount(old))applyAccountDelta(old.accountId,-signed(old));if(old&&old.recurring==='Sim'){data.recurring=data.recurring.filter(r=>!(r.box===old.box&&r.type===old.type&&sameText(r.desc,old.desc)&&r.startDate===old.date));}data.tx=data.tx.filter(t=>t.id!==id);data.installments=data.installments.filter(p=>p.purchaseId!==id);persist()}}$('boxForm').onsubmit=e=>{e.preventDefault();const input=$('boxName');const n=input.value.trim();if(!n)return;if(data.boxes.some(b=>sameText(b,n))){alert('Esse caixa já existe.');return}data.boxes.push(n);localStorage.setItem(LAST,n);input.value='';persist();alert('Caixa adicionado com sucesso.');};function renameBox(i){
   const old=data.boxes[i];
   if(old==null)return;
   const n=prompt('Novo nome do caixa:',old);
   if(n===null)return;
   const name=n.trim();
   if(!name)return;
-  if(data.boxes.some((b,j)=>j!==i&&String(b).toLowerCase()===name.toLowerCase())){
+  if(data.boxes.some((b,j)=>j!==i&&sameText(b,name))){
     alert('Esse caixa já existe.');
     return;
   }
@@ -941,20 +1136,23 @@ function deleteBox(i){
   alert('Caixa excluído com sucesso.');
 }
 
+let accountBalanceTouched=false;let applicationBalanceTouched=false;
+$('accountBalance').addEventListener('input',()=>{accountBalanceTouched=true;});
+$('appBalance').addEventListener('input',()=>{applicationBalanceTouched=true;});
 $('accountForm').onsubmit=e=>{
 e.preventDefault();
 const box=currentBox(),bank=$('accountBank').value.trim(),name=$('accountName').value.trim(),parsedBalance=parseBR($('accountBalance').value),balance=Number.isFinite(parsedBalance)?Math.round(parsedBalance*100)/100:NaN;
 if(!box||!bank||!name||!Number.isFinite(balance)){alert('Preencha banco, nome da conta e saldo válido.');return}
 if(editingAccountId){
   const a=data.accounts.find(x=>x.id===editingAccountId);
-  if(a){const balanceChanged=Math.round(Number(a.balance||0)*100)!==Math.round(balance*100);a.box=box;a.bank=bank;a.name=name;a.balance=balance;if(balanceChanged||!a.balanceUpdatedAt)a.balanceUpdatedAt=today();}
-  editingAccountId=null;
+  if(a){a.box=box;a.bank=bank;a.name=name;a.balance=balance;if(accountBalanceTouched)a.balanceUpdatedAt=today();}
+  editingAccountId=null;accountBalanceTouched=false;
   $('accountForm').querySelector('button[type="submit"]').textContent='Adicionar conta';
   const cancel=$('cancelAccountEdit'); if(cancel) cancel.remove();
 }else{
-  data.accounts.push({id:'acc_'+Date.now(),box,bank,name,balance,balanceUpdatedAt:today(),active:true});
+  data.accounts.push({id:'acc_'+Date.now(),box,bank,name,balance,balanceUpdatedAt:today(),active:true});accountBalanceTouched=false;
 }
-$('accountBank').value='';$('accountName').value='';$('accountBalance').value='';$('accountBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a conta';
+$('accountBank').value='';$('accountName').value='';$('accountBalance').value='';$('accountBalanceUpdatedAt').textContent='A data será registrada ao informar o saldo inicial';
 persist();
 };
 
@@ -964,8 +1162,8 @@ function editAccount(id){
   editingAccountId=id;
   $('accountBank').value=a.bank||'';
   $('accountName').value=a.name||'';
-  $('accountBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-  $('accountBalanceUpdatedAt').textContent='Última atualização: '+mcfBRDate(a.balanceUpdatedAt||today());
+  $('accountBalance').value=Number(a.balance||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});accountBalanceTouched=false;
+  $('accountBalanceUpdatedAt').textContent=a.balanceUpdatedAt?('Última atualização manual: '+mcfBRDate(a.balanceUpdatedAt)):'Nenhuma atualização manual registrada ainda';
   $('accountBox').value=currentBox();
   const btn=$('accountForm').querySelector('button[type="submit"]');
   btn.textContent='Salvar alterações';
@@ -978,8 +1176,8 @@ function editAccount(id){
   $('accountForm').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function cancelAccountEdit(){
-  editingAccountId=null;
-  $('accountBank').value='';$('accountName').value='';$('accountBalance').value='';$('accountBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a conta';
+  editingAccountId=null;accountBalanceTouched=false;
+  $('accountBank').value='';$('accountName').value='';$('accountBalance').value='';$('accountBalanceUpdatedAt').textContent='A data será registrada ao informar o saldo inicial';
   $('accountForm').querySelector('button[type="submit"]').textContent='Adicionar conta';
   const c=$('cancelAccountEdit'); if(c) c.remove();
 }
@@ -990,11 +1188,11 @@ const box=$('appBox').value,institution=$('appInstitution').value.trim(),descrip
 if(!box||!institution||!description||!Number.isFinite(balance)||balance<0){alert('Preencha instituição, descrição e saldo válido.');return}
 if(editingApplicationId){
   const a=data.applications.find(x=>x.id===editingApplicationId);
-  if(a){const balanceChanged=Math.round(Number(a.balance||0)*100)!==Math.round(balance*100);a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=Math.round(balance*100)/100;a.liquidity=liquidity;a.active=true;if(balanceChanged||!a.balanceUpdatedAt)a.balanceUpdatedAt=today();}
-  cancelApplicationEdit();
+  if(a){a.box=box;a.institution=institution;a.description=description;a.type=type;a.balance=Math.round(balance*100)/100;a.liquidity=liquidity;a.active=true;if(applicationBalanceTouched){a.balanceUpdatedAt=today();recordApplicationHistory(box);}}
+  cancelApplicationEdit();applicationBalanceTouched=false;
 }else{
-  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance:Math.round(balance*100)/100,balanceUpdatedAt:today(),liquidity,active:true});
-  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';$('appBalanceUpdatedAt').textContent='Última atualização: será registrada ao adicionar a aplicação';
+  data.applications.push({id:'app_'+Date.now(),box,institution,description,type,balance:Math.round(balance*100)/100,balanceUpdatedAt:today(),liquidity,active:true});recordApplicationHistory(box);applicationBalanceTouched=false;
+  $('appInstitution').value='';$('appDescription').value='';$('appType').value='';$('appBalance').value='';$('appLiquidity').value='';$('appBalanceUpdatedAt').textContent='A data será registrada ao informar o saldo inicial';
 }
 persist();
 };
@@ -1020,7 +1218,8 @@ $('date').addEventListener('change',previewInstallments);
 function adjustInvoice(cardId,ym){
  const inv=invoiceFor(cardId,ym),v=prompt('Valor oficial da fatura (deixe em branco para voltar ao total dos lançamentos):',inv.officialValue===null?'':String(inv.officialValue).replace('.',','));
  if(v===null)return;
- inv.officialValue=v.trim()===''?null:parseBR(v);
+ if(v.trim()===''){inv.officialValue=null;delete inv.officialBaseCalculated;}
+ else{const parsed=parseBR(v);if(!Number.isFinite(parsed)||parsed<0){alert('Informe um valor válido para a fatura.');return}inv.officialValue=parsed;inv.officialBaseCalculated=invoiceDisplayedTotal(cardId,ym);}
  persist();
 }
 function payInvoice(cardId,ym){
@@ -1029,7 +1228,7 @@ function payInvoice(cardId,ym){
    alert('Esta fatura já foi lançada como paga neste mês.');
    return;
  }
- const defaultValue=inv.officialValue!==null?Number(inv.officialValue):invoiceDisplayedTotal(cardId,ym);
+ const defaultValue=invoiceEffectiveTotal(cardId,ym);
  const v=prompt('Valor efetivamente pago:',Number(defaultValue||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
  if(v===null)return;
  const amount=parseBR(v); if(!Number.isFinite(amount)||amount<=0){alert('Valor inválido.');return}
@@ -1049,16 +1248,51 @@ function payInvoice(cardId,ym){
  accs[idx].balance -= amount;
  inv.paidValue=amount;inv.paid=true;inv.paidDate=date;inv.paidAccountId=accs[idx].id;inv.paidPayment=method;persist();
 }
+function transactionMatchesCard(t,card){
+ if(!t||!card)return false;
+ if(t.cardId&&String(t.cardId)===String(card.id))return true;
+ const cardNames=[card.name,card.id];
+ const txNames=[t.card,t.cardName,t.cardLabel];
+ if(t.cardId){const linked=cardById(t.cardId);if(linked)txNames.push(linked.name);else txNames.push(t.cardId);}
+ return txNames.some(n=>n&&cardNames.some(cn=>sameText(n,cn)));
+}
 function invoiceDisplayedTotal(cardId,ym){
  const card=cardById(cardId);
+ if(!card)return 0;
  const parts=data.installments.filter(p=>{
-   if(p.cardId!==cardId||p.month!==ym||p.status==='Cancelada')return false;
+   if(p.month!==ym||p.status==='Cancelada')return false;
    const purchase=data.tx.find(t=>t.id===p.purchaseId);
-   return !purchase||(purchase.box===currentBox()&&purchase.status!=='Cancelada');
+   // Parcela sem compra correspondente é um registro órfão e nunca deve compor uma fatura.
+   if(!purchase||purchase.box!==currentBox()||purchase.status==='Cancelada')return false;
+   if(purchase.type!=='Despesa'||purchase.payment!=='Cartão de crédito'||!transactionMatchesCard(purchase,card))return false;
+   const first=invoiceMonth(card,purchase.date);
+   const expectedMonth=monthAdd(first,Math.max(0,Number(p.number||1)-1));
+   const installmentCard=p.cardId===cardId||sameText((cardById(p.cardId)||{}).name||p.cardId,card.name);
+   return installmentCard&&p.month===expectedMonth;
  });
  const partTotal=parts.reduce((s,p)=>s+Number(p.value||0),0);
- const tx=data.tx.filter(t=>t.box===currentBox()&&t.type==='Despesa'&&t.status!=='Cancelada'&&t.payment==='Cartão de crédito'&&(t.cardId===cardId||(!t.cardId&&t.card===card?.name))&&t.date&&invoiceMonth(card,t.date)===ym&&!data.installments.some(p=>p.purchaseId===t.id));
- return Math.round((partTotal+tx.reduce((s,t)=>s+Number(t.value||0),0))*100)/100;
+ const tx=data.tx.filter(t=>
+   t.box===currentBox()&&t.type==='Despesa'&&t.status!=='Cancelada'&&
+   t.payment==='Cartão de crédito'&&transactionMatchesCard(t,card)&&t.date&&
+   invoiceMonth(card,t.date)===ym&&
+   // Só considerar a compra já representada por parcelas quando houver parcela válida
+   // desta compra, deste cartão e deste mês. Registros antigos/inconsistentes não podem
+   // fazer a compra desaparecer da fatura.
+   !data.installments.some(p=>{
+     if(p.purchaseId!==t.id||p.month!==ym||p.status==='Cancelada')return false;
+     const partCard=cardById(p.cardId);
+     return p.cardId===card.id||sameText(partCard?.name||p.cardId,card.name);
+   })
+ );
+ // Inclui ocorrências futuras de regras recorrentes vinculadas a este cartão.
+ // Busca também o mês anterior porque compras após o fechamento podem cair nesta fatura.
+ const previousMonth=monthAdd(ym,-1);
+ const virtualRecurring=recurringProjectedTx(currentBox(),previousMonth+'-01',ym+'-31').filter(t=>
+   t.type==='Despesa'&&t.payment==='Cartão de crédito'&&projectionEligible(t,currentBox())&&
+   invoiceMonth(card,t.date)===ym&&transactionMatchesCard(t,card)
+ );
+ const virtualTotal=virtualRecurring.reduce((sum,t)=>sum+Number(t.value||0),0);
+ return Math.round((partTotal+tx.reduce((s,t)=>s+Number(t.value||0),0)+virtualTotal)*100)/100;
 }
 function unpaidInvoiceTotal(box,ym){
  let total=0;
@@ -1066,7 +1300,7 @@ function unpaidInvoiceTotal(box,ym){
    const inv=data.invoices.find(x=>x.cardId===c.id&&x.month===ym);
    if(inv&&inv.paid)return;
    const calculated=invoiceDisplayedTotal(c.id,ym);
-   const amount=inv&&inv.officialValue!==null?Number(inv.officialValue):calculated;
+   const amount=invoiceEffectiveTotal(c.id,ym);
    if(amount>0)total+=amount;
  });
  return Math.round(total*100)/100;
@@ -1080,6 +1314,37 @@ function projectedRecurringFromId(virtualId){
  const r=(data.recurring||[]).find(x=>x.id===rid);
  if(!r||!date)return null;
  return {id:raw,box:r.box,type:r.type,desc:r.desc,party:r.party||'',value:Number(r.value||0),date,status:'Previsto',category:r.category||'',payment:r.payment||'',accountId:r.accountId||'',cardId:r.cardId||'',recurring:'Sim',frequency:r.frequency,endDate:r.endDate||'',virtualRecurring:true};
+}
+
+function editRecurringRule(virtualId){
+ const t=projectedRecurringFromId(virtualId);if(!t)return;
+ const r=(data.recurring||[]).find(x=>x.active!==false&&x.box===t.box&&x.type===t.type&&sameText(x.desc,t.desc)&&sameText(x.party||'',t.party||''));
+ if(!r){alert('Não foi possível localizar a regra recorrente.');return}
+ const source=data.tx.find(x=>x.box===r.box&&x.type===r.type&&x.date===r.startDate&&sameText(x.desc,r.desc)&&x.recurring==='Sim');
+ if(source){editTx(source.id);return}
+ const choice=confirm('Não encontrei o lançamento original desta recorrência. Deseja abrir o cadastro com os dados da regra para editá-la?');if(!choice)return;
+ showTab('lancamentos');$('type').value=r.type;$('desc').value=r.desc||'';$('party').value=r.party||'';$('value').value=Number(r.value||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});$('date').value=r.startDate||t.date;$('box').value=r.box;$('status').value='Previsto';$('category').value=r.category||'';$('payment').value=r.payment||'';$('accountSelect').value=r.accountId||'';$('cardSelect').value=r.cardId||'';$('recurring').value='Sim';$('frequency').value=r.frequency||'Mensal';$('endDate').value=r.endDate||'';updateTypeUI();$('payment').dispatchEvent(new Event('change'));$('recurring').dispatchEvent(new Event('change'));alert('Confira os dados antes de salvar. Para evitar criar uma recorrência duplicada, cancele este cadastro e edite a regra na área de Recorrências se ela estiver disponível.');
+}
+function stopRecurringRule(virtualId){
+ const t=projectedRecurringFromId(virtualId);if(!t)return;
+ const r=(data.recurring||[]).find(x=>x.id===String(virtualId).slice(8).replace(new RegExp('_'+t.date+'$'),'')&&x.active!==false);
+ if(!r){alert('Não foi possível localizar a regra recorrente.');return}
+ const choice=prompt('Como deseja excluir a ocorrência de '+mcfBRDate(t.date)+'?\n\n1 — Excluir somente esta ocorrência\n2 — Excluir esta e todas as próximas ocorrências\n0 — Cancelar','1');
+ if(choice===null||choice==='0')return;
+ if(choice==='1'){
+   if(!confirm('Excluir somente a ocorrência de '+mcfBRDate(t.date)+' de “'+r.desc+'”? As outras semanas e os meses seguintes serão mantidos.'))return;
+   if(!Array.isArray(r.skippedDates))r.skippedDates=[];
+   if(!r.skippedDates.includes(t.date))r.skippedDates.push(t.date);
+   persist();render();alert('Ocorrência de '+r.desc+' em '+mcfBRDate(t.date)+' excluída. As demais ocorrências foram mantidas e o saldo projetado foi atualizado.');return;
+ }
+ if(choice==='2'){
+   if(!confirm('Excluir a ocorrência de '+mcfBRDate(t.date)+' e todas as seguintes de “'+r.desc+'”? As ocorrências anteriores serão preservadas.'))return;
+   const dt=new Date(t.date+'T12:00:00');dt.setDate(dt.getDate()-1);
+   const cutoff=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+   if(!r.endDate||r.endDate>cutoff)r.endDate=cutoff;
+   persist();render();alert('A recorrência de '+r.desc+' foi encerrada a partir de '+mcfBRDate(t.date)+'. As ocorrências anteriores foram preservadas e o saldo projetado foi atualizado.');return;
+ }
+ alert('Opção inválida. Digite 1, 2 ou 0.');
 }
 function launchProjectedReceipt(virtualId){
  const t=projectedRecurringFromId(virtualId); if(!t||t.type!=='Receita')return;
@@ -1230,7 +1495,7 @@ function render(){
       const typeInput=prompt('Tipo da categoria: digite Receita ou Despesa.',oldType); if(typeInput===null)return;
       const type=/^receita$/i.test(typeInput.trim())?'Receita':/^despesa$/i.test(typeInput.trim())?'Despesa':'';
       if(!type)return alert('Digite exatamente Receita ou Despesa.');
-      if(a.some((c,j)=>j!==i&&catName(c).toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+      if(a.some((c,j)=>j!==i&&sameText(catName(c),name)))return alert('Essa categoria já existe.');
       const d=getStore(); d.categories[i]={name,type}; saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
     });
   }
@@ -1240,7 +1505,7 @@ function render(){
     const type=/^receita$/i.test(typeInput.trim())?'Receita':/^despesa$/i.test(typeInput.trim())?'Despesa':'';
     if(!type)return alert('Digite exatamente Receita ou Despesa.');
     const d=getStore(); if(!Array.isArray(d.categories))d.categories=[];
-    if(d.categories.some(c=>catName(c).toLowerCase()===name.toLowerCase()))return alert('Essa categoria já existe.');
+    if(d.categories.some(c=>sameText(catName(c),name)))return alert('Essa categoria já existe.');
     d.categories.push({name,type}); saveStore(d); window.dispatchEvent(new Event('mcfCategoriesChanged'));
   }
   document.addEventListener('click',e=>{if(e.target.id==='mcfAddCategory')add()});
